@@ -1,0 +1,790 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "Inter", sans-serif;
+    color: #171717;
+    background-color: #F5F5F5;
+    overflow-x: hidden;
+}
+
+h1 {
+    font-size: 10.4vw;
+    font-weight: 800;
+    letter-spacing: -0.04em;
+    line-height: 1;
+    text-transform: uppercase;
+    margin-top: clamp(1.5em, 39vh, 400px);
+    padding-bottom: 0;
+    margin-left: 1.25vw;
+}
+
+p {
+    font-size: clamp(14px, 1.4vw, 20px);
+    font-weight: 500;
+}
+
+nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    padding: 1.5em 2.5em;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    /* mix-blend-mode: difference; */
+    z-index: 2;
+}
+
+.nav-2 {
+    position: relative;
+    left: -14vw;
+}
+.nav-top span {
+    margin-bottom: 2px;
+}
+.nav-bottom {
+    /* font-size: 12px; */
+    font-weight: 400;
+    color: #BCBBBB;
+    margin-top: 2px;
+}
+
+.availability-dot {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: #22c55e;
+    flex-shrink: 0;
+    
+}
+
+p .nav-bottom {
+    color: #BCBBBB;
+}
+
+/* .links {
+    display: flex;
+    gap: 1em;
+} */
+/* ── NAV BUTTONS ─────────────────────────────────────── */
+.links {
+    display: flex;
+    gap: clamp(0.75em, 2vw, 5em);
+    align-items: center;
+}
+ 
+/* Case Studies — orange background */
+.btn-case {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background-color: #F25623;
+    color: #ffffff;
+    border: none;
+    border-radius: 999px;       /* full pill */
+    padding: 10px 18px;
+    font-family: "Inter", sans-serif;
+    font-size: 20px;
+    font-weight: 400;
+    cursor: pointer;
+    transition: background 0.2s ease, transform 0.15s ease;
+}
+ 
+.btn-case:hover {
+    background-color: #d94e1e;
+    transform: scale(0.97);
+}
+ 
+.btn-icon {
+    font-size: 14px;
+}
+ 
+/* Get In Touch — dark background */
+.btn-contact {
+    background-color: #171717;
+    color: #ffffff;
+    border: none;
+    border-radius: 999px;
+    padding: 10px 20px;
+    font-family: "Inter", sans-serif;
+    font-size: 20px;
+    font-weight: 400;
+    cursor: pointer;
+    transition: background 0.2s ease, transform 0.15s ease;
+}
+ 
+.btn-contact:hover {
+    background-color: #333333;
+    transform: scale(0.97);
+}
+
+section {
+    width: 100vw;
+    height: 100svh;
+    padding: 2.5em;
+}
+
+.hero {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding-top: clamp(4.5em, 9vh, 7em);       /* clear the fixed nav */
+}
+
+/* .hero h1 {
+    position: relative;
+    left: -0.05em;
+    text-transform: uppercase;
+    font-weight: 500;
+    font-size: 11vw;
+    letter-spacing: -0.04em;
+    line-height: 1;
+} */
+/* Small labels row: A — SERIOUSLY — GOOD */
+.hero-labels-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    /* margin-bottom: 0.25em; */
+}
+
+.hero-labels-row span {
+    font-weight: 600;
+}
+
+/* Role row: FULL STACK  |  AI ENGINEER (orange) */
+.hero-role-row {
+    display: flex;
+    align-items: center;
+    gap: clamp(1em, 3vw, 4em);
+    margin-left: clamp(80px, 26vw, 380px);
+    margin-bottom: clamp(0.25em, 0.5vh, 1em);
+    
+}
+
+.role-label {
+    font-size: clamp(10px, 1.1vw, 17px);
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #888;
+}
+
+.role-main {
+    font-size: 6vw;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    text-transform: uppercase;
+    color: #F25623;           /* orange accent */
+}
+
+.hero-copy {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+}
+
+.outro {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.intro {
+    height: 100%;
+    position: absolute;
+    overflow: visible;
+}
+
+/* .image-preview img {
+  width: 300px;
+  height: 400px;
+  object-fit: cover;
+  border-radius: 1.5rem;
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16/9; 
+  overflow: hidden;
+ 
+} */
+
+.image-container-desktop {
+    position: relative;
+    transform: translateY(-55%) scale(0.25);
+    display: flex;
+    flex-direction: column;
+    gap: 2em;
+    will-change: transform;
+    transform-origin: center center;
+    width: clamp(300px, 53vw, 1020px);  
+          /* ← ADD THIS — constrains to portrait card width */
+    margin: 0 auto;
+    /* margin-top: 50px; */
+    /* margin-bottom: 80px ; */
+}
+
+.image-container-desktop .image-title p {
+    position: relative;
+    font-size: clamp(32px, 5vw, 78px);
+    font-weight: 500;
+    
+}
+
+.image-container-mobile {
+    display: none;
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.image-preview {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 5/4;
+    border-radius: clamp(1rem, 1.5vw, 2.5rem);
+    background-color: #F5F5F5;
+    overflow: hidden;
+}
+.image-wrapper {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: clamp(1rem, 1.5vw, 2.5rem);
+    overflow: hidden;
+}
+
+img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: clamp(1rem, 1.5vw, 2.5rem);
+    pointer-events: none;
+    object-fit: cover;
+    object-position: center 15%;  /* ← ADD THIS */
+}
+
+/* ── ABOUT ────────────────────────────────────────────── */
+.about {
+    height: auto;
+    min-height: 100svh;
+    padding: clamp(3em, 7vh, 8em) clamp(1.5em, 2.5vw, 2.5em);
+    display: flex;
+    flex-direction: column;
+    gap: clamp(1.5em, 3vh, 1.5em);
+    position: relative; /* so z-index stacking works with floated image */
+}
+ 
+.about-label {
+    font-size: clamp(12px, 0.75vw, 16px);
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #888;
+}
+ 
+/* Two column: text left (~55%), image right (~40%)       */
+.about-layout {
+    display: grid;
+    grid-template-columns: 78fr 40fr;
+    gap: clamp(2em, 2vw, 2em);
+    align-items: flex-start
+}
+ 
+.about-text p {
+    font-size: clamp(45px, 5vw, 54px);
+    font-weight: 600;
+    line-height: 1.05;
+    color: #171717;
+    letter-spacing: -0.02em;
+    text-align: justify;
+    text-justify: inter-word;
+}
+
+/* Inline-block required for translateX to work on individual words */
+.about-text .word0,
+.about-text .word1,
+.about-text .word2,
+.about-text .word3, 
+.about-text .word4, 
+.about-text .word5, 
+.about-text .word6, 
+.about-text .word7,
+.about-text .word8, 
+.about-text .word9,
+.about-text .word10, 
+.about-text .word11, 
+.about-text .word12, 
+.about-text .word13, 
+.about-text .word14, 
+.about-text .word15, 
+.about-text .word16, 
+.about-text .word17, 
+.about-text .word18, 
+.about-text .word19, 
+.about-text .word20, 
+.about-text .word21, 
+.about-text .word22, 
+.about-text .word23, 
+.about-text .word24, 
+.about-text .word25, 
+.about-text .word26, 
+.about-text .word27, 
+.about-text .word28, 
+.about-text .word29, 
+.about-text .word30, 
+.about-text .word31, 
+.about-text .word32, 
+.about-text .word33, 
+.about-text .word34, 
+.about-text .word35, 
+.about-text .word36, 
+.about-text .word37, 
+.about-text .word38, 
+.about-text .word39, 
+.about-text .word40, 
+.about-text .word41, 
+.about-text .word42, 
+.about-text .word43{
+    display: inline-block;
+    will-change: transform, opacity;
+}
+
+ 
+/* Right column slot — empty, the animated image         */
+/* visually fills this space as scroll completes         */
+.about-image-slot {
+    /* Match the final rendered size of the animated image:
+       420px container × final scale (set in JS)          */
+    min-height: clamp(200px, 30vh, 400px);
+}
+
+
+/* ═══════════════════════════════════════════════════════
+   WORK SECTION — add to style.css before @media block
+   ═══════════════════════════════════════════════════════ */
+
+/* ── Section ──────────────────────────────────────────── */
+.work {
+    width: 100vw;
+    padding: clamp(2em, 4vw, 4em) clamp(1.5em, 2.5vw, 2.5em);
+    background-color: #F5F5F5;
+    margin-bottom: clamp(16em, 5vw, 18em);
+}
+
+/* ── Header: WORK '25 ────────────────────────────────── */
+.work-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: clamp(0.5em, 1.5vh, 1em);
+    line-height: 0.85;
+    overflow: hidden; /* clips the slide-in animation */
+}
+
+.work-title,
+.work-year {
+    font-size: clamp(56px, 12vw, 200px);
+    font-weight: 800;
+    letter-spacing: -0.04em;
+    text-transform: uppercase;
+    color: #171717;
+    line-height: 0.85;
+    /* start offscreen for GSAP reveal */
+    /* opacity: 0; */
+}
+
+/* ── List — horizontal row of cards ─────────────────── */
+.work-list {
+    list-style: none;
+    display: flex;
+    flex-direction: row;
+    gap: clamp(0.5em, 1vw, 1em);
+    width: 100%;
+    margin-bottom: clamp(1.5em, 3vh, 2.5em);
+}
+
+/* Each list item takes equal width */
+.work-item {
+    width: 50%;
+    /* start offscreen for GSAP reveal */
+    /* opacity: 0; */
+    /* transform: translateY(30px); */
+}
+
+/* ── Card (the <a> tag) ──────────────────────────────── */
+.work-card {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    border-radius: clamp(0.75rem, 1.2vw, 1.25rem);
+    overflow: hidden;
+    background-color: #171717;
+    text-decoration: none;
+    cursor: pointer;
+    transition: box-shadow 0.35s ease;
+}
+
+.work-card:hover {
+    box-shadow: 0 24px 64px rgba(0,0,0,0.18);
+}
+
+/* ── Media area ──────────────────────────────────────── */
+.card-media {
+    position: relative;
+    width: 97%;                          /* slightly inset from card edges */
+    margin: clamp(0.2rem, 1vw, 0.875rem) auto 0; /* top breathing room + centered */
+    height: clamp(300px, 40vw, 620px);
+    overflow: hidden;
+    background-color: #2a2a2a;
+    border-radius: clamp(0.5rem, 0.9vw, 0.875rem); /* container gets its own radius */
+}
+
+.card-media--dark {
+    background-color: #0d0d0d;
+}
+
+.card-image {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 0;   /* ← remove this, the container handles the rounding now */
+    transition: opacity 0.45s ease;
+    pointer-events: none;
+}
+
+.card-video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 0;
+    /* opacity: 0; */
+    transition: opacity 0.45s ease;
+    pointer-events: none;
+}
+
+/* Video in, image out on hover */
+/* .work-card:hover .card-image { opacity: 0; }
+.work-card:hover .card-video { opacity: 1; } */
+
+/* Edge fade overlays (matching Jason's gradient edges) */
+.card-fade {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: clamp(24px, 4vw, 48px);
+    z-index: 1;
+    pointer-events: none;
+}
+
+.card-fade--left {
+    left: 0;
+    background: linear-gradient(to right, #171717 0%, transparent 100%);
+}
+
+.card-fade--right {
+    right: 0;
+    background: linear-gradient(to left, #171717 0%, transparent 100%);
+}
+
+/* Logo text display for dark cards */
+.card-logo-display {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: clamp(28px, 4vw, 64px);
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    pointer-events: none;
+}
+
+.logo-vyb    { color: #cc2200; }
+.logo-streamz { color: #22aa44; }
+
+/* ── Info row ────────────────────────────────────────── */
+.card-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: clamp(0.6em, 1.1vw, 1em) clamp(0.75em, 1.5vw, 1.25em);
+    background-color: #171717;
+}
+
+.card-info-left {
+    display: flex;
+    align-items: center;
+    gap: clamp(0.4em, 0.8vw, 0.65em);
+}
+
+.card-info-right {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+    gap: 1px;
+    /* margin-bottom: clamp(0.6em, 1.1vw, 1em); */
+}
+
+/* Icon circle */
+.card-icon {
+    width: clamp(28px, 2.2vw, 38px);
+    height: clamp(28px, 2.2vw, 38px);
+    border-radius: 50%;
+    background-color: #F25623;
+    overflow: hidden;          /* clips the image to the circle */
+    flex-shrink: 0;
+}
+.card-icon img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;         /* fills circle without distortion */
+    border-radius: 0;          /* parent handles the rounding */
+    position: static;          /* override the global img rule */
+    pointer-events: none;
+}
+
+.card-icon--alt {
+    background-color: #1a1a2e;
+}
+
+.card-icon-initials {
+    font-size: clamp(6px, 0.55vw, 9px);
+    font-weight: 700;
+    color: #fff;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+}
+
+/* Text labels */
+.card-client {
+    font-size: clamp(8px, 0.55vw, 9px);
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #555;                          /* muted — clearly secondary */
+    white-space: nowrap;
+    margin-bottom: 2px;
+}
+
+.card-project,
+.card-year {
+    font-size: clamp(12px, 1vw, 16px);   /* ← was 0.75vw / 12px — now much bolder */
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: #ffffff;
+    white-space: nowrap;
+}
+.card-type{
+    font-size: clamp(12px, 1vw, 16px);   /* ← was 0.75vw / 12px — now much bolder */
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: #ffffff;
+    white-space: nowrap;
+    margin-right: clamp(12px, 1vw, 16px);;
+}
+
+/* ── Tech carousel ───────────────────────────────────── */
+/*
+ * The wrapper clips overflow.
+ * Two identical <p> rows sit side by side inside it.
+ * GSAP ticker continuously moves translateX on both rows.
+ * When the first row exits left, it wraps to the right —
+ * creating the seamless infinite loop Jason uses.
+ */
+.card-tech-wrap {
+    position: relative;
+    overflow: hidden;
+    white-space: nowrap;
+    margin-left: calc(
+        clamp(0.75em, 1.5vw, 1.25em) +   /* card-info left padding */
+        clamp(28px, 2.2vw, 38px) +         /* icon width */
+        clamp(0.4em, 0.8vw, 0.65em)        /* gap between icon and text */
+    );
+    margin-right: clamp(0.35em, 1.05vw, 0.95em); /* matches card-info right padding */
+    
+    /* Remove the stroke */
+    border-top: none;
+    
+    /* Match info row horizontal padding so text aligns with project/year */
+    padding: clamp(1.5em, 0.8vw, 1.7em);
+    
+    /* Pull it slightly up into the info row */
+    /* margin-top: clamp(-10px, -0.8vw, -6px); */
+    
+    
+    /* Match card background — no more dark band */
+    background-color: #171717;
+    
+    height: clamp(22px, 1.8vw, 30px);
+    width: 88%;
+}
+/* Left fade */
+.card-tech-wrap::before,
+.card-tech-wrap::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: clamp(0.75em, 1.5vw, 1.25em);
+    z-index: 2;
+    pointer-events: none;
+}
+.card-tech-wrap::before {
+    left: 0;
+    background: linear-gradient(to right, #171717 0%, transparent 100%);
+}
+
+.card-tech-wrap::after {
+    right: 0;
+    background: linear-gradient(to left, #171717 0%, transparent 100%);
+}
+
+.card-tech-row {
+    position: absolute;
+    top: 12%;
+    /* transform: translateY(-50%); */
+    white-space: nowrap;
+    font-size: clamp(15px, 0.65vw, 17px);
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #ffffff;              /* slightly darker since bg is lighter now */
+    line-height: 1;
+    will-change: transform;
+}
+
+.card-tech-row span {
+    display: inline-block;
+    padding: 0 clamp(8px, 0.8vw, 14px);
+}
+
+.card-tech-row span:nth-child(even) {
+    padding: 0 clamp(4px, 0.4vw, 8px);
+    color: #2a2a2a;
+}
+
+.work-card:hover{
+    color: #666;
+}
+
+/* ── See all button ──────────────────────────────────── */
+.work-footer {
+    display: flex;
+    justify-content: center;
+    padding-top: clamp(0.75em, 1.5vh, 1.5em);
+    text-transform: uppercase;
+}
+.work-footer a {
+   font-weight: 700;
+}
+
+.see-all-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75em;
+    background-color: #171717;
+    color: #ffffff;
+    text-decoration: none;
+    border-radius: 999px;
+    padding: clamp(10px, 1.2vh, 14px) clamp(20px, 2.5vw, 32px);
+    font-size: clamp(12px, 1vw, 15px);
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    transition: background 0.2s ease, gap 0.2s ease, transform 0.15s ease;
+}
+
+.see-all-btn:hover {
+    background-color: #F25623;
+    gap: 1.25em;
+    transform: scale(0.98);
+}
+
+.see-all-arrow {
+    font-size: 1.1em;
+    display: inline-block;
+    transition: transform 0.2s ease;
+}
+
+.see-all-btn:hover .see-all-arrow {
+    transform: translateX(4px);
+}
+
+
+
+
+
+/* SERVICES section */
+.services-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: clamp(0.5em, 1.5vh, 1em);
+    line-height: 0.85;
+    overflow: hidden; /* clips the slide-in animation */
+}
+
+/* ── Responsive ──────────────────────────────────────── */
+@media (max-width: 900px) {
+
+    .work-list {
+        flex-direction: column;
+    }
+
+    .work-item {
+        width: 100%;
+    }
+
+    .work-title,
+    .work-year {
+        font-size: clamp(48px, 18vw, 120px);
+    }
+
+    .card-media {
+        height: clamp(180px, 50vw, 320px);
+    }
+}
+
+
+@media (max-width: 900px ) {
+    nav, 
+     section {
+        padding: 1.5rem;
+    }
+
+    .hero {
+        justify-content: flex-end;
+        gap: 2em;
+    }
+
+    .hero h1 {
+        font-size: 19vw;
+    }
+
+    .image-container-desktop {
+        display: none;
+    }
+
+    .image-container-mobile {
+        display: flex;
+        flex-direction: column;
+        gap: 1em;
+    }
+}
+
+
