@@ -9,6 +9,8 @@
         history.scrollRestoration = "manual";
         window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
     </script>
+    <link rel="preload" href="/fonts/Inter-var-latin.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="stylesheet" href="/fonts/fonts.css">
     <link rel="stylesheet" href="/style.css">
     <link rel="stylesheet" href="/view-transitions.css">
     <style>
@@ -36,7 +38,7 @@
                 <section class="hero-work">
                     <div class="hero-inner-work">
                         <div class="hero-img-work">
-                            <img class="work-img" src="/images/Background.png" alt="">
+                            <img class="work-img" src="/images/Background.webp" alt="">
                         </div>
 
                         <div class="hero-content-work">
@@ -84,7 +86,7 @@
                                     
                                     <div class="card-badges-work">
                                         <div class="card-badge-work">
-                                            <a href=""><img src="/images/Icons/github 2.svg" alt="GitHub"></a>
+                                            <a href=""><img loading="lazy"  src="/images/Icons/github 2.svg" alt="GitHub"></a>
                                             
                                         </div>
                                         <div class="card-btns-work">
@@ -95,12 +97,12 @@
                                     
                                     
                                     <div class="card-badge-work card-badge-work--bbr">
-                                            <img src="/images/BBR LOGO.jpg" alt="BBR">
+                                            <img loading="lazy"  src="/images/BBR LOGO.webp" alt="BBR">
                                     </div>
                                 </div>
                             </div>
                             <div class="card-img-work">
-                                <img class="work-img" src="/images/Card1HR.png" alt="">
+                                <img loading="lazy"  class="work-img" src="/images/Card1HR.webp" alt="">
                             </div>
                         </div>
                     </div>
@@ -116,7 +118,7 @@
                                     <p>Frontend engineering role for Big Bold Red Ad Agency(BBR) in building the web application for a streaming platform built in collaboration for the Public as a traffic redirector and lead generator to the main streaming platform that had the full music, shows and movies known as Baze.</p>
                                     <div class="card-badges-work">
                                         <div class="card-badge-work">
-                                            <a href=""><img src="/images/Icons/github 2.svg" alt="GitHub"></a>
+                                            <a href=""><img loading="lazy"  src="/images/Icons/github 2.svg" alt="GitHub"></a>
                                             
                                         </div>
                                         <div class="card-btns-work">
@@ -126,12 +128,12 @@
                                     </div>
                                     
                                     <div class="card-badge-work card-badge-work--bbr">
-                                            <img src="/images/BBR LOGO.jpg" alt="BBR">
+                                            <img loading="lazy"  src="/images/BBR LOGO.webp" alt="BBR">
                                     </div>
                                 </div>
                             </div>
                             <div class="card-img-work">
-                                <img class="work-img" src="/images/Card2HR.png" alt="">
+                                <img loading="lazy"  class="work-img" src="/images/Card2HR.webp" alt="">
                             </div>
                         </div>
                     </div>
@@ -148,7 +150,7 @@
                                     <p>Full Stack development for a Brand Intelligence system that operates within the MAR-TECH space where there is the integration of marketing principles with technological expertise.  It represents the movement from traditional Ad agencies to modern avant-garde approach to marketing that recognizes the importance of technology in marketing.</p>
                                     <div class="card-badges-work">
                                         <div class="card-badge-work">
-                                            <a href=""><img src="/images/Icons/github 2.svg" alt="GitHub"></a>
+                                            <a href=""><img loading="lazy"  src="/images/Icons/github 2.svg" alt="GitHub"></a>
                                             
                                         </div>
                                         <div class="card-btns-work">
@@ -158,12 +160,12 @@
                                     </div>
                                     
                                     <div class="card-badge-work card-badge-work--bbr">
-                                            <img src="/images/BBR LOGO.jpg" alt="BBR">
+                                            <img loading="lazy"  src="/images/BBR LOGO.webp" alt="BBR">
                                     </div>
                                 </div>
                             </div>
                             <div class="card-img-work">
-                                <img class="work-img" src="/images/Card3HR.png" alt="">
+                                <img loading="lazy"  class="work-img" src="/images/Card3HR.webp" alt="">
                             </div>
                         </div>
                     </div>
@@ -179,7 +181,7 @@
                                 </div> -->
                             </div>
                             <div class="card-img-work">
-                                <img class="work-img" src="/images/Card422HR.png" alt="">
+                                <img loading="lazy"  class="work-img" src="/images/Card422HR.webp" alt="">
                             </div>
                         </div>
                     </div>
@@ -229,19 +231,19 @@
         <nav class="bmenu-nav-list">
             <a href="/index.html" class="bmenu-nav-item" data-index="0">
                 <div class="bmenu-nav-thumb">
-                    <img src="/images/PortIMG.jpg" alt="Home">
+                    <img loading="lazy"  src="/images/PortIMG.webp" alt="Home">
                 </div>
                 <span class="bmenu-nav-label">Home</span>
             </a>
             <a href="/swork.html" class="bmenu-nav-item" data-index="1">
                 <div class="bmenu-nav-thumb">
-                    <img  src="/images/VybeThumb3.png" alt="Work">
+                    <img loading="lazy"   src="/images/VybeThumb3.webp" alt="Work">
                 </div>
                 <span class="bmenu-nav-label">Work</span>
             </a>
             <a href="/Work.html" class="bmenu-nav-item" data-index="2">
                 <div class="bmenu-nav-thumb bmenu-nav-thumb--dark">
-                    <img src="/images/BNavWork.png" alt="Lab">
+                    <img loading="lazy"  src="/images/BNavWork.webp" alt="Lab">
                 </div>
                 <span class="bmenu-nav-label">Lab</span>
             </a>
@@ -376,20 +378,20 @@
 
     <!-- GSAP -->
      
-    <script src="https://code.iconify.design/iconify-icon/2.1.0/iconify-icon.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.19.0/matter.min.js"></script>
+    <script defer src="https://code.iconify.design/iconify-icon/2.1.0/iconify-icon.min.js"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.19.0/matter.min.js"></script>
 
 <!-- All GSAP from same source, same version -->
-<script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/gsap.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/ScrollTrigger.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/SplitText.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/CustomEase.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/gsap.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/ScrollTrigger.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/SplitText.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/CustomEase.min.js"></script>
 
 <!-- Lenis smooth scroll -->
-<script src="https://unpkg.com/lenis@1.1.14/dist/lenis.min.js"></script>
+<script defer src="https://unpkg.com/lenis@1.1.14/dist/lenis.min.js"></script>
 
 <!-- Your script last -->
-<script src="/index.js"></script>
-<script src="/marquee.js"></script>
+<script defer src="/index.js"></script>
+<script defer src="/marquee.js"></script>
 </body>
 </html>
