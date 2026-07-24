@@ -10,34 +10,188 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="/Converted/view-transitions.css">
+
+    <style>
+        @view-transition {
+            navigation: auto;
+        }
+    </style>
     
     <title>PlainScrollBuild</title>
+    <script>
+        history.scrollRestoration = "manual";
+        window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+    </script>
 </head>
-<body>
+
+
+<body onload="window.scrollTo(0, 0)" >
+<div class="menu-overlay" style="background-color: #171717;">
+            <div class="menu-overlay-top-nav">
+                <div class="menu-col">
+                    <p>Menu</p>
+                </div>
+                <div class="menu-col">
+                    <p id="menu-close-overlay" style="cursor: pointer;">Close</p>
+                </div>
+            </div>
+                <div class="menu-content">
+                    <div class="menu-col">
+                        <p>EVRIMA</p>
+                        <p>2026</p>
+                        <br>
+                        <br>
+                        <p>REACH OUT</p>
+                        <p>curtis.oluoch@gmail.com</p>
+                        <br>
+                        <br>
+                        <p>DIRECT</p>
+                        <p>+254 714 467 377</p>
+                    </div>
+                    <div class="menu-col">
+                        <p>INSTAGRAM</p>
+                        <p>Ochweda_</p>
+                        <br>
+                        <br>
+                        <p>LANGUAGE</p>
+                        <p>English</p>
+                        
+                    </div>
+                </div>
+
+                <div class="menu-img">
+                    <video
+                        src="/Converted/videos/memoji2.mp4"
+                        autoplay
+                        muted
+                        loop
+                        playsinline
+                        class="bnav-avatar-video">
+                    </video>
+                </div>
+
+                <div class="menu-links-wrapper">
+                    <div class="menu-link">
+                        <a href="/Converted/index.html">
+                            <span>Home</span>
+                            <span>Home</span>
+                        </a>
+                    </div>
+                    <div class="menu-link">
+                        <a href="/Converted/swork.html">
+                            <span>Work</span>
+                            <span>Work</span>
+                        </a>
+                    </div>
+                    <div class="menu-link">
+                        <a href="/Converted/Work.html">
+                            <span>Lab</span>
+                            <span>Lab</span>
+                        </a>
+                    </div>
+                    <div class="menu-link">
+                        <a href="mailto:curtis.oluoch@gmail.com">
+                            <span>Contact</span>
+                            <span>Contact</span>
+                        </a>
+                    </div>
+
+                    <div class="link-highlighter"></div>
+                </div>
+
+
+            </div>
+        
+        
+    
+    
+
+           
+
+   
+<main class="page-content main" >
+
+    
+
+    <div class="pre-preloader">
+        <div class="pre-preloader-images">
+            <div class="pre-preloader-img"><img src="/Converted/images/img1.jpeg" alt="" /></div>
+            <div class="pre-preloader-img"><img src="/Converted/images/img2.jpeg" alt="" /></div>
+            <div class="pre-preloader-img"><img src="/Converted/images/img3.jpeg" alt="" /></div>
+            <div class="pre-preloader-img"><img src="/Converted/images/img4.jpeg" alt="" /></div>
+            <div class="pre-preloader-img"><img src="/Converted/images/img5.jpeg" alt="" /></div>
+            <div class="pre-preloader-img"><img src="/Converted/images/img6.jpeg" alt="" /></div>
+        </div>
+
+        <div class="pre-preloader-header">
+            <h1>Evrima</h1>
+
+            <div class="pre-preloader-counter">
+            <p>000</p>
+            </div>
+        </div>
+        </div>
+
+    
+
+    
+     
+<div class="main-container">
+
+
+                
     <nav>
         <div class="nav-1">
             <p class="nav-top">Kenya-Based</p>
             <p class="nav-bottom">Working Globally</p>
         </div>
-        <div class="nav-2">
-            <p class="nav-top">
-                <span class="availability-dot"></span>
-                Freelance Availability</p>
+         <div class="nav-2">
+            <div class="menu">
+                <div class="menu-line-index">
+                    <a class="nav-link top-1" href="">Home,</a>
+                    <a class="nav-link" href="">Home,</a>
+                </div>
+                <div class="menu-line-index">
+                    <a class="nav-link top-1" href="/Converted/index.html">About,</a>
+                    <a class="nav-link" href="/Converted/index.html">About,</a>
+                </div>
+                <div class="menu-line-index">
+                    <a class="nav-link top-1" href="/Converted/swork.html">Work,</a>
+                    <a class="nav-link" href="/Converted/swork.html">Work,</a>
+                </div>
+                <div class="menu-line-index">
+                    <a class="nav-link top-1" href="/Converted/Work.html">Lab,</a>
+                    <a class="nav-link" href="/Converted/Work.html">Lab,</a>
+                </div>
+                <div class="menu-line-index">
+                    <a class="nav-link top-1" href="mailto:curtis.oluoch@gmail.com">Contact</a>
+                    <a class="nav-link" href="mailto:curtis.oluoch@gmail.com">Contact</a>
+                </div>
+            </div> 
         </div>
 
         <div class="links">
-            <button class="btn-case">
-                 Case Studies
-            </button>
-            <button class="btn-contact">Get In Touch</button>
+            <!-- <button class="btn-case">
+                 Lab
+            </button> -->
+            <a href="mailto:curtis.oluoch@gmail.com" class="btn-contact">Get In Touch</a>
+            <div class="btn-menu nav-toggle">Menu</div>
         </div>
+
+       
+
+        
     </nav>
+
+   
 
     <section class="hero">
  
         
- 
-        <h1>CURTIS OCHWEDA</h1>
+        <div class="preheader">
+                <h1>CURTIS OCHWEDA</h1>
+        </div>
 
         <div class="hero-labels-row">
             <span>A</span>
@@ -61,7 +215,7 @@
         <div class="image-container-desktop">
             <div class="image-preview">
                 <div class="image-wrapper">
-                    <img src="/Converted/images/PortIMG.jpg" alt="Image-for-the-animation-window">
+                    <img src="/Converted/images/PortIMG.jpg" alt="for-the-animation-window">
                 </div>
             </div>
             <div class="image-title">
@@ -72,7 +226,7 @@
         <div class="image-container-mobile">
              <div class="image-preview">
                 <div class="image-wrapper">
-                    <img src="/Converted/images/PortIMG.jpg" alt="Image-for-the-animation-window">
+                    <img src="/Converted/images/PortIMG.jpg" alt="for-the-animation-window">
                 </div>
             </div>
             <div class="image-title">
@@ -81,7 +235,7 @@
         </div>
     </section>
 
-    <section class="about">
+    <section class="about" id="about">
         <p class="about-label">MYSELF</p>
         <div class="about-layout">
             <div class="about-text">
@@ -101,7 +255,7 @@
     <!-- ── WORK SECTION ─────────────────────────────────────── -->
 <!-- Paste directly after closing </section> of .about     -->
 
-<section class="work">
+ <section class="work">
 
     <!-- Header: WORK left, '25 right -->
     <div class="work-header">
@@ -109,22 +263,48 @@
         <span class="work-year">'25</span>
     </div>
 
-    <ul class="work-list">
+   <ul class="work-list">
  
         <!-- ── LIST ITEM 1: BrandPulse ─────────────────── -->
         <li class="work-item">
  
             <!-- Entire card is a link to the case study -->
-            <a class="work-card" href="#brandpulse" aria-label="BrandPulse Sentiment Analysis">
+            <a class="work-card" href="/Converted/swork1.html" aria-label="BrandPulse Sentiment Analysis">
  
                 <!-- Image / video media area -->
-                <div class="card-media">
+                <div class="card-media try">
                     <!-- Replace with your actual BrandPulse thumbnail -->
-                    <img
-                        class="card-image"
-                        src="/Converted/images/image.png"
-                        alt="BrandPulse Sentiment Analysis dashboard">
-                    />
+                     
+                        <img
+                            class="card-image"
+                            style="scale: 1.05; object-position: center 67%;"
+                            src="/Converted/images/SABBR.JPG"
+                            alt="BrandPulse Sentiment Analysis dashboard">
+                        />
+                    
+                    <div class="svg-stroke svg-stroke-1">
+                      <svg width="159" height="152" viewBox="0 0 159 152" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M109.952 8.38707C109.123 8.11205 107.46 7.27865 105.722 6.6536C101.812 5.24684 95.3841 3.94504 91.2192 3.11164C85.7514 2.01753 80.9579 2.55326 75.7325 3.45125C69.7258 4.4835 67.3235 5.74519 63.2961 7.40783C60.5911 8.52451 57.5977 9.4955 55.3725 10.1205C53.0601 10.7701 51.2055 11.854 49.5366 12.6208C47.8118 13.4132 46.2051 14.0792 44.5362 14.9814C42.5406 16.0601 39.9546 16.9961 38.2169 17.6212C35.7297 18.5159 32.4623 20.3214 29.6767 22.0632C27.6435 23.3345 25.3701 24.355 23.3553 25.8135C21.6509 27.0473 20.228 28.3804 19.53 30.0493C19.1919 30.8577 19.1112 32.6807 19.7988 35.1768C21.0931 39.8755 25.3534 38.9396 28.1244 39.5688C33.5538 40.8016 36.1793 38.3979 38.6191 37.5582C40.6339 36.8648 43.4049 36.031 47.3593 34.7851C53.2397 32.9323 56.0476 31.7223 59.6562 30.8931C62.2337 30.3008 64.3816 29.5055 69.0278 28.1158C72.3901 27.1101 76.8742 26.4469 79.1786 25.9593C81.1623 25.5396 83.9582 24.9218 87.5064 24.5696C90.9346 24.2294 101.11 23.805 107.512 24.1509C110.09 24.2901 112.302 24.6384 114.113 25.3989C115.805 26.1098 117.444 27.2719 118.698 28.8679C120.083 30.6292 120.228 32.5474 119.817 34.285C119.219 36.8191 115.794 37.2728 114.125 38.3166C112.462 39.3568 109.552 40.1897 105.729 40.5418C102.692 40.8215 98.851 41.7231 95.1049 42.4148C91.6723 43.0487 88.3002 43.5233 85.3083 43.9441C82.0006 44.4094 75.9658 45.4651 70.4571 46.1651C61.8548 47.2583 59.6812 47.832 57.2497 48.0424C53.3946 48.376 49.822 49.2237 43.584 50.3988C38.6759 51.3234 35.3875 52.274 31.556 53.3178C28.3404 54.1938 25.7951 55.0492 23.6324 55.9576C21.5946 56.8136 19.9529 57.9661 18.3528 59.2891C16.6719 60.679 15.0942 63.5166 14.0441 65.8147C13.6188 66.7456 13.2774 68.3795 13.4149 70.4609C13.5021 71.7803 14.7984 72.6923 16.3214 73.6632C19.2562 75.5341 22.4281 74.9175 29.985 74.9217C34.4615 74.9241 36.6043 73.534 41.3839 72.011C45.8403 70.5909 47.4385 68.6753 49.522 67.9086C52.0604 66.9745 54.9308 64.65 57.4393 63.7416C61.6669 62.2107 68.2652 59.7829 70.8425 58.9495C74.1186 57.8902 78.6827 57.2827 81.883 56.4493C84.4538 55.7798 87.8501 55.6159 92.5026 55.4055C94.2527 55.3263 101.139 55.0575 110.79 55.1263C115.931 55.1629 119.236 56.0243 123.134 56.791C126.266 57.4069 128.695 58.5245 129.881 60.0517C132.188 63.0246 130.095 69.6337 129.401 71.3714C128.436 73.7896 125.103 74.3591 122.672 75.0571C119.242 76.0418 112.502 76.0259 104.006 76.378C101.628 76.4766 95.4216 76.726 86.8834 76.7947C81.0602 76.8416 77.466 77.4177 66.588 77.6281C61.7531 77.7217 55.9559 78.5261 50.8013 79.1533C43.343 80.0607 39.4212 82.8265 35.8584 84.1537C32.6531 85.3477 28.4286 86.8601 26.4118 87.6956C23.4189 88.9354 21.203 89.777 18.9154 90.8188C13.6797 93.203 10.5188 95.7442 8.14574 97.486C5.9621 99.0887 4.11832 100.745 2.93281 102.555C2.43914 103.309 2.44319 104.362 2.5807 105.401C2.90856 107.88 8.53535 108.254 20.8634 108.12C30.4985 108.016 33.6791 105.895 36.7376 105.066C39.4533 104.33 41.8839 103.953 46.7072 102.643C50.8215 101.525 58.4061 99.8195 63.3336 98.4861C68.261 97.1526 70.3237 96.3276 73.3802 95.3525C76.4367 94.3774 80.4245 93.2773 84.2665 92.4356C91.6384 90.8205 96.33 90.2021 98.1322 89.7854C99.6266 89.4399 103.943 89.0936 109.704 88.2602C115.603 87.4069 121.745 86.7268 126.878 85.6892C129.636 85.1318 132.437 85.06 136.8 84.7141C149.91 83.6748 151.889 85.61 153.976 87.1372C156.185 88.7531 156.206 92.9648 155.724 95.1837C154.676 100.019 146.088 98.8111 142.398 99.2257C138.984 99.6094 135.946 99.9195 129.147 101.305C124.173 102.319 122.045 103.528 116.919 105.055C112.773 106.291 110.66 108.52 107.187 110.335C104.726 111.621 102.601 112.004 98.9927 113.598C96.5073 114.695 94.5424 115.754 92.3922 117.069C87.4032 120.119 84.9582 122.838 82.4601 124.915C79.9962 126.964 77.5993 128.113 75.6512 129.432C73.424 131.726 71.7655 133.664 69.4695 143.773C69.1153 146.165 69.1153 147.265 68.6986 148.815" stroke="#7EFB5E" stroke-width="5" stroke-linecap="round"/>
+                        </svg>
+
+
+
+
+                    </div>
+                    <div class="svg-stroke svg-stroke-2">
+                       <svg width="180" height="172" viewBox="0 0 180 172" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M2.52929 130.699C2.94599 127.095 2.80848 124.736 2.60013 116.402C2.41589 109.033 2.52929 95.2795 2.59805 87.9893C2.67071 80.2842 2.94599 76.9738 3.01475 72.3234C3.09777 66.7081 6.41294 60.4266 7.17967 58.2702C7.83652 56.4228 8.91314 54.8678 10.0945 53.3365C10.3678 52.9822 10.855 52.9177 11.2738 53.5344C12.4863 55.32 12.5301 61.3434 12.5989 68.4919C12.6346 72.2081 12.9468 75.532 13.0843 80.0366C13.3168 87.653 14.6053 94.5461 15.0991 100.263C15.3526 103.198 15.722 106.239 15.9325 113.862C16.0408 117.787 16.8305 121.923 17.2513 126.584C17.6996 131.549 18.2222 135.133 18.7098 137.704C19.117 139.852 19.889 141.525 21.0662 142.85C22.7872 144.787 25.7145 139.466 26.8334 137.235C28.1163 134.676 29.3315 131.416 30.6524 128.278C31.5009 126.263 31.8317 124.182 32.5984 121.888C33.5355 119.084 35.9903 113.518 38.6239 103.691C40.1007 98.1795 40.9824 91.3875 41.5491 84.3411C42.1158 77.2947 42.1158 70.1441 42.2534 63.4352C42.3909 56.7263 42.6659 50.6758 42.8763 47.1464C43.2609 40.6971 43.641 37.0914 44.6119 32.7223C45.3056 29.6005 47.1079 26.9572 49.7436 24.8591C51.3885 23.5497 54.4585 32.716 57.5817 42.4293C59.4428 48.2176 59.6173 50.9634 59.8923 53.3802C60.8871 62.1228 61.5591 66.5105 62.1133 73.2735C62.5315 78.3769 62.6675 86.9121 62.7404 91.6479C62.8624 99.5691 62.2592 105.397 61.7029 108.258C61.0232 111.753 61.0091 115.964 60.4528 119.434C59.8975 122.896 59.759 124.857 59.2714 128.324C58.9209 130.816 58.7839 133.599 58.438 136.725C58.0062 140.627 58.6422 143.888 59.1964 145.136C60.4795 148.025 64.4677 150.692 66.4845 151.463C67.0721 151.688 67.9346 151.534 68.6347 151.259C71.2912 150.215 71.5599 147.1 72.7371 143.913C75.3847 136.743 75.5852 133.491 77.5979 124.761C78.2311 122.015 78.3646 119.052 79.0584 115.721C79.4117 114.024 79.8939 108.526 80.3794 100.405C80.5608 97.3694 80.7273 96.5462 80.9357 92.9584C81.5111 83.0501 81.8399 75.8404 82.0483 73.1485C82.4577 67.8592 82.2566 63.481 82.465 60.4412C82.8233 55.213 82.6733 51.255 82.8817 48.4944C83.6045 38.9165 83.6442 35.8496 83.8547 33.1994C84.0777 30.3909 86.8195 20.49 88.505 15.2792C88.8375 14.2515 90.0323 13.7478 90.8636 13.3999C91.2557 13.2358 91.6949 13.4645 92.0449 13.7416C93.7728 15.1094 93.9201 18.4565 94.2722 23.3799C94.5457 27.205 94.8952 31.9326 95.3827 35.6038C96.2342 42.0156 96.2869 47.0672 96.6328 52.1197C97.4837 64.5496 97.3954 67.6189 97.6058 72.2047C97.7017 74.2941 97.9537 79.1281 98.0225 85.3057C98.0561 88.3274 98.3704 89.7165 98.6455 94.6086C98.882 98.8154 99.4705 106.514 99.9601 111.306C100.621 117.777 101.562 123.986 102.117 131.687C102.464 136.519 103.779 139.987 105.304 142.971C106.282 144.883 107.671 145.559 108.78 145.769C112.394 146.455 114.613 138.633 117.595 130.324C118.672 127.321 119.464 123.415 120.372 117.788C121.281 112.16 122.106 104.872 122.531 89.2227C122.956 73.5735 122.956 49.7841 123.025 37.1164C123.098 23.6223 123.372 22.2235 123.441 20.9088C123.634 17.2159 124.339 13.8978 125.243 10.9788C126.781 6.015 130.869 2.91361 131.838 2.56566C132.366 2.37602 133.082 2.63025 133.642 2.90736C136.554 4.34685 137.674 10.1142 138.782 15.025C139.451 17.9879 139.89 21.9985 140.724 34.3662C141.557 46.7338 142.657 67.3605 143.293 78.2614C143.961 89.719 144.207 91.2416 144.826 96.3441C145.33 100.5 146.683 107.772 147.32 111.87C148.469 119.257 149.341 124.849 150.039 129.847C150.486 133.05 151.283 138.575 152.537 143.048C153.785 147.497 154.9 150.551 156.631 154.92C158.047 158.493 161.142 161.518 163.367 163.75C165.595 165.983 167.393 167.502 169.272 168.546C169.76 168.756 170.31 168.894 171.624 168.965C172.939 169.035 175.002 169.035 177.127 169.035" stroke="#F25623" stroke-width="5" stroke-linecap="round"/>
+                            </svg>
+
+
+
+
+
+                    </div>
+                    <div class="card-title">
+                        <h3>Ad Agency</h3>
+                    </div>
+
                     <!-- Replace with your screen recording -->
                     <!-- <video class="card-video" muted loop playsinline preload="none">
                         <source src="/Converted/videos/brandpulse-demo.mp4" type="video/mp4">
@@ -187,15 +367,40 @@
         <!-- ── LIST ITEM 2: VybStreamz ──────────────────── -->
         <li class="work-item">
  
-            <a class="work-card" href="#vybestreamz" aria-label="VybStreamz Streaming Platform">
+            <a class="work-card" href="/Converted/swork2.html" aria-label="VybStreamz Streaming Platform">
  
-                <div class="card-media">
+                <div class="card-media try two">
                     <!-- Replace with your actual BrandPulse thumbnail -->
                     <img
                         class="card-image"
-                        src="/Converted/images/Vybstreamz192.webp"
+                        style="scale: 1.15; object-position: center 67%;"
+                        src="/Converted/images/Vyb4Enhanced.png"
                         alt="BrandPulse Sentiment Analysis dashboard">
                     />
+
+
+                    <div class="svg-stroke svg-stroke-1">
+                      <svg width="159" height="152" viewBox="0 0 159 152" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M109.952 8.38707C109.123 8.11205 107.46 7.27865 105.722 6.6536C101.812 5.24684 95.3841 3.94504 91.2192 3.11164C85.7514 2.01753 80.9579 2.55326 75.7325 3.45125C69.7258 4.4835 67.3235 5.74519 63.2961 7.40783C60.5911 8.52451 57.5977 9.4955 55.3725 10.1205C53.0601 10.7701 51.2055 11.854 49.5366 12.6208C47.8118 13.4132 46.2051 14.0792 44.5362 14.9814C42.5406 16.0601 39.9546 16.9961 38.2169 17.6212C35.7297 18.5159 32.4623 20.3214 29.6767 22.0632C27.6435 23.3345 25.3701 24.355 23.3553 25.8135C21.6509 27.0473 20.228 28.3804 19.53 30.0493C19.1919 30.8577 19.1112 32.6807 19.7988 35.1768C21.0931 39.8755 25.3534 38.9396 28.1244 39.5688C33.5538 40.8016 36.1793 38.3979 38.6191 37.5582C40.6339 36.8648 43.4049 36.031 47.3593 34.7851C53.2397 32.9323 56.0476 31.7223 59.6562 30.8931C62.2337 30.3008 64.3816 29.5055 69.0278 28.1158C72.3901 27.1101 76.8742 26.4469 79.1786 25.9593C81.1623 25.5396 83.9582 24.9218 87.5064 24.5696C90.9346 24.2294 101.11 23.805 107.512 24.1509C110.09 24.2901 112.302 24.6384 114.113 25.3989C115.805 26.1098 117.444 27.2719 118.698 28.8679C120.083 30.6292 120.228 32.5474 119.817 34.285C119.219 36.8191 115.794 37.2728 114.125 38.3166C112.462 39.3568 109.552 40.1897 105.729 40.5418C102.692 40.8215 98.851 41.7231 95.1049 42.4148C91.6723 43.0487 88.3002 43.5233 85.3083 43.9441C82.0006 44.4094 75.9658 45.4651 70.4571 46.1651C61.8548 47.2583 59.6812 47.832 57.2497 48.0424C53.3946 48.376 49.822 49.2237 43.584 50.3988C38.6759 51.3234 35.3875 52.274 31.556 53.3178C28.3404 54.1938 25.7951 55.0492 23.6324 55.9576C21.5946 56.8136 19.9529 57.9661 18.3528 59.2891C16.6719 60.679 15.0942 63.5166 14.0441 65.8147C13.6188 66.7456 13.2774 68.3795 13.4149 70.4609C13.5021 71.7803 14.7984 72.6923 16.3214 73.6632C19.2562 75.5341 22.4281 74.9175 29.985 74.9217C34.4615 74.9241 36.6043 73.534 41.3839 72.011C45.8403 70.5909 47.4385 68.6753 49.522 67.9086C52.0604 66.9745 54.9308 64.65 57.4393 63.7416C61.6669 62.2107 68.2652 59.7829 70.8425 58.9495C74.1186 57.8902 78.6827 57.2827 81.883 56.4493C84.4538 55.7798 87.8501 55.6159 92.5026 55.4055C94.2527 55.3263 101.139 55.0575 110.79 55.1263C115.931 55.1629 119.236 56.0243 123.134 56.791C126.266 57.4069 128.695 58.5245 129.881 60.0517C132.188 63.0246 130.095 69.6337 129.401 71.3714C128.436 73.7896 125.103 74.3591 122.672 75.0571C119.242 76.0418 112.502 76.0259 104.006 76.378C101.628 76.4766 95.4216 76.726 86.8834 76.7947C81.0602 76.8416 77.466 77.4177 66.588 77.6281C61.7531 77.7217 55.9559 78.5261 50.8013 79.1533C43.343 80.0607 39.4212 82.8265 35.8584 84.1537C32.6531 85.3477 28.4286 86.8601 26.4118 87.6956C23.4189 88.9354 21.203 89.777 18.9154 90.8188C13.6797 93.203 10.5188 95.7442 8.14574 97.486C5.9621 99.0887 4.11832 100.745 2.93281 102.555C2.43914 103.309 2.44319 104.362 2.5807 105.401C2.90856 107.88 8.53535 108.254 20.8634 108.12C30.4985 108.016 33.6791 105.895 36.7376 105.066C39.4533 104.33 41.8839 103.953 46.7072 102.643C50.8215 101.525 58.4061 99.8195 63.3336 98.4861C68.261 97.1526 70.3237 96.3276 73.3802 95.3525C76.4367 94.3774 80.4245 93.2773 84.2665 92.4356C91.6384 90.8205 96.33 90.2021 98.1322 89.7854C99.6266 89.4399 103.943 89.0936 109.704 88.2602C115.603 87.4069 121.745 86.7268 126.878 85.6892C129.636 85.1318 132.437 85.06 136.8 84.7141C149.91 83.6748 151.889 85.61 153.976 87.1372C156.185 88.7531 156.206 92.9648 155.724 95.1837C154.676 100.019 146.088 98.8111 142.398 99.2257C138.984 99.6094 135.946 99.9195 129.147 101.305C124.173 102.319 122.045 103.528 116.919 105.055C112.773 106.291 110.66 108.52 107.187 110.335C104.726 111.621 102.601 112.004 98.9927 113.598C96.5073 114.695 94.5424 115.754 92.3922 117.069C87.4032 120.119 84.9582 122.838 82.4601 124.915C79.9962 126.964 77.5993 128.113 75.6512 129.432C73.424 131.726 71.7655 133.664 69.4695 143.773C69.1153 146.165 69.1153 147.265 68.6986 148.815" stroke="#7EFB5E" stroke-width="5" stroke-linecap="round"/>
+                        </svg>
+
+
+
+
+                    </div>
+                    <div class="svg-stroke svg-stroke-2">
+                       <svg width="180" height="172" viewBox="0 0 180 172" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M2.52929 130.699C2.94599 127.095 2.80848 124.736 2.60013 116.402C2.41589 109.033 2.52929 95.2795 2.59805 87.9893C2.67071 80.2842 2.94599 76.9738 3.01475 72.3234C3.09777 66.7081 6.41294 60.4266 7.17967 58.2702C7.83652 56.4228 8.91314 54.8678 10.0945 53.3365C10.3678 52.9822 10.855 52.9177 11.2738 53.5344C12.4863 55.32 12.5301 61.3434 12.5989 68.4919C12.6346 72.2081 12.9468 75.532 13.0843 80.0366C13.3168 87.653 14.6053 94.5461 15.0991 100.263C15.3526 103.198 15.722 106.239 15.9325 113.862C16.0408 117.787 16.8305 121.923 17.2513 126.584C17.6996 131.549 18.2222 135.133 18.7098 137.704C19.117 139.852 19.889 141.525 21.0662 142.85C22.7872 144.787 25.7145 139.466 26.8334 137.235C28.1163 134.676 29.3315 131.416 30.6524 128.278C31.5009 126.263 31.8317 124.182 32.5984 121.888C33.5355 119.084 35.9903 113.518 38.6239 103.691C40.1007 98.1795 40.9824 91.3875 41.5491 84.3411C42.1158 77.2947 42.1158 70.1441 42.2534 63.4352C42.3909 56.7263 42.6659 50.6758 42.8763 47.1464C43.2609 40.6971 43.641 37.0914 44.6119 32.7223C45.3056 29.6005 47.1079 26.9572 49.7436 24.8591C51.3885 23.5497 54.4585 32.716 57.5817 42.4293C59.4428 48.2176 59.6173 50.9634 59.8923 53.3802C60.8871 62.1228 61.5591 66.5105 62.1133 73.2735C62.5315 78.3769 62.6675 86.9121 62.7404 91.6479C62.8624 99.5691 62.2592 105.397 61.7029 108.258C61.0232 111.753 61.0091 115.964 60.4528 119.434C59.8975 122.896 59.759 124.857 59.2714 128.324C58.9209 130.816 58.7839 133.599 58.438 136.725C58.0062 140.627 58.6422 143.888 59.1964 145.136C60.4795 148.025 64.4677 150.692 66.4845 151.463C67.0721 151.688 67.9346 151.534 68.6347 151.259C71.2912 150.215 71.5599 147.1 72.7371 143.913C75.3847 136.743 75.5852 133.491 77.5979 124.761C78.2311 122.015 78.3646 119.052 79.0584 115.721C79.4117 114.024 79.8939 108.526 80.3794 100.405C80.5608 97.3694 80.7273 96.5462 80.9357 92.9584C81.5111 83.0501 81.8399 75.8404 82.0483 73.1485C82.4577 67.8592 82.2566 63.481 82.465 60.4412C82.8233 55.213 82.6733 51.255 82.8817 48.4944C83.6045 38.9165 83.6442 35.8496 83.8547 33.1994C84.0777 30.3909 86.8195 20.49 88.505 15.2792C88.8375 14.2515 90.0323 13.7478 90.8636 13.3999C91.2557 13.2358 91.6949 13.4645 92.0449 13.7416C93.7728 15.1094 93.9201 18.4565 94.2722 23.3799C94.5457 27.205 94.8952 31.9326 95.3827 35.6038C96.2342 42.0156 96.2869 47.0672 96.6328 52.1197C97.4837 64.5496 97.3954 67.6189 97.6058 72.2047C97.7017 74.2941 97.9537 79.1281 98.0225 85.3057C98.0561 88.3274 98.3704 89.7165 98.6455 94.6086C98.882 98.8154 99.4705 106.514 99.9601 111.306C100.621 117.777 101.562 123.986 102.117 131.687C102.464 136.519 103.779 139.987 105.304 142.971C106.282 144.883 107.671 145.559 108.78 145.769C112.394 146.455 114.613 138.633 117.595 130.324C118.672 127.321 119.464 123.415 120.372 117.788C121.281 112.16 122.106 104.872 122.531 89.2227C122.956 73.5735 122.956 49.7841 123.025 37.1164C123.098 23.6223 123.372 22.2235 123.441 20.9088C123.634 17.2159 124.339 13.8978 125.243 10.9788C126.781 6.015 130.869 2.91361 131.838 2.56566C132.366 2.37602 133.082 2.63025 133.642 2.90736C136.554 4.34685 137.674 10.1142 138.782 15.025C139.451 17.9879 139.89 21.9985 140.724 34.3662C141.557 46.7338 142.657 67.3605 143.293 78.2614C143.961 89.719 144.207 91.2416 144.826 96.3441C145.33 100.5 146.683 107.772 147.32 111.87C148.469 119.257 149.341 124.849 150.039 129.847C150.486 133.05 151.283 138.575 152.537 143.048C153.785 147.497 154.9 150.551 156.631 154.92C158.047 158.493 161.142 161.518 163.367 163.75C165.595 165.983 167.393 167.502 169.272 168.546C169.76 168.756 170.31 168.894 171.624 168.965C172.939 169.035 175.002 169.035 177.127 169.035" stroke="#F25623" stroke-width="5" stroke-linecap="round"/>
+                            </svg>
+
+
+
+
+
+                    </div>
+                    <div class="card-title">
+                        <h3>STREAMING</h3>
+                    </div>
                     <!-- Replace with your screen recording -->
                     <!-- <video class="card-video" muted loop playsinline preload="none">
                         <source src="/Converted/videos/brandpulse-demo.mp4" type="video/mp4">
@@ -203,7 +408,7 @@
                     <!-- Gradient overlays left + right edges (matching Jason) -->
                     <!-- <div class="card-fade card-fade--left"></div>
                     <div class="card-fade card-fade--right"></div> -->
-                </div>
+            
                 </div>
  
                 <div class="card-info">
@@ -228,37 +433,18 @@
                 </div>
  
                 
-                    <div class="card-tech-wrap">
-                        <p class="card-tech-row">
-                            <span>PYTHON</span><span>·</span>
-                            <span>N8N</span><span>·</span>
-                            <span>CLAUDE API</span><span>·</span>
-                            <span>PLAYWRIGHT</span><span>·</span>
-                            <span>GOOGLE NLP API</span><span>·</span>
-                            <span>HUGGINGFACE</span><span>·</span>
-                            <span>SUPABASE</span><span>·</span>
-                            <span>NEXT JS</span><span>·</span>
-                        </p>
-                        <p class="card-tech-row" aria-hidden="true">
-                            <span>PYTHON</span><span>·</span>
-                            <span>N8N</span><span>·</span>
-                            <span>CLAUDE API</span><span>·</span>
-                            <span>PLAYWRIGHT</span><span>·</span>
-                            <span>GOOGLE NLP API</span><span>·</span>
-                            <span>HUGGINGFACE</span><span>·</span>
-                            <span>SUPABASE</span><span>·</span>
-                            <span>NEXT JS</span><span>·</span>
-                        </p>
-                    </div>
+                   <p class="card-tech-static">NEXT JS, TYPESCRIPT</p>
                 
  
             </a>
         </li>
+
+        
  
     </ul>
 
     <div class="work-footer">
-        <a href="#" class="see-all-btn">
+        <a href="swork.html" class="see-all-btn">
             See all <span class="see-all-arrow">&#x27F6;</span>
         </a>
     </div>
@@ -269,20 +455,364 @@
     <div class="services-header">
         <h2 class="work-title">SERVICES</h2>
     </div>
-</section>
+
     
-    <section class="outro">
-        <p>This is the last page</p>
-    </section>
+    
+</section>
+
+<section class="services-cards" id="services-cards">
+    <!-- Card 1 -->
+    <div class="scard" id="scard-1">
+        <div class="scard-inner">
+            <div class="scard-content">
+                <h3>AI Systems Engineering</h3>
+                <div class="scard-body">
+                    <div class="scard-description">
+                        <p>Designing and building end-to-end AI-Powered products such as agentic pipelines, LLM integrations, MCP servers, and intelligent automation systems that operate independently at scale.</p>
+                    </div>
+                    <div class="scard-stack">
+                        <p>Claude Code</p>
+                        <p>n8n</p>
+                        <p>Supabase</p>
+                    </div>
+                </div>
+            </div>
+            <div class="scard-img">
+                <img src="/Converted/images/card-1.png" alt="AI Systems Engineering">
+            </div>
+        </div>
+    </div>
+
+    <!-- Card 2 -->
+    <div class="scard" id="scard-2">
+        <div class="scard-inner">
+            <div class="scard-content">
+                <h3>Data Intelligence &amp; Automation</h3>
+                <div class="scard-body">
+                    <div class="scard-description">
+                        <p>Scraping infrastructure, NLP Pipelines and automated reporting systems that transforms raw social and market data into structured, actionable brand intelligence.</p>
+                    </div>
+                    <div class="scard-stack">
+                        <p>HuggingFace</p>
+                        <p>Python</p>
+                        <p>Chrome for Testing</p>
+                    </div>
+                </div>
+            </div>
+            <div class="scard-img">
+                <img src="/Converted/images/card-2.png" alt="Data Intelligence and Automation">
+            </div>
+        </div>
+    </div>
+
+    <!-- Card 3 -->
+    <div class="scard" id="scard-3">
+        <div class="scard-inner">
+            <div class="scard-content">
+                <h3>Full Stack Product Development</h3>
+                <div class="scard-body">
+                    <div class="scard-description">
+                        <p>From database schema to deployed dashboard. The use of Python backends, Next JS Frontends, and cloud infrastructure built for real products and real users.</p>
+                    </div>
+                    <div class="scard-stack">
+                        <p>Python</p>
+                        <p>Next JS</p>
+                        <p>Supabase</p>
+                    </div>
+                </div>
+            </div>
+            <div class="scard-img">
+                <img src="/Converted/images/card-3.png" alt="Full Stack Product Development">
+            </div>
+        </div>
+    </div>
+
+    <!-- Card 4 -->
+    <div class="scard" id="scard-4">
+        <div class="scard-inner">
+            <div class="scard-content">
+                <h3>Motion &amp; Digital Design</h3>
+                <div class="scard-body">
+                    <div class="scard-description">
+                        <p>AI assisted video production and content pipelines. Blending technical automation with visual craft for modern content creators and people in dire need of a social media presence.</p>
+                    </div>
+                    <div class="scard-stack">
+                        <p>ffmpeg</p>
+                        <p>Python</p>
+                        <p>whisperX</p>
+                    </div>
+                </div>
+            </div>
+            <div class="scard-img">
+                <img src="/Converted/images/card-4.png" alt="Motion and Digital Design">
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- <div class="services-outro">
+    <p>Let's build something.</p>
+</div>
+     -->
+   <!-- ── TECH STACK SECTION ─────────────────────────────── -->
+<section class="tech-stack">
+    <div class="tech-stack-inner">
+        <h2 class="tech-stack-heading">
+            <span class="tech-stack-line">Modern</span>
+            <span class="tech-stack-line">Tech Stack</span>
+        </h2>
+    </div>
+
+    <div class="tech-grid">
+
+    <!-- Row 1 — Python wide/short, Supabase and React tall -->
+        <div class="tech-cell has-icon cell-python">
+            <div class="cell-bg"></div>
+            <iconify-icon icon="simple-icons:python"></iconify-icon>
+        </div>
+        <!-- empty cell removed — Python spans cols 1-2 now -->
+        <div class="tech-cell has-icon cell-supabase">
+            <div class="cell-bg"></div>
+            <iconify-icon icon="simple-icons:supabase"></iconify-icon>
+        </div>
+        <div class="tech-cell has-icon cell-react">
+            <div class="cell-bg"></div>
+            <iconify-icon icon="simple-icons:react"></iconify-icon>
+        </div>
+
+    <!-- Row 2 -->
+    <!-- Row 2 — GCP and Playwright tall (span rows 2-3) -->
+    <div class="tech-cell has-icon cell-gcp">
+        <div class="cell-bg"></div>
+        <iconify-icon icon="simple-icons:googlecloud"></iconify-icon>
+    </div>
+    <div class="tech-cell has-icon cell-playwright">
+        <div class="cell-bg"></div>
+        <iconify-icon icon="simple-icons:playwright"></iconify-icon>
+    </div>
+    <div class="tech-cell has-icon cell-anthropic" >
+        <div class="cell-bg"></div>
+        <iconify-icon icon="simple-icons:anthropic"></iconify-icon>
+    </div>
+    <!-- <div class="tech-cell"><div class="cell-bg"></div></div> -->
+
+    <!-- Row 3 -->
+    <div class="tech-cell has-icon">
+        <div class="cell-bg"></div>
+        <iconify-icon icon="simple-icons:n8n"></iconify-icon>
+    </div>
+    <div class="tech-cell has-icon cell-huggingface">
+        <div class="cell-bg"></div>
+        <iconify-icon icon="simple-icons:huggingface"></iconify-icon>
+    </div>
+    <div class="tech-cell has-icon cell-nextdotjs">
+        <div class="cell-bg"></div>
+        <iconify-icon icon="simple-icons:nextdotjs"></iconify-icon>
+    </div>
+    <!-- <div class="tech-cell"><div class="cell-bg"></div></div> -->
+
+    <!-- Row 4 -->
+    <!-- <div class="tech-cell"><div class="cell-bg"></div></div> -->
+    <div class="tech-cell has-icon cell-ffmpeg">
+        <div class="cell-bg"></div>
+        <iconify-icon icon="simple-icons:ffmpeg"></iconify-icon>
+    </div>
+    <div class="tech-cell has-icon cell-openai">
+        <div class="cell-bg"></div>
+        <iconify-icon icon="simple-icons:openai"></iconify-icon>
+    </div>
+    <div class="tech-cell has-icon">
+        <div class="cell-bg"></div>
+        <iconify-icon icon="simple-icons:tailwindcss"></iconify-icon>
+    </div>
+
+    <!-- Row 5 -->
+    <div class="tech-cell has-icon cell-type">
+        <div class="cell-bg"></div>
+        <iconify-icon icon="simple-icons:typescript"></iconify-icon>
+    </div>
+    <div class="tech-cell has-icon cell-mdi">
+        <div class="cell-bg"></div>
+        <iconify-icon icon="mdi:connection"></iconify-icon>
+    </div>
+    <!-- <div class="tech-cell"><div class="cell-bg"></div></div> -->
+    <div class="tech-cell has-icon cell-nodejs">
+        <div class="cell-bg"></div>
+        <iconify-icon icon="simple-icons:nodedotjs"></iconify-icon>
+    </div>
+
+</div>
+</section>
+
+
+
+
+
+</div>
+
+
+
+<div class="bnav-wrapper" id="bnav-wrapper">
+
+    <!-- Popover — sits above the pill, hidden by overflow:hidden on wrapper -->
+     <div class="bmenu-popover" id="bmenu-popover">
+        <nav class="bmenu-nav-list">
+            <a href="/Converted/index.html" class="bmenu-nav-item" data-index="0">
+                <div class="bmenu-nav-thumb">
+                    <img src="/Converted/images/PortIMG.jpg" alt="Home">
+                </div>
+                <span class="bmenu-nav-label">Home</span>
+            </a>
+            <a href="/Converted/swork.html" class="bmenu-nav-item" data-index="1">
+                <div class="bmenu-nav-thumb">
+                    <img  src="/Converted/images/VybeThumb3.png" alt="Work">
+                </div>
+                <span class="bmenu-nav-label">Work</span>
+            </a>
+            <a href="/Converted/Work.html" class="bmenu-nav-item" data-index="2">
+                <div class="bmenu-nav-thumb bmenu-nav-thumb--dark">
+                    <img src="/Converted/images/BNavWork.png" alt="Lab">
+                </div>
+                <span class="bmenu-nav-label">Lab</span>
+            </a>
+        </nav>
+    </div>
+
+    <!-- Pill — always visible at the bottom of the wrapper -->
+    <div class="bottom-nav-work" id="bottom-nav-work">
+
+        <div class="bnav-avatar">
+            <video
+                src="/Converted/videos/memoji2.mp4"
+                autoplay muted loop playsinline
+                class="bnav-avatar-video">
+            </video>
+        </div>
+
+        <div class="bnav-body">
+            <span class="bnav-name">CURTIS OLUOCH OCHWEDA</span>
+            <div class="bnav-ticker-wrap">
+                <p class="bnav-ticker-row">
+                    <span>AWWARDS ENTHUSIAST</span><span class="bnav-sep">·</span>
+                    <span>AI FANATIC</span><span class="bnav-sep">·</span>
+                    <span>FULL STACK ENGINEER</span><span class="bnav-sep">·</span>
+                    <span>LOVERBOY</span><span class="bnav-sep">·</span>
+                </p>
+                <p class="bnav-ticker-row" aria-hidden="true">
+                    <span>AWWARDS ENTHUSIAST</span><span class="bnav-sep">·</span>
+                    <span>AI FANATIC</span><span class="bnav-sep">·</span>
+                    <span>FULL STACK ENGINEER</span><span class="bnav-sep">·</span>
+                    <span>LOVERBOY</span><span class="bnav-sep">·</span>
+                </p>
+            </div>
+        </div>
+
+        <button class="bnav-menu-btn" id="bnav-menu-btn"
+                aria-label="Toggle menu" aria-expanded="false">
+            <span class="burger-line burger-line--top"></span>
+            <span class="burger-line burger-line--mid"></span>
+            <span class="burger-line burger-line--bot"></span>
+        </button>
+
+    </div>
+</div>
+
+</main>
+
+<section class="footer" id="contact">
+    
+    <!-- Top bar: location + live time -->
+    <div class="footer-topbar">
+        <span class="footer-location">Nairobi, Kenya</span>
+        <span class="footer-time" id="footer-time"></span>
+    </div>
+
+    <p class="footer-headline">
+            Brudda, let's work <span class="footer-orange">together</span>
+        </p>
+
+    <!-- Mid: headline + social links -->
+    <div class="footer-body">
+        
+
+        <div class="footer-socials">
+            <a href="https://linkedin.com/in/yourprofile" class="footer-link" target="_blank" rel="noopener">
+                <iconify-icon icon="simple-icons:linkedin" class="footer-link-icon"></iconify-icon>
+                <span class="footer-link-text">LinkedIn</span>
+                <span class="footer-link-arrow">↗</span>
+                <div class="footer-link-underline"></div>
+            </a>
+            <a href="https://instagram.com/yourhandle" class="footer-link" target="_blank" rel="noopener">
+                <iconify-icon icon="simple-icons:instagram" class="footer-link-icon"></iconify-icon>
+                <span class="footer-link-text">Instagram</span>
+                <span class="footer-link-arrow">↗</span>
+                <div class="footer-link-underline"></div>
+            </a>
+            <a href="https://github.com/yourhandle" class="footer-link" target="_blank" rel="noopener">
+                <iconify-icon icon="simple-icons:github" class="footer-link-icon"></iconify-icon>
+                <span class="footer-link-text">GitHub</span>
+                <span class="footer-link-arrow">↗</span>
+                <div class="footer-link-underline"></div>
+            </a>
+            <a href="/cv.pdf" class="footer-link" target="_blank" rel="noopener">
+                <span class="footer-link-text">CV</span>
+                <span class="footer-link-arrow">↗</span>
+                <div class="footer-link-underline"></div>
+            </a>
+        </div>
+    </div>
+
+    <!-- Bottom CTA -->
+    <div class="footer-cta-area">
+        <p class="footer-cta-label">Got a project in mind?</p>
+        <a href="mailto:curtis@youremail.com" class="footer-cta-link">
+            <div class="footer-cta-inner">
+                <span class="footer-cta-text">CHAT TO ME</span>
+                <span class="footer-cta-arrow">↗</span>
+            </div>
+            <div class="footer-cta-underline"></div>
+        </a>
+    </div>
+
+    
+</section>
+
+
+
+
+
+
+    <!-- Mouse trail -->
+
+
+    <svg class="trail-svg"><path d="" class="trail" style="stroke: #171717"></path></svg>
+    <svg class="trail-svg"><path d="" class="trail" style="stroke: #F25623"></path></svg>
+    <svg class="trail-svg"><path d="" class="trail" style="stroke: #4D4D4D"></path></svg>
+    <svg class="trail-svg"><path d="" class="trail" style="stroke: #DEDEDE"></path></svg>
+    <svg class="trail-svg"><path d="" class="trail" style="stroke: #F5F5F5"></path></svg>
+    
+
+
     
         <!-- GSAP -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script src="https://code.iconify.design/iconify-icon/2.1.0/iconify-icon.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.19.0/matter.min.js"></script>
 
-    <!-- Lenis smooth scroll -->
-    <script src="https://unpkg.com/lenis@1.1.14/dist/lenis.min.js"></script>
+<!-- All GSAP from same source, same version -->
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/ScrollTrigger.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/SplitText.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/CustomEase.min.js"></script>
 
-    <!-- Your script — NO type="module" needed anymore -->
-    <script src="/Converted/index.js"></script>
+<!-- Lenis smooth scroll -->
+<script src="https://unpkg.com/lenis@1.1.14/dist/lenis.min.js"></script>
+
+<!-- Your script last -->
+<script src="/Converted/index.js"></script>
+
+<!-- Barba.js — page transitions -->
+<script src="https://unpkg.com/@barba/core"></script>
+<!-- <script src="/Converted/page-transitions.js"></script> -->
+
 </body>
 </html>

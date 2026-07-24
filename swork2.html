@@ -1,0 +1,1498 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BrandPulse — Sentiment Analysis</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- <link href="style.css" rel="stylesheet"> -->
+    <link rel="stylesheet" href="/Converted/view-transitions.css">
+    <style>
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        @view-transition {
+            navigation: auto;
+        }
+
+        :root {
+            --bg: #F5F5F5;
+            --dark: #171717;
+            --orange: #F25623;
+            --mid: #2a2a2a;
+            --inner: #3a3a3a;
+            --text-dim: #BCBBBB;
+            --text-white: #F5F5F5;
+            --pad-outer: clamp(10px, 1.5vw, 18px);
+            --radius-outer: clamp(16px, 2vw, 28px);
+            --radius-inner: clamp(10px, 1.2vw, 18px);
+            --radius-innermost: clamp(8px, 1vw, 14px);
+            --radius-cell: clamp(8px, 1vw, 13px);
+        }
+
+        html, body {
+            font-family: "Inter", sans-serif;
+            color: #171717;
+            background-color: #F5F5F5;
+            overflow-x: hidden;
+        }
+
+       .page-content {
+            position: relative;
+            z-index: 1;
+            background-color: #F5F5F5; /* must be solid — hides footer beneath */
+        }
+        p {
+            font-size: clamp(14px, 1.4vw, 20px);
+            font-weight: 500;
+        }
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            padding: 1.5em 2.5em;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            /* mix-blend-mode: difference; */
+            z-index: 2;
+        }
+
+        .nav-2 {
+            position: relative;
+            left: -14vw;
+        }
+        .nav-top {
+            color: #171717;
+        }
+        .nav-top span {
+            margin-bottom: 2px;
+        }
+        .nav-bottom {
+            /* font-size: 12px; */
+            font-weight: 400;
+            color: #BCBBBB;
+            margin-top: 2px;
+        }
+
+        .availability-dot {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: #22c55e;
+            flex-shrink: 0;
+            
+        }
+
+        p .nav-bottom {
+            color: #BCBBBB;
+        }
+
+        /* .links {
+            display: flex;
+            gap: 1em;
+        } */
+        /* ── NAV BUTTONS ─────────────────────────────────────── */
+        .links {
+            display: flex;
+            gap: clamp(0.75em, 2vw, 5em);
+            align-items: center;
+        }
+
+        
+        /* Case Studies — orange background */
+        .btn-case {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            background-color: #F25623;
+            color: #ffffff;
+            border: none;
+            border-radius: 999px;       /* full pill */
+            padding: 0.5em 2.5em;
+            font-family: "Inter", sans-serif;
+            font-size: 20px;
+            font-weight: 400;
+            cursor: pointer;
+            transition: background 0.2s ease, transform 0.15s ease;
+        }
+        
+        .btn-case:hover {
+            background-color: #d94e1e;
+            transform: scale(0.97);
+        }
+        
+        .btn-icon {
+            font-size: 14px;
+        }
+        
+        /* Get In Touch — dark background */
+        .btn-contact {
+            background-color: #171717;
+            color: #ffffff;
+            border: none;
+            border-radius: 999px;
+            padding: 10px 20px;
+            font-family: "Inter", sans-serif;
+            font-size: 20px;
+            font-weight: 400;
+            cursor: pointer;
+            transition: background 0.2s ease, transform 0.15s ease;
+        }
+        
+        .btn-contact:hover {
+            background-color: #333333;
+            transform: scale(0.97);
+        }
+
+        /* ── LINKS BAR ─────────────────────────── */
+        /* REPLACE your existing .links-bar with this */
+        .links-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;  /* ← pushes left/right apart */
+            gap: 1em;
+            padding: 0.6em 2em;
+            margin-top: 8em;
+            font-size: 13px;
+            color: var(--dark);
+            font-weight: 500;
+            /* remove the margin-left: 64em — gone */
+        }
+
+        .links-bar span { 
+            /* color: var(--text-dim);  */
+            font-size: 1.5em;
+            font-weight: 600;
+            color: #BCBBBB;
+        }
+
+        .links-bar a {
+            display: inline-flex;
+            align-items: center;
+            gap: 1em;
+            text-decoration: none;
+            background: var(--dark);
+            color: var(--text-white);
+            border-radius: 999px;
+            padding: 1em 1em 1em 1em;
+            font-size: 1.5em;
+            font-weight: 600;
+            letter-spacing: 0.02em;
+            transition: background 0.2s;
+        }
+
+        /* Back button — inherits .links-bar a styles, just add arrow transition */
+            .btn-back {
+                display: inline-flex;
+                align-items: center;
+                gap: 0.5em;
+            }
+
+             .links-bar .btn-back {
+                padding: 0.5em 1em 0.7em 1em;
+                
+            }
+
+            .btn-back-arrow {
+                display: inline-block;
+                transition: transform 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+                margin-bottom: 0.2em;
+                color: #F5F5F5;
+            }
+
+            .btn-back:hover .btn-back-arrow {
+                transform: translateX(-4px);
+            }
+
+        .links-bar a:hover { background: var(--orange); }
+
+        /* ── PAGE WRAPPER ──────────────────────── */
+        .page-wrapper {
+            width: 100%;
+            padding: 0 clamp(1em, 2vw, 2em) clamp(2em, 4vh, 4em);
+            margin-top: 1.5em;
+        }
+
+        /* ═══════════════════════════════════════════
+           BOX 1 — OUTERMOST  (#171717)
+           Contains: title block + BOX 2
+        ═══════════════════════════════════════════ */
+        .box-outer {
+            background-color: var(--dark);
+            border-radius: var(--radius-outer);
+            padding: var(--pad-outer);
+            display: flex;
+            flex-direction: column;
+            gap: var(--pad-outer);
+        }
+
+        /* Title row */
+        .title-block {
+            padding: clamp(0.8em, 1.5vw, 1.4em) clamp(0.8em, 1.5vw, 1.2em) clamp(0.5em, 1vw, 0.8em);
+        }
+
+         .title-top {
+            display: flex;
+            align-items: top;
+            gap: clamp(0.6em, 1.2vw, 1em);
+            margin-bottom: 0.25em;
+        }
+ 
+        /* Logo pill */
+        .project-logo {
+            width: clamp(5em, 9vw, 12em);
+            height: clamp(2em, 7vw, 9em);
+            border-radius: clamp(6px, 0.8vw, 10px);
+            overflow: hidden;
+            flex-shrink: 0;
+             /* fallback while image loads */
+            display: flex;
+            align-items: top;
+            justify-content: center;
+        }
+ 
+        .project-logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            display: block;
+        }
+
+        .title-block h1 {
+            font-size: clamp(4rem, 7vw, 8rem);
+            font-weight: 800;
+            letter-spacing: -0.04em;
+            text-transform: uppercase;
+            color: var(--text-white);
+            line-height: 0.92;
+            margin-bottom: 0.5em;
+            margin-left: 1.7em;
+        }
+
+        .title-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 0.5em;
+            /* border-top: 1px solid rgba(255,255,255,0.1); */
+            margin-bottom: 1.3em;
+        }
+
+        .title-meta-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5em;
+        }
+
+        .meta-label {
+            font-size: clamp(0.5em, 1.9vw, 1.3em);
+            font-weight: 600;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: #BCBBBB;
+        }
+
+        .meta-value {
+            font-size: clamp(0.5em, 1.9vw, 1.3em);
+            font-weight: 700;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--text-white);
+        }
+
+        /* ═══════════════════════════════════════════
+           BOX 2 — MIDDLE  (#2a2a2a)
+           Contains: year/stack/summary + BOX 3
+        ═══════════════════════════════════════════ */
+        .box-middle {
+            background-color: var(--mid);
+            border-radius: var(--radius-inner);
+            padding: var(--pad-outer);
+            display: flex;
+            flex-direction: column;
+            gap: var(--pad-outer);
+        }
+
+        /* Info row: year+stack on left, summary on right */
+        .info-row {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: clamp(2em, 2.9vw, 4em);
+            margin-bottom: 2em;
+        }
+
+        .info-left {
+            display: flex;
+            flex-direction: column;
+            gap: clamp(0.5em, 1vw, 0.75em);
+        }
+
+        /* Year chip */
+        .year-block {
+            display: flex;
+            flex-direction: column;
+            gap: 0.2em;
+            margin-top: 1em;
+            margin-bottom: 1.5em;
+        }
+
+        .info-label {
+            font-size: clamp(0.5em, 1.5vw, 1.7em);
+            font-weight: 900;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+            color: #BCBBBB;
+            margin-bottom: 0.3em;
+        }
+
+        .year-value {
+            font-size: clamp(1.3rem, 2.4vw, 3.5rem);
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            color: var(--text-white);
+            line-height: 1;
+        }
+
+        /* Stack chip — same bg as outer box */
+        .stack-chip {
+            background-color: var(--dark);
+            border-radius: var(--radius-innermost);
+            padding: clamp(0.6em, 1vw, 0.9em) clamp(0.7em, 1.2vw, 1em);
+        }
+
+        .stack-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.3em;
+            margin-top: 0.4em;
+        }
+
+        .stack-item {
+            font-size: clamp(0.5em, 1.9vw, 1.8em);
+            font-weight: 600;
+            letter-spacing: 0.08em;
+            
+            color: #F5F5F5;
+            line-height: 1.4;
+        }
+
+        /* Summary chip — same bg as outer box */
+        .summary-chip {
+            background-color: var(--dark);
+            border-radius: var(--radius-innermost);
+            padding: clamp(0.7em, 1.2vw, 1.1em);
+            height: 100%;
+            /* margin-top: 1em; */
+        }
+
+        .summary-chip p {
+            font-size: clamp(0.5em, 1.9vw, 2.8em);
+            font-weight: 400;
+            line-height: 1.65;
+            color: #F5F5F5;
+            margin-top: 0.5em;
+        }
+
+        .summary-chip .info-label {
+            font-size: clamp(0.5em, 1.2vw, 1.8em);
+            font-weight: 900;
+        }
+
+        
+
+       /* ═══════════════════════════════════════════
+           BOX 3 — INNERMOST  (#3a3a3a)
+           Layout:
+             [ TOP: full-width VIDEO/Desktop        ]
+             [ BOTTOM-LEFT: tall MOBILE video ][ BOTTOM-RIGHT: stacked top PHOTO + bottom PHOTO ]
+        ═══════════════════════════════════════════ */
+        .box-inner {
+            background-color: var(--inner);
+            border-radius: var(--radius-cell);
+            padding: clamp(6px, 0.9vw, 10px);
+            display: flex;
+            flex-direction: column;
+            gap: clamp(6px, 0.8vw, 10px);
+        }
+ 
+        /* Top: full-width desktop video */
+        .collage-top {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 16/7;
+            background-color: #c8c8c8;
+            border-radius: calc(var(--radius-cell) - 3px);
+            overflow: hidden;
+            display: flex; align-items: center; justify-content: center;
+        }
+ 
+        /* Bottom row: left tall + right stacked */
+        .collage-bottom {
+            display: grid;
+            grid-template-columns: 1fr 1.75fr;
+            gap: clamp(6px, 0.8vw, 10px);
+            /* Make bottom row same height as it appears in design */
+            min-height: clamp(69em, 49vw, 89em);
+        }
+ 
+        /* Left: tall mobile video — fills the full height */
+        .collage-cell-left {
+            position: relative;
+            background-color: #c8c8c8;
+            border-radius: calc(var(--radius-cell) - 3px);
+            overflow: hidden;
+            display: flex; align-items: center; justify-content: center;
+            /* no aspect-ratio — stretches to match grid row height */
+        }
+ 
+        /* Right column: two stacked desktop photos */
+        .collage-right-stack {
+            display: flex;
+            flex-direction: column;
+            gap: clamp(6px, 0.8vw, 10px);
+        }
+ 
+        .collage-cell-right {
+            position: relative;
+            flex: 1;                         /* each takes equal half of right height */
+            background-color: #c8c8c8;
+            border-radius: calc(var(--radius-cell) - 3px);
+            overflow: hidden;
+            display: flex; align-items: center; justify-content: center;
+        }
+ 
+        /* Placeholder labels */
+        .collage-label {
+            font-size: clamp(1.2rem, 4vw, 3.5rem);
+            font-weight: 800; letter-spacing: -0.02em;
+            text-transform: uppercase;
+            color: rgba(0,0,0,0.25);
+            pointer-events: none; user-select: none;
+        }
+ 
+        .collage-sublabel {
+            position: absolute;
+            top: clamp(8px, 1vw, 12px);
+            left: 50%; transform: translateX(-50%);
+            font-size: clamp(6px, 0.55vw, 8px);
+            font-weight: 700; letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: rgba(0,0,0,0.28);
+            white-space: nowrap;
+        }
+ 
+        /* Real media drops in */
+        .collage-top img,
+        .collage-top video,
+        .collage-cell-left img,
+        .collage-cell-left video,
+        .collage-cell-right img,
+        .collage-cell-right video {
+            position: absolute;
+            inset: 0; width: 100%; height: 100%;
+            object-fit: cover; border-radius: 0;
+        }
+
+        /* ═══════════════════════════════════════════════════════
+   BOTTOM NAV — WORK PAGE VARIANT
+   ═══════════════════════════════════════════════════════ */
+
+.bottom-nav-work {
+    position: fixed;
+    bottom: clamp(1.5em, 2.9vh, 2.75em);
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 200;
+
+    display: flex;
+    align-items: center;
+    gap: 0.75em;
+
+    width: clamp(140px, 43vw, 460px);
+    height: clamp(5.5em, 8vh, 10em);
+
+    background-color: #171717;
+    border-radius: 9999px;
+    overflow: hidden;
+    padding: 0.5em 0.5em 0.6em clamp(0.5em, 3vw, 2em);
+    border: 1px solid rgba(230, 230, 230, 0.12);
+}
+
+/* Avatar — left side */
+.bnav-avatar {
+    width: 4.4em;
+    height: 4.2em;
+    border-radius: clamp(8px, 0.9vw, 12px);
+    overflow: hidden;
+    flex-shrink: 0;
+}
+
+.bnav-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    position: static;
+    border-radius: 0;
+    pointer-events: none;
+}
+
+.bnav-avatar-video {
+    width: 100%;
+    height: 80%;
+    object-fit: cover;
+    border-radius: 0;
+    pointer-events: none;
+    transform: scale(1.4);
+    transform-origin: center 40%;
+}
+
+/* Body — stacked name + ticker */
+.bnav-body {
+    flex: 1;
+    min-width: 0;
+    max-width: 65%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 3px;
+    overflow: hidden;
+    margin-left: 0.2em;
+}
+
+.bnav-name {
+    font-size: clamp(15px, 0.95vw, 18px);
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: #ffffff;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+/* Ticker */
+.bnav-ticker-wrap {
+    position: relative;
+    overflow: hidden;
+    height: clamp(18px, 1.6vw, 22px);
+    flex-shrink: 0;
+    margin-top: 0.4em;
+}
+
+.bnav-ticker-wrap::before,
+.bnav-ticker-wrap::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 1.3em;
+    z-index: 2;
+    pointer-events: none;
+}
+
+.bnav-ticker-wrap::before {
+    left: 0;
+    background: linear-gradient(to right, #171717 0%, transparent 100%);
+}
+
+.bnav-ticker-wrap::after {
+    right: 0;
+    background: linear-gradient(to left, #171717 0%, transparent 100%);
+}
+
+.bnav-ticker-row {
+    position: absolute;
+    top: 50%;
+    white-space: nowrap;
+    font-size: clamp(13px, 0.6vw, 16px) !important;
+    font-weight: 300;
+    letter-spacing: 0.10em;
+    text-transform: uppercase;
+    color: #ffffff;
+    will-change: transform;
+    margin: 0;
+    padding: 0;
+}
+
+.bnav-ticker-row span { padding: 0 0.5em; }
+.bnav-sep { opacity: 0.3; }
+
+/* Hamburger button */
+.bnav-menu-btn {
+    flex-shrink: 0;
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    background-color: #171717;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    transition: background 0.2s ease;
+}
+
+.burger-line {
+    display: block;
+    width: 22px;
+    height: 2px;
+    background-color: #ffffff;
+    border-radius: 2px;
+    transform-origin: center;
+    transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                opacity   0.3s ease;
+    margin: 0;
+    flex-shrink: 0;
+}
+
+.bnav-menu-btn.is-open .burger-line--top {
+    transform: translateY(7px) rotate(45deg);
+}
+.bnav-menu-btn.is-open .burger-line--mid {
+    opacity: 0;
+    transform: scaleX(0);
+}
+.bnav-menu-btn.is-open .burger-line--bot {
+    transform: translateY(-7px) rotate(-45deg);
+}
+
+/* Reveal state — JS (index.js) animates this from opacity:0/y:20
+   to visible on load; keep this as the resting "hidden" start state
+   so it doesn't flash visible before the animation runs. */
+#bottom-nav-work {
+    opacity: 0;
+    transform: translateX(-50%) translateY(20px);
+}
+
+/* ── Popover — stacked above the pill ─────────────────── */
+.bnav-wrapper {
+    position: fixed;
+    bottom: clamp(1.5em, 2.9vh, 2.75em);
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 200;
+
+    border-radius: 1.6em;
+
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+
+    height: auto;
+    width: clamp(280px, 43vw, 460px);
+}
+
+.bmenu-popover {
+    background-color: #171717;
+    border-radius: 2em;
+    padding: 0.5em;
+    width: 100%;
+
+    opacity: 0;
+    transform: translateY(20px);
+    pointer-events: none;
+
+    max-height: 0;
+    overflow: hidden;
+
+    transition: max-height 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                opacity    0.3s ease,
+                transform  0.35s cubic-bezier(0.34, 1.2, 0.64, 1);
+    margin-bottom: 2.4em;
+    border: 1px solid rgba(230, 230, 230, 0.12);
+}
+
+.bnav-wrapper.is-open .bmenu-popover {
+    max-height: 400px;
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+}
+
+/* ── Nav list ─────────────────────────────────────────── */
+nav.bmenu-nav-list {
+    position: static !important;
+    top: auto !important;
+    left: auto !important;
+    width: 100% !important;
+    padding: 0 !important;
+    padding-bottom: 5em !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: flex-start !important;
+    align-items: stretch !important;
+    mix-blend-mode: normal !important;
+    z-index: auto !important;
+}
+
+.bmenu-nav-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+}
+
+.bmenu-nav-item {
+    display: flex;
+    align-items: center;
+    gap: 1em;
+    text-decoration: none;
+    padding: 0.55em 0.7em;
+    border-radius: 1.1em;
+    transition: background 0.18s ease;
+    opacity: 0;
+    transform: translateY(12px);
+}
+
+.bnav-wrapper.is-open .bmenu-nav-item {
+    transform: translateY(0);
+}
+
+.bmenu-nav-item:hover {
+    background: rgba(255,255,255,0.08);
+}
+
+.bmenu-nav-thumb {
+    width: clamp(52px, 5vw, 68px);
+    height: clamp(52px, 5vw, 68px);
+    border-radius: 0.85em;
+    overflow: hidden;
+    flex-shrink: 0;
+    background: #2a2a2a;
+}
+
+.bmenu-nav-thumb--dark { background: #1a1a1a; }
+
+.bmenu-nav-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    position: static;
+    border-radius: 0;
+    pointer-events: none;
+}
+
+.bmenu-nav-label {
+    font-size: clamp(1.2rem, 2.3vw, 1.6rem);
+    font-weight: 700;
+    letter-spacing: -0.025em;
+    color: #ffffff;
+    line-height: 1;
+    text-transform: none;
+}
+
+.nav-2 {
+    width: 50%;
+    height: 4em;
+    display: flex;
+    align-items: center;
+}
+
+.nav-2 .menu {
+    width: 50%;
+    flex-grow: 1;
+    display: flex;
+    justify-content: end;
+    gap: 0.5rem;
+}
+
+.nav-2 .menu .menu-line-index {
+    width: min-content;
+    height: 1.35rem;
+    min-height: 1.35rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.nav-link.top-1 {
+    margin-top: -1.35rem;
+}
+
+.nav-link {
+    display: block;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.menu-line-index:hover .nav-link.top-1 {
+    transform: translateY(25px);
+}
+
+.menu-line-index:hover .nav-link:not(.top-1) {
+    transform: scale(1.5) translateY(25px);
+}
+
+.nav-2 .menu a {
+    color: #000000;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 1.2rem;
+    text-transform: none;
+    transition-property: all;
+    transition-duration: 0.6s;
+    transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.nav-2 .menu .nav-link.top-1 a {
+    font-weight: 700;
+}
+
+.btn-menu {
+    background-color: #e0e0e0;
+    color: #000000;
+    border: none;
+    border-radius: 999px;
+    padding: 10px 10px;
+    font-family: "Inter", sans-serif;
+    font-size: 20px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.2s ease, transform 0.15s ease;
+}
+
+.menu-overlay img {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.menu-overlay p, a {
+    text-decoration: none;
+    text-transform: uppercase;
+    font-weight: 600;
+    font-size: 1.4rem;
+    line-height: 1;
+    user-select: none;
+}
+
+.menu-col p, a {
+    text-transform: none;
+}
+
+.menu-links-wrapper p, a {
+    text-transform: uppercase;
+}
+
+.links-bar a {
+    text-transform: none;
+}
+
+.menu-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100svh;
+    overflow: hidden;
+    background-color: #171717;
+    color: #F5F5F5;
+    z-index: 150 !important;
+    will-change: clip-path;
+    clip-path: polygon(0% 100%, 100% 100%, 100% 100%, 0% 100%);
+}
+
+.menu-overlay-top-nav {
+    position: absolute;
+    width: 100%;
+    top: 10%;
+    transform: translateY(-50%);
+    display: flex;
+    padding: 2rem;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Hide top nav when menu is open */
+nav.nav-hidden {
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+}
+
+nav {
+    transition: opacity 0.3s ease;
+}
+
+#menu-close-overlay {
+    cursor: pointer;
+    user-select: none;
+    transition: opacity 0.2s ease;
+}
+
+#menu-close-overlay:hover {
+    opacity: 0.6;
+}
+
+.menu-content {
+    position: absolute;
+    top: 45%;
+    transform: translateY(-50%);
+    width: 100%;
+    padding: 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    will-change: transorm, opacity;
+}
+
+.menu-col:nth-child(2) {
+    text-align: right;
+}
+
+.menu-img {
+    position: absolute;
+    top: 45%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 150px;
+    will-change: transform, opacity;
+}
+
+.menu-img video {
+    border-radius: 1em;
+}
+
+.menu-links-wrapper {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: max-content;
+    padding: 2rem;
+    display: flex;
+    justify-content: space-between;
+    gap: 4rem;
+    will-change: transform;
+}
+
+.menu-link .char {
+    transform: translateY(0);
+}
+
+.menu-link {
+    position: relative;
+    will-change: transform;
+    overflow: hidden;
+}
+
+.menu-link a {
+    position: relative;
+    color: #F5F5F5;
+    font-size: 10rem;
+    font-weight: 600;
+    letter-spacing: -0.02rem;
+    display: inline-block;
+    overflow: hidden;
+}
+
+.menu-link a span:nth-child(2) {
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.link-highlighter {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 400px;
+    height: 0.75rem;
+    background-color: #F25623;
+    will-change: transform, width;
+}
+
+.char {
+    position: relative;
+    display: inline-block;
+    will-change: transform;
+}
+
+.docs-dropdown {
+    position: relative;
+}
+.links-bar-right {
+    display: flex;
+    align-items: center;
+    gap: 1em;
+}
+.docs-dropdown-trigger {
+    display: flex;
+    align-items: center;
+    gap: 1em;
+    background: #171717;
+    color: #F5F5F5;
+    border: none;
+    border-radius: 999px;
+    padding: 1em 1em;
+    font-size: 1.5em;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.docs-dropdown-trigger:hover {
+    background: var(--orange);
+}
+.docs-dropdown:hover .docs-dropdown-menu {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.docs-dropdown:hover .docs-dropdown-caret {
+    transform: rotate(180deg);
+}
+
+.docs-dropdown-caret {
+    transition: transform 0.2s ease;
+}
+
+.docs-dropdown.open .docs-dropdown-caret {
+    transform: rotate(180deg);
+}
+
+.docs-dropdown-menu {
+    position: absolute;
+    top: calc(99% + 1px);
+    right: 0;
+    min-width: 240px;
+    background: #1a1a1a;
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 12px;
+    
+    padding: 6px;
+    padding-top: 8px;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-6px);
+    transition: opacity 0.15s ease, transform 0.15s ease;
+    z-index: 50;
+}
+
+.docs-dropdown.open .docs-dropdown-menu {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.docs-dropdown-menu a {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 12px;
+    color: #F5F5F5;
+    font-size: 14px;
+    border-radius: 8px;
+    text-decoration: none;
+}
+
+.docs-dropdown-menu a:hover {
+    background: rgba(255,255,255,0.08);
+}
+
+.btn-contact {
+    display: inline-block;
+    text-decoration: none;
+    text-transform: none;
+}
+@media (max-width: 1000px) {
+    .menu-content {
+        top: 25%;
+    }
+
+    .menu-img, .link-highlighter {
+        display: none;
+    }
+
+    .menu-links-wrapper {
+        flex-direction: column;
+        gap: 0;
+    }
+
+    .menu-link a {
+        font-size: 4rem;
+        letter-spacing: 0;
+    }
+}
+
+/* ── Responsive ───────────────────────────────────────── */
+@media (max-width: 900px) {
+    .bnav-avatar {
+        width: 42px;
+        height: 42px;
+    }
+
+    .bnav-menu-btn {
+        width: 44px;
+        height: 44px;
+    }
+}
+ 
+        /* ── RESPONSIVE ─────────────────────────── */
+        @media (max-width: 640px) {
+            .info-row { grid-template-columns: 1fr; }
+            .nav-avail { display: none; }
+ 
+            .collage-bottom {
+                grid-template-columns: 1fr;
+                min-height: unset;
+            }
+ 
+            .collage-cell-left { aspect-ratio: 9/14; }
+            .collage-cell-right { aspect-ratio: 16/9; }
+        }
+    </style>
+</head>
+<body onload="window.scrollTo(0, 0)">
+
+
+    <div class="menu-overlay" style="background-color: #171717;">
+            <div class="menu-overlay-top-nav">
+                <div class="menu-col">
+                    <p>Menu</p>
+                </div>
+                <div class="menu-col">
+                    <p id="menu-close-overlay" style="cursor: pointer;">Close</p>
+                </div>
+            </div>
+                <div class="menu-content">
+                    <div class="menu-col">
+                        <p>EVRIMA</p>
+                        <p>2026</p>
+                        <br>
+                        <br>
+                        <p>REACH OUT</p>
+                        <p>curtis.oluoch@gmail.com</p>
+                        <br>
+                        <br>
+                        <p>DIRECT</p>
+                        <p>+254 714 467 377</p>
+                    </div>
+                    <div class="menu-col">
+                        <p>INSTAGRAM</p>
+                        <p>Ochweda_</p>
+                        <br>
+                        <br>
+                        <p>LANGUAGE</p>
+                        <p>English</p>
+                        
+                    </div>
+                </div>
+
+                <div class="menu-img">
+                    <video
+                        src="/Converted/videos/memoji2.mp4"
+                        autoplay
+                        muted
+                        loop
+                        playsinline
+                        class="bnav-avatar-video">
+                    </video>
+                </div>
+
+                <div class="menu-links-wrapper">
+                    <div class="menu-link">
+                        <a href="/Converted/index.html">
+                            <span>Home</span>
+                            <span>Home</span>
+                        </a>
+                    </div>
+                    <div class="menu-link">
+                        <a href="/Converted/swork.html">
+                            <span>Work</span>
+                            <span>Work</span>
+                        </a>
+                    </div>
+                    <div class="menu-link">
+                        <a href="/Converted/Work.html">
+                            <span>Lab</span>
+                            <span>Lab</span>
+                        </a>
+                    </div>
+                    <div class="menu-link">
+                        <a href="mailto:curtis.oluoch@gmail.com">
+                            <span>Contact</span>
+                            <span>Contact</span>
+                        </a>
+                    </div>
+
+                    <div class="link-highlighter"></div>
+                </div>
+
+
+            </div>
+    <main class="page-content">
+
+     <!-- NAV -->
+    <nav>
+        <div class="nav-1">
+            <p class="nav-top">Kenya-Based</p>
+            <p class="nav-bottom">Working Globally</p>
+        </div>
+        <div class="nav-2">
+            <div class="menu">
+                <div class="menu-line-index">
+                    <a class="nav-link top-1" href="/Converted/index.html">Home,</a>
+                    <a class="nav-link" href="/Converted/index.html">Home,</a>
+                </div>
+                <div class="menu-line-index">
+                    <a class="nav-link top-1" href="/Converted/index.html">About,</a>
+                    <a class="nav-link" href="/Converted/index.html">About,</a>
+                </div>
+                <div class="menu-line-index">
+                    <a class="nav-link top-1" href="/Converted/swork.html">Work,</a>
+                    <a class="nav-link" href="/Converted/swork.html">Work,</a>
+                </div>
+                <div class="menu-line-index">
+                    <a class="nav-link top-1" href="/Converted/Work.html">Lab,</a>
+                    <a class="nav-link" href="/Converted/Work.html">Lab,</a>
+                </div>
+                <div class="menu-line-index">
+                    <a class="nav-link top-1" href="mailto:curtis.oluoch@gmail.com">Contact</a>
+                    <a class="nav-link" href="mailto:curtis.oluoch@gmail.com">Contact</a>
+                </div>
+            </div> 
+        </div>
+
+        <div class="links">
+            <!-- <button class="btn-case">
+                 Lab
+            </button> -->
+            <a href="mailto:curtis.oluoch@gmail.com" class="btn-contact">Get In Touch</a>
+            <div class="btn-menu nav-toggle">Menu</div>
+        </div>
+
+       
+
+        
+    </nav>
+
+    <!-- LINKS BAR -->
+    <div class="links-bar">
+
+    <!-- LEFT: back button -->
+    <a href="/Converted/swork.html" class="btn-back">
+        <span class="btn-back-arrow" style="color: #F5F5F5;" >←</span>
+        Back to Selection
+    </a>
+
+    <!-- RIGHT: links label + github link grouped -->
+    <div class="links-bar-right">
+        <span>Links:</span>
+        <a href="#" target="_blank">
+            <!-- <img src="/Converted/images/Ellipse 3.svg"  alt=""> -->
+            Access Platform
+        </a>
+    </div>
+
+</div>
+
+    <!-- PAGE WRAPPER -->
+    <div class="page-wrapper">
+
+        <!-- BOX 1: OUTER -->
+        <div class="box-outer">
+
+            <!-- Title block (lives in outer box) -->
+            <div class="title-block">
+                <div class="title-top">
+                    <!-- 
+                        Logo image — swap src to your local path.
+                        Suggested: src="./images/safaricom-logo.png" or wherever you store it.
+                    -->
+                    <div class="project-logo">
+                        <img src="/Converted/images/Ellipse 3.svg" alt="Safaricom logo">
+                    </div>
+                    <h1>VybeStreamz</h1>
+                </div>
+                <div class="title-meta">
+                    <div class="title-meta-item">
+                        <span class="meta-label">Focus:</span>
+                        <span class="meta-value">LEAD GENERATION STREAMING PLATFORM</span>
+                    </div>
+                    <div class="title-meta-item">
+                        <span class="meta-label">Role:</span>
+                        <span class="meta-value">FRONTEND ENGINEERING</span>
+                    </div>
+                    <div class="title-meta-item">
+                        <span class="meta-label">Status:</span>
+                        <span class="meta-value">Deployed</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- BOX 2: MIDDLE -->
+            <div class="box-middle">
+
+                <!-- Info row: year+stack / summary -->
+                <div class="info-row">
+                    <div class="info-left">
+
+                        <!-- Year -->
+                        <div class="year-block">
+                            <p class="info-label">Year</p>
+                            <p class="year-value">2025 – 2026</p>
+                        </div>
+
+                        <!-- Stack chip -->
+                        <div class="stack-chip">
+                            
+                            <div class="stack-list">
+                                <span class="stack-item">Next JS</span>
+                                <span class="stack-item">React JS</span>
+                                
+                                
+                                <span class="stack-item">Claude Code</span>
+                               
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- Summary chip -->
+                    <div class="summary-chip">
+                        <p class="info-label">Summary</p>
+                        <p>A Streaming platform designed to be complimentary to Safaricom’s Baze movie and series streaming platform. Vybestream has short form content for music and movies in the form of snippets and trailers to generate subsequent leads for Baze.</p>
+                    </div>
+                </div>
+
+                <!-- BOX 3: INNERMOST — collage -->
+                <div class="box-inner">
+ 
+                    <!-- Top: full-width desktop video -->
+                    <div class="collage-top">
+                        
+                        
+                            <video src="/Converted/videos/VybStreamzRecordDesktop.mp4" autoplay muted loop playsinline></video>
+                        
+                    </div>
+ 
+                    <!-- Bottom row -->
+                    <div class="collage-bottom">
+ 
+                        <!-- Left: tall mobile video -->
+                        <div class="collage-cell-left">
+                            
+                            
+                                <video src="/Converted/videos/MobileScreenRecording.mp4" autoplay muted loop playsinline></video>
+                            
+                        </div>
+ 
+                        <!-- Right: two stacked desktop photos -->
+                        <div class="collage-right-stack">
+                            <div class="collage-cell-right">
+                                
+                                
+                                    <img src="/Converted/images/Vyb1.png" alt="VybeStreamz desktop view 1">
+                            
+                            </div>
+                            <div class="collage-cell-right">
+                                
+                                
+                                    <img src="/Converted/images/Vyb2.png" alt="VybeStreamz desktop view 2">
+                                
+                            </div>
+                        </div>
+ 
+                    </div>
+ 
+                </div>
+                <!-- /box-inner -->
+                <!-- /box-inner -->
+
+            </div>
+            <!-- /box-middle -->
+
+        </div>
+        <!-- /box-outer -->
+
+    </div>
+    <!-- /page-wrapper -->
+     <div class="bnav-wrapper" id="bnav-wrapper">
+
+    <!-- Popover — sits above the pill, hidden by overflow:hidden on wrapper -->
+     <div class="bmenu-popover" id="bmenu-popover">
+        <nav class="bmenu-nav-list">
+            <a href="/Converted/index.html" class="bmenu-nav-item" data-index="0">
+                <div class="bmenu-nav-thumb">
+                    <img src="/Converted/images/PortIMG.jpg" alt="Home">
+                </div>
+                <span class="bmenu-nav-label">Home</span>
+            </a>
+            <a href="/Converted/swork.html" class="bmenu-nav-item" data-index="1">
+                <div class="bmenu-nav-thumb">
+                    <img  src="/Converted/images/VybeThumb3.png" alt="Work">
+                </div>
+                <span class="bmenu-nav-label">Work</span>
+            </a>
+            <a href="/Converted/Work.html" class="bmenu-nav-item" data-index="2">
+                <div class="bmenu-nav-thumb bmenu-nav-thumb--dark">
+                    <img src="/Converted/images/BNavWork.png" alt="Lab">
+                </div>
+                <span class="bmenu-nav-label">Lab</span>
+            </a>
+        </nav>
+    </div>
+
+    <!-- Pill — always visible at the bottom of the wrapper -->
+    <div class="bottom-nav-work" id="bottom-nav-work">
+
+        <div class="bnav-avatar">
+            <video
+                src="/Converted/videos/memoji2.mp4"
+                autoplay muted loop playsinline
+                class="bnav-avatar-video">
+            </video>
+        </div>
+
+        <div class="bnav-body">
+            <span class="bnav-name">CURTIS OLUOCH OCHWEDA</span>
+            <div class="bnav-ticker-wrap">
+                <p class="bnav-ticker-row">
+                    <span>AWWARDS ENTHUSIAST</span><span class="bnav-sep">·</span>
+                    <span>AI FANATIC</span><span class="bnav-sep">·</span>
+                    <span>FULL STACK ENGINEER</span><span class="bnav-sep">·</span>
+                    <span>LOVERBOY</span><span class="bnav-sep">·</span>
+                </p>
+                <p class="bnav-ticker-row" aria-hidden="true">
+                    <span>AWWARDS ENTHUSIAST</span><span class="bnav-sep">·</span>
+                    <span>AI FANATIC</span><span class="bnav-sep">·</span>
+                    <span>FULL STACK ENGINEER</span><span class="bnav-sep">·</span>
+                    <span>LOVERBOY</span><span class="bnav-sep">·</span>
+                </p>
+            </div>
+        </div>
+
+        <button class="bnav-menu-btn" id="bnav-menu-btn"
+                aria-label="Toggle menu" aria-expanded="false">
+            <span class="burger-line burger-line--top"></span>
+            <span class="burger-line burger-line--mid"></span>
+            <span class="burger-line burger-line--bot"></span>
+        </button>
+
+    </div>
+</div>
+     </main>
+
+      <!-- GSAP -->
+    <script src="https://code.iconify.design/iconify-icon/2.1.0/iconify-icon.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.19.0/matter.min.js"></script>
+
+<!-- All GSAP from same source, same version -->
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/ScrollTrigger.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/SplitText.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/CustomEase.min.js"></script>
+
+<!-- Lenis smooth scroll -->
+<script src="https://unpkg.com/lenis@1.1.14/dist/lenis.min.js"></script>
+
+<!-- Your script last -->
+<script src="/Converted/index.js"></script>
+</body>
+</html>

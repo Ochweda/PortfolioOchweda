@@ -2,11 +2,26 @@
 // import gsap from "gsap";
 // import { ScrollTrigger } from "gsap/ScrollTrigger";
 
+// Force scroll to top before anything runs
+// history.scrollRestoration = "manual";
+// window.scrollTo(0, 0);
+
+
+
 gsap.registerPlugin(ScrollTrigger);
+gsap.registerPlugin(SplitText);
+gsap.registerPlugin(CustomEase);
+
+
 
 document.addEventListener("DOMContentLoaded", () =>{
+
+  // At the very top of DOMContentLoaded, BEFORE the if (window.innerWidth >= 900) check:
+        let lenis = null;
+        let prePreloaderControlsBottomNav = false;
     if (window.innerWidth >= 900) {
-        const lenis = new Lenis();
+
+        lenis = new Lenis();
         const imageContainer = document.querySelector(".image-container-desktop");
         const imageTitleElements = document.querySelectorAll(".image-title p");
 
@@ -46,6 +61,274 @@ document.addEventListener("DOMContentLoaded", () =>{
     //     movementMultiplier: 650,
     //   };
     // };
+
+
+    CustomEase.create("hop", "0.8, 0, 0.2, 1");
+    CustomEase.create("hop2", "0.9, 0, 0.1, 1");
+
+    const splitText = (selector, type, className, mask = true) => {
+      return SplitText.create(selector, {
+        type: type,
+        [`${type}Class`]: className,
+        ...(mask && { mask: type }),
+      });
+    };
+
+    function shouldPlayPreloader() {
+    const navEntries = performance.getEntriesByType('navigation');
+    const navType = navEntries.length ? navEntries[0].type : 'navigate';
+
+    // Hard refresh (reload button / F5) always replays the preloader
+    if (navType === 'reload') return true;
+
+    // Otherwise: only play it if this tab hasn't played it yet this session
+    return sessionStorage.getItem('evrimaPreloaderPlayed') !== '1';
+}
+
+function skipPreloader(splits) {
+    // Instantly hide the preloader overlay — no animation
+    gsap.set(".pre-preloader", { display: "none" });
+
+    // Instantly set every element the timeline normally animates in,
+    // straight to its final "revealed" state
+    gsap.set(splits.preloaderHeaderSplit.chars, { visibility: "visible" });
+    gsap.set(".image-container-desktop .image-preview", { scale: 1, opacity: 1 });
+    gsap.set(splits.headerSplit.chars, { y: "0%" });
+    gsap.set(
+        [splits.navSplit.words, splits.navLeftSplit.words, splits.navButtonsSplit.words],
+        { y: "0%" }
+    );
+    gsap.set(splits.footerSplit.words, { y: "0%" });
+    gsap.set(splits.heroLabelsSplit.words, { y: "0%" });
+    gsap.set(splits.heroRoleSplit.words, { y: "0%" });
+
+    if (document.querySelector(".bottom-nav-work")) {
+        gsap.set(".bottom-nav-work", { opacity: 1, y: 0 });
+    }
+}
+
+    if (document.querySelector(".pre-preloader")) {
+
+      const playPreloader = shouldPlayPreloader(); 
+           
+          const preloaderHeaderSplit = splitText(".pre-preloader-header h1", "chars", "char");
+          const navSplit = splitText("nav a", "words", "word");
+          const navLeftSplit = splitText(".nav-1 p", "words", "word");
+          const navButtonsSplit = splitText(".btn-contact, .btn-menu", "words", "word");
+          const headerSplit = splitText(".preheader h1", "chars", "char", false);
+          const footerSplit = splitText(".hero-copy p", "words", "word");
+          const heroLabelsSplit = splitText(".hero-labels-row span", "words", "word");
+          const heroRoleSplit = splitText(".hero-role-row span", "words", "word");
+          // ...gsap.set() calls, and the whole `tl` timeline...
+        
+        // NEW — make it visible again now that the chars are split and hidden via transform
+        gsap.set(preloaderHeaderSplit.chars, { visibility: "visible" });
+
+        const preloaderImgInitRotations = [7.5, -2.5, -10, 12.5, -5, 5];
+        gsap.set(".pre-preloader-img", {
+          rotate: (i) => preloaderImgInitRotations[i],
+        });
+        gsap.set(".image-container-desktop .image-preview", { scale: 1.15, opacity: 0 });
+        gsap.set(".bottom-nav-work", { opacity: 0, y: 20 });   // ← add this line
+        prePreloaderControlsBottomNav = true;   
+
+        if (playPreloader) { 
+        const tl = gsap.timeline({ delay: 0.5 });
+
+        tl.to(".pre-preloader-img", {
+          scale: 1,
+          clipPath: "polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)",
+          duration: 1,
+          ease: "hop",
+          stagger: 0.2,
+        });
+
+        tl.to(
+          ".pre-preloader-header h1 .char",
+          {
+            y: "0%",
+            duration: 1,
+            ease: "hop2",
+            stagger: { each: 0.125, from: "random" },
+          },
+          "0.35",
+        );
+
+        tl.to(
+          ".pre-preloader-counter p",
+          {
+            y: "0%",
+            duration: 1,
+            ease: "hop2",
+            onStart: () => {
+              const counterEl = document.querySelector(".pre-preloader-counter p");
+              const counter = { value: 0 };
+
+              gsap.to(counter, {
+                value: 100,
+                duration: 2,
+                delay: 0.5,
+                ease: "power2.inOut",
+                onUpdate: () => {
+                  counterEl.textContent = String(Math.round(counter.value)).padStart(
+                    3,
+                    "0",
+                  );
+                },
+              });
+            },
+          },
+          "<",
+        );
+
+        tl.to(
+          ".pre-preloader-counter p",
+          {
+            y: "-100%",
+            duration: 0.75,
+            ease: "hop2",
+          },
+          3.25,
+        );
+
+        tl.to(
+          ".pre-preloader-header h1 .char",
+          {
+            y: "-100%",
+            duration: 0.75,
+            ease: "hop2",
+            stagger: { each: 0.125, from: "random" },
+          },
+          3.25,
+        );
+
+        tl.to(
+          ".pre-preloader-images .pre-preloader-img",
+          {
+            scale: 0,
+            clipPath: "polygon(20% 20%, 80% 20%, 80% 80%, 20% 80%)",
+            duration: 1,
+            ease: "hop2",
+            stagger: -0.075,
+          },
+          3.5,
+        );
+
+        tl.to(
+          ".pre-preloader",
+          {
+            clipPath: "polygon(0% 0%, 100% 0%, 100% 0%, 0% 0%)",
+            duration: 1,
+            ease: "hop2",
+          },
+          4.35,
+        );
+
+        tl.to(
+          ".preheader h1 .char",
+          {
+            y: "0%",
+            duration: 1,
+            ease: "hop",
+            stagger: { each: 0.075, from: "random" },
+          },
+          4.95,
+        );
+
+        tl.to(
+          ".image-container-desktop .image-preview",
+          {
+            scale: 1,
+            opacity: 1,
+            duration: 1.1,
+            ease: "hop2",
+          },
+          4.5,
+        );
+
+        tl.to(
+          "nav a .word, .nav-1 p .word, .btn-contact .word, .btn-menu .word",
+          {
+            y: "0%",
+            duration: 1,
+            ease: "hop",
+            stagger: 0.075,
+          },
+          4.75,
+        );
+
+        tl.to(
+          ".hero-copy p .word",
+          {
+            y: "0%",
+            duration: 1,
+            ease: "hop",
+            stagger: 0.075,
+          },
+          5.75,
+        );
+
+        tl.to(
+          ".hero-labels-row .word",
+          {
+            y: "0%",
+            duration: 0.9,
+            ease: "hop",
+            stagger: 0.08,
+          },
+          4.85,
+        );
+
+        tl.to(
+          ".hero-role-row .word",
+          {
+            y: "0%",
+            duration: 0.9,
+            ease: "hop",
+            stagger: 0.1,
+          },
+          4.95,
+        );
+        // ← add this block
+        tl.to(
+            ".bottom-nav-work",
+            {
+                opacity: 1,
+                y: 0,
+                duration: 0.8,
+                ease: "power4.out",
+            },
+            6.4,
+        );
+        sessionStorage.setItem('evrimaPreloaderPlayed', '1');   // ← add this line
+
+        } else {                                                 // ← add this block
+            skipPreloader({
+                preloaderHeaderSplit,
+                navSplit,
+                navLeftSplit,
+                navButtonsSplit,
+                headerSplit,
+                footerSplit,
+                heroLabelsSplit,
+                heroRoleSplit,
+            });
+        }
+
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
     const getInitialValues = () => {
             const vw = window.innerWidth;
  
@@ -78,7 +361,7 @@ document.addEventListener("DOMContentLoaded", () =>{
       initialTranslateY: initialValues.translateY,
       currentTranslateY: initialValues.translateY,
       movementMultiplier: initialValues.movementMultiplier,
-      scale: 0.25,
+      scale: 0.35,
       fontSize: 80,
       gap: 2,
       targetMouseX: 0,
@@ -156,6 +439,7 @@ document.addEventListener("DOMContentLoaded", () =>{
 
   const animate = () => {
     if (window.innerWidth < 900) return;
+    if (!imageContainer) return;
 
     const {
       scale,
@@ -535,126 +819,7 @@ gsap.from(".work-year", {
     },
 });
 
-// ── 2. Card reveal on scroll ─────────────────────────────
-// Each <li> fades up as it enters the viewport.
-// Stagger gives a cascading left-to-right feel.
-// const workItems = document.querySelectorAll(".work-item");
 
-// workItems.forEach((item, i) => {
-//     gsap.to(item, {
-//         opacity: 1,
-//         y: 0,
-//         duration: 0.9,
-//         ease: "power3.out",
-//         delay: i * 0.1,
-//         scrollTrigger: {
-//             trigger: ".work-list",
-//             start: "top 85%",
-//             toggleActions: "play none none none",
-//         },
-//     });
-// });
-
-// ── 3. GSAP-driven tech carousel ─────────────────────────
-// Matches Jason's approach: GSAP ticker drives translateX
-// continuously on two identical rows.
-// When row 1 has moved left by its full width, it jumps
-// back — row 2 was already filling the gap, creating
-// a seamless loop with no CSS animation.
-
-// const workCards = document.querySelectorAll(".work-card");
-
-// workCards.forEach(card => {
-//     const wrap  = card.querySelector(".card-tech-wrap");
-//     const rows  = card.querySelectorAll(".card-tech-row");
-//     if (!wrap || rows.length < 2) return;
-
-//     // Speed: pixels moved per second (negative = left)
-//     // Matches roughly the speed visible in Jason's DevTools
-//     const speed = 60;
-
-//     let x = 0;
-//     let paused = false;
-
-//     // Pause on card hover
-//     card.addEventListener("mouseenter", () => { paused = true; });
-//     card.addEventListener("mouseleave", () => { paused = false; });
-
-//     // Measure the width of one row AFTER it has rendered
-//     // We use requestAnimationFrame to ensure layout is complete
-//     requestAnimationFrame(() => {
-//         const rowWidth = rows[0].getBoundingClientRect().width;
-
-//         // Position row 2 immediately to the right of row 1
-//         // so they appear seamlessly joined
-//         gsap.set(rows[1], { x: rowWidth });
-
-//         // Track each row's independent x position
-//         let x0 = 0; // row 1 starts at 0
-//         let x1 = rowWidth; // row 2 starts offset right
-
-//         gsap.ticker.add((time, deltaTime) => {
-//             if (paused) return;
-
-//             // Move left by speed per second (deltaTime is in ms)
-//             const delta = (speed * deltaTime) / 1000;
-
-//             x0 -= delta;
-//             x1 -= delta;
-
-//             // When a row has moved left past its full width,
-//             // jump it to the right of the other row —
-//             // this is the seamless infinite loop mechanism
-//             if (x0 <= -rowWidth) x0 = x1 + rowWidth;
-//             if (x1 <= -rowWidth) x1 = x0 + rowWidth;
-
-//             rows[0].style.transform = `translateY(-50%) translateX(${x0}px)`;
-//             rows[1].style.transform = `translateY(-50%) translateX(${x1}px)`;
-//         });
-//     });
-// });
-
-// ── 4. Hover video play/pause ────────────────────────────
-// workCards.forEach(card => {
-//     const video = card.querySelector(".card-video");
-//     if (!video) return;
-
-//     card.addEventListener("mouseenter", () => {
-//         video.play().catch(() => {}); // fail silently if no src yet
-//     });
-
-//     card.addEventListener("mouseleave", () => {
-//         video.pause();
-//         video.currentTime = 0;
-//     });
-// });
-
-// ── 5. "See all" magnetic button ────────────────────────
-// const seeAllBtn = document.querySelector(".see-all-btn");
-
-// if (seeAllBtn) {
-//     seeAllBtn.addEventListener("mousemove", (e) => {
-//         const rect = seeAllBtn.getBoundingClientRect();
-//         const cx = rect.left + rect.width  / 2;
-//         const cy = rect.top  + rect.height / 2;
-
-//         gsap.to(seeAllBtn, {
-//             x: (e.clientX - cx) * 0.22,
-//             y: (e.clientY - cy) * 0.22,
-//             duration: 0.35,
-//             ease: "power2.out",
-//         });
-//     });
-
-//     seeAllBtn.addEventListener("mouseleave", () => {
-//         gsap.to(seeAllBtn, {
-//             x: 0,
-//             y: 0,
-//             duration: 0.6,
-//             ease: "elastic.out(1, 0.5)",
-//         });
-//     });
-// }
 // ── Tech carousel — Jason's ticker technique ──────────
 document.querySelectorAll('.card-tech-wrap').forEach(wrap => {
     const rows = wrap.querySelectorAll('.card-tech-row');
@@ -687,7 +852,1415 @@ document.querySelectorAll('.card-tech-wrap').forEach(wrap => {
     });
 });
 
-  }
 
+(function initServicesCards() {
+
+    // Store all triggers for cleanup — mirrors the
+    // return () => ScrollTrigger.getAll().forEach(t => t.kill())
+    // cleanup in the useGSAP version
+    const serviceTriggers = [];
+
+    const scards = gsap.utils.toArray(".scard");
+
+    if (!scards.length || !scards[0]) return;
+
+    // ── 1. Pin .services-intro ───────────────────────────
+    // Equivalent to the first ScrollTrigger.create in useGSAP:
+    // pins intro from when first card hits 35% to last card at 30%
+    // const introPin = ScrollTrigger.create({
+    //     trigger: scards[0],
+    //     start: "top 35%",
+    //     endTrigger: scards[scards.length - 1],
+    //     end: "top 30%",
+    //     pin: ".services-intro",
+    //     pinSpacing: false,
+    // });
+    // serviceTriggers.push(introPin);
+
+    // ── 2. Pin each card + scrub card-inner upward ───────
+    // Equivalent to the cards.forEach loop in useGSAP
+    scards.forEach((card, index) => {
+        const isLastCard = index === scards.length - 1;
+        const cardInner = card.querySelector(".scard-inner");
+
+        if (!isLastCard) {
+
+            // Pin the card in place
+            const cardPin = ScrollTrigger.create({
+                trigger: card,
+                start: "top 25%",
+                endTrigger: ".tech-stack",
+                end: "top 55%",
+                pin: true,
+                pinSpacing: false,
+            });
+            serviceTriggers.push(cardPin);
+
+            // Scrub card-inner upward as scroll continues —
+            // creates the "next card folding over" illusion
+            const cardTween = gsap.to(cardInner, {
+                y: `-${(scards.length - index) * 22}vh`,
+                ease: "none",
+                scrollTrigger: {
+                    trigger: card,
+                    start: "top 25%",
+                    endTrigger: ".tech-stack",
+                    end: "top 65%",
+                    scrub: true,
+                    onUpdate: self => {
+                        serviceTriggers.push(self); // capture for cleanup
+                    }
+                }
+            });
+
+            if (cardTween.scrollTrigger) {
+                serviceTriggers.push(cardTween.scrollTrigger);
+            }
+        }
+    });
+
+    // ── Cleanup ──────────────────────────────────────────
+    // Mirrors: return () => ScrollTrigger.getAll().forEach(t => t.kill())
+    // Runs on page unload to prevent memory leaks
+    // window.addEventListener("beforeunload", () => {
+    //     serviceTriggers.forEach(trigger => {
+    //         if (trigger && typeof trigger.kill === "function") {
+    //             trigger.kill();
+    //         }
+    //     });
+    // });
+
+    // After ALL triggers are created
+ScrollTrigger.refresh();
+})();
+
+  // ── Tech stack — direction-aware hover ───────────────
+(function initTechGrid() {
+    document.querySelectorAll('.tech-cell').forEach(cell => {
+        const bg = cell.querySelector('.cell-bg');
+        if (!bg) return;
+
+        // Hide all overlays off-screen to start
+        gsap.set(bg, { xPercent: 0, yPercent: -100 });
+
+        // Returns the directional offset {xPercent, yPercent}
+        // based on which side of the cell the cursor is nearest.
+        // Used as "from" on enter and "to" on leave.
+        function getDir(e) {
+            const r = cell.getBoundingClientRect();
+            const dx = (e.clientX - r.left) / r.width - 0.5;
+            const dy = (e.clientY - r.top) / r.height - 0.5;
+
+            return Math.abs(dx) > Math.abs(dy)
+                ? { xPercent: dx > 0 ? 100 : -100, yPercent: 0 }
+                : { xPercent: 0, yPercent: dy > 0 ? 100 : -100 };
+        }
+
+        cell.addEventListener('mouseenter', e => {
+            const from = getDir(e);
+            cell.classList.add('is-hovered');
+            gsap.fromTo(bg, from, {
+                xPercent: 0,
+                yPercent: 0,
+                duration: 0.45,
+                ease: 'power3.out',
+            });
+        });
+
+        cell.addEventListener('mouseleave', e => {
+            const to = getDir(e);
+            cell.classList.remove('is-hovered');
+            gsap.to(bg, {
+                xPercent: to.xPercent,
+                yPercent: to.yPercent,
+                duration: 0.45,
+                ease: 'power3.in',
+            });
+        });
+    });
+})();
+
+
+    const animateOnScroll = true;
+
+    const config = {
+        gravity: { x: 0, y: 1 },
+        restitution: 0.5,
+        friction: 0.15,
+        frictionAir: 0.02,
+        density: 0.002,
+        wallThickness: 200,
+        mouseStiffness: 0.6,
+    };
+
+    let engine,
+        runner,
+        mouseConstraint,
+        bodies = [],
+        topWall = null;
+
+    function clamp(val, min, max) {
+        return Math.max(min, Math.min(max, val));
+    }
+
+    function initPhysics(container) {
+        engine = Matter.Engine.create();
+        engine.gravity = config.gravity;
+        engine.constraintIterations = 10;
+        engine.positionIterations = 20;
+        engine.velocityIterations = 16;
+        engine.timing.timeScale = 1;
+
+        const containerRect = container.getBoundingClientRect();
+        const wallThickness = config.wallThickness;
+
+        const walls = [
+            Matter.Bodies.rectangle(
+                containerRect.width / 2,
+                containerRect.height + wallThickness / 2,
+                containerRect.width + wallThickness * 2,
+                wallThickness,
+                { isStatic: true }
+            ),
+            Matter.Bodies.rectangle(
+                -wallThickness / 2,
+                containerRect.height / 2,
+                wallThickness,
+                containerRect.height + wallThickness * 2,
+                { isStatic: true }
+            ),
+            Matter.Bodies.rectangle(
+                containerRect.width + wallThickness / 2,
+                containerRect.height / 2,
+                wallThickness,
+                containerRect.height + wallThickness * 2,
+                { isStatic: true }
+            ),
+        ];
+        Matter.World.add(engine.world, walls);
+
+        const objects = container.querySelectorAll(".object");
+        objects.forEach((obj, index) => {
+            const objRect = obj.getBoundingClientRect();
+
+            const startX =
+                Math.random() * (containerRect.width - objRect.width) +
+                objRect.width / 2;
+            const startY = -100 - index * 80;
+            const startRotation = (Math.random() - 0.5) * Math.PI;
+
+            const body = Matter.Bodies.rectangle(
+                startX,
+                startY,
+                objRect.width,
+                objRect.height,
+                {
+                    restitution: config.restitution,
+                    friction: config.friction,
+                    frictionAir: config.frictionAir,
+                    density: config.density,
+                }
+            );
+
+            Matter.Body.setAngle(body, startRotation);
+
+            bodies.push({
+                body: body,
+                element: obj,
+                width: objRect.width,
+                height: objRect.height,
+            });
+
+            Matter.World.add(engine.world, body);
+        });
+        setTimeout(() => {
+        topWall = Matter.Bodies.rectangle(
+          containerRect.width / 2,
+          -wallThickness / 2,
+          containerRect.width + wallThickness * 2,
+          wallThickness,
+          { isStatic: true }
+        );
+        Matter.World.add(engine.world, topWall);
+      }, 3000);
+
+      const mouse = Matter.Mouse.create(container);
+      mouse.element.removeEventListener("mousewheel", mouse.mousewheel);
+      mouse.element.removeEventListener("DOMMouseScroll", mouse.mousewheel);
+
+      mouseConstraint = Matter.MouseConstraint.create(engine, {
+        mouse: mouse,
+        constraint: {
+          stiffness: config.mouseStiffness,
+          render: { visible: false },
+        },
+      });
+
+      mouseConstraint.mouse.element.oncontextmenu = () => false;
+
+      let dragging = null;
+      let originalInertia = null;
+
+      Matter.Events.on(mouseConstraint, "startdrag", function (event) {
+        dragging = event.body;
+        if (dragging) {
+          originalInertia = dragging.inertia;
+          Matter.Body.setInertia(dragging, Infinity);
+          Matter.Body.setVelocity(dragging, { x: 0, y: 0 });
+          Matter.Body.setAngularVelocity(dragging, 0);
+        }
+      });
+
+      Matter.Events.on(mouseConstraint, "enddrag", function (event) {
+        if (dragging) {
+          Matter.Body.setInertia(dragging, originalInertia || 1);
+          dragging = null;
+          originalInertia = null;
+        }
+      });
+
+      Matter.Events.on(engine, "beforeUpdate", function () {
+        if (dragging) {
+          const found = bodies.find((b) => b.body === dragging);
+          if (found) {
+            const minX = found.width / 2;
+            const maxX = containerRect.width - found.width / 2;
+            const minY = found.height / 2;
+            const maxY = containerRect.height - found.height / 2;
+
+            Matter.Body.setPosition(dragging, {
+              x: clamp(dragging.position.x, minX, maxX),
+              y: clamp(dragging.position.y, minY, maxY),
+            });
+
+            Matter.Body.setVelocity(dragging, {
+              x: clamp(dragging.velocity.x, -20, 20),
+              y: clamp(dragging.velocity.y, -20, 20),
+            });
+          }
+      }
+      });
+
+      container.addEventListener("mouseleave", () => {
+        mouseConstraint.constraint.bodyB = null;
+      mouseConstraint.constraint.pointB = null;
+      });
+
+      document.addEventListener("mouseup", () => {
+        mouseConstraint.constraint.bodyB = null;
+        mouseConstraint.constraint.pointB = null;
+      });
+
+      Matter.World.add(engine.world, mouseConstraint);
+
+      runner = Matter.Runner.create();
+      Matter.Runner.run(runner, engine);
+
+      function updatePositions() {
+        bodies.forEach(({ body, element, width, height }) => {
+          const x = clamp(
+            body.position.x - width / 2,
+            0,
+            containerRect.width - width
+          );
+          const y = clamp(
+            body.position.y - height / 2,
+          -height * 3,
+            containerRect.height - height
+          );
+
+          element.style.transformOrigin = 'center center';
+          element.style.left = x + "px";
+          element.style.top = y + "px";
+          element.style.transform = `rotate(${body.angle}rad)`;
+        });
+
+          requestAnimationFrame(updatePositions);
+      }
+        updatePositions();
+      }
+
+      if (animateOnScroll) {
+        document.querySelectorAll("section").forEach((section) => {
+        if (section.querySelector(".object-container")) {
+          ScrollTrigger.create({
+            trigger: section,
+            start: "top bottom",
+              once: true,
+              onEnter: () => {
+                const container = section.querySelector(".object-container");
+                if (container && !engine) {
+                  initPhysics(container);
+                }
+              },
+          });
+          }
+        });
+      } else {
+        window.addEventListener("load", () => {
+          const container = document.querySelector(".object-container");
+        if (container) {
+            initPhysics(container);      }
+        });
+      }
+      
+      // ── Bottom nav ticker ─────────────────────────────────
+// REPLACE your existing initBnavTicker with this:
+(function initBnavTicker() {
+    const wraps = document.querySelectorAll('.bnav-ticker-wrap'); // ← querySelectorAll not querySelector
+    if (!wraps.length) return;
+
+    wraps.forEach(wrap => {
+        const rows = wrap.querySelectorAll('.bnav-ticker-row');
+        if (rows.length < 2) return;
+
+        requestAnimationFrame(() => {
+            const rowW = rows[0].scrollWidth;
+
+            gsap.set(rows[0], { x: 0, yPercent: -50 });
+            gsap.set(rows[1], { x: rowW, yPercent: -50 });
+
+            let x0 = 0, x1 = rowW;
+            const speed = 0.35;
+
+            gsap.ticker.add(() => {
+                x0 -= speed;
+                x1 -= speed;
+                if (x0 <= -rowW) x0 = x1 + rowW;
+                if (x1 <= -rowW) x1 = x0 + rowW;
+                gsap.set(rows[0], { x: x0 });
+                gsap.set(rows[1], { x: x1 });
+            });
+        });
+    });
+})();
+
+// ── Menu open / close ─────────────────────────────────
+// ── Menu open / close ─────────────────────────────────
+(function initMenu() {
+    const wrapper = document.getElementById('bnav-wrapper');
+    const menuBtn = document.getElementById('bnav-menu-btn');
+    const popover = document.getElementById('bmenu-popover');
+    if (!wrapper || !menuBtn || !popover) return;
+
+    const navItems = popover.querySelectorAll('.bmenu-nav-item');
+    let isOpen = false;
+
+    gsap.set([...navItems], { opacity: 0, y: 12 });
+    
+
+    function openMenu() {
+        isOpen = true;
+        wrapper.classList.add('is-open');
+        menuBtn.classList.add('is-open');
+        menuBtn.setAttribute('aria-expanded', 'true');
+
+        gsap.set([...navItems], { opacity: 0, y: 12 });
+
+        // Stagger nav items in with GSAP
+        gsap.to([...navItems],
+            {
+                opacity: 1,
+                y: 0,
+                duration: 0.38,
+                ease: 'power3.out',
+                stagger: 0.07,
+                delay: 0.1,
+            }
+        );
+    }
+
+    function closeMenu() {
+        isOpen = false;
+        menuBtn.classList.remove('is-open');
+        menuBtn.setAttribute('aria-expanded', 'false');
+
+        gsap.to([...navItems].reverse(), {
+            opacity: 0,
+            y: 10,
+            duration: 0.18,
+            ease: 'power2.in',
+            stagger: 0.03,
+            onComplete: () => {
+                wrapper.classList.remove('is-open');
+                gsap.set([...navItems], { opacity: 0, y: 12 });
+            }
+        });
+    }
+
+    menuBtn.addEventListener('click', () => {
+        isOpen ? closeMenu() : openMenu();
+    });
+
+    document.addEventListener('keydown', e => {
+        if (e.key === 'Escape' && isOpen) closeMenu();
+    });
+
+    document.addEventListener('click', e => {
+        if (isOpen && !wrapper.contains(e.target)) closeMenu();
+    });
+
+    navItems.forEach(item => item.addEventListener('click', closeMenu));
+})();
+
+// Live clock in footer
+function updateFooterTime() {
+    const el = document.getElementById('footer-time');
+    if (!el) return;
+    const now = new Date();
+    el.textContent = now.toLocaleTimeString('en-KE', {
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: true,
+        timeZone: 'Africa/Nairobi'
+    });
+}
+updateFooterTime();
+setInterval(updateFooterTime, 10000); // updates every 10s
+
+// ── Hide navs when footer is revealed ────────────────
+(function initFooterNavHide() {
+    const topNav      = document.querySelector('nav'); // may be null on work page — that's fine
+    const bottomNav   = document.getElementById('bottom-nav')
+                     || document.getElementById('bottom-nav-work');
+    const pageContent = document.querySelector('.page-content');
+    if (!pageContent) return;                          // only pageContent is truly required
+
+    const navsToToggle = [topNav, bottomNav].filter(Boolean);
+    const trailSvgs = document.querySelectorAll('.trail-svg');
+
+    ScrollTrigger.create({
+        trigger: pageContent,
+        start: 'bottom bottom',
+        onEnter: () => {
+            if (navsToToggle.length) gsap.to(navsToToggle, {
+                opacity: 0, pointerEvents: 'none', duration: 0.4, ease: 'power2.out'
+            });
+            trailActive = true;
+            trailSvgs.forEach(svg => svg.style.opacity = '1');
+        },
+        onLeaveBack: () => {
+            if (navsToToggle.length) gsap.to(navsToToggle, {
+                opacity: 1, pointerEvents: 'auto', duration: 0.4, ease: 'power2.out'
+            });
+            trailActive = false;
+            trailSvgs.forEach(svg => svg.style.opacity = '0');
+        },
+    });
+})();
+
+let trailActive = false;
+const trails = document.querySelectorAll(".trail");
+const smoothPointer = {
+  x: window.innerWidth/2,
+  y: window.innerHeight/2,
+}
+const totalPointsArray = [40, 35, 30, 25, 20, 15, 10];
+
+window.addEventListener("mousemove", (event) => {
+  gsap.to(smoothPointer, {
+    x:event.clientX,
+    y:event.clientY,
+    duration:0.5,
+    ease: "power2.out",
+  });
+});
+
+function updatePath(){
+  trails.forEach((path, index) => {
+    if (!trailActive) {
+      path.points = [];
+      path.setAttribute("d", "");
+      return;
+    }
+    let points = path.points || [];
+    points.unshift({...smoothPointer});
+    while (points.length > totalPointsArray[index]) {
+      points.pop();
+    }
+    path.points = points;
+
+    if (points.length > 1) {
+      let d = `M ${points[0].x} ${points[0].y}`;
+      for (let i=1; i < points.length; i++) {
+        d+= `L ${points[i].x} ${points[i].y}`;
+      }
+      path.setAttribute("d", d);
+    }
+  });
+
+  requestAnimationFrame(updatePath);
+}
+
+updatePath();
+
+document.fonts.ready.then(() => {
+
+    // Lab preloader (logo/progress-bar timeline) only exists on
+    // work.html. On any other page — swork.html included — skip
+    // straight to revealing bottom-nav-work on its own, so it
+    // doesn't sit through a multi-second timeline built for
+    // elements that aren't on this page.
+    const hasLabPreloader = document.querySelector(".preloader-progress");
+
+    if (!hasLabPreloader) {
+        if (!prePreloaderControlsBottomNav && document.querySelector(".bottom-nav-work")) {
+            gsap.set(".bottom-nav-work", { opacity: 0, y: 20 });
+            gsap.to(".bottom-nav-work", {
+                opacity: 1,
+                y: 0,
+                duration: 1,
+                delay: 0.3,
+                ease: "power3.out",   // matches the .work-title/.work-year ease
+            });
+        }
+        return;
+    }
+
+    function createSplitTexts(elements) {
+        const splits = {};
+
+        elements.forEach(({ key, selector, type }) => {
+            const config = { type, mask: type };
+
+            // if (type === "lines") config.mask = "lines";
+            if (type === "chars") config.charsClass = "char";
+            if (type === "lines") config.linesClass = "line";
+            splits[key] = SplitText.create(selector, config);
+        });
+
+        return splits;
+    }
+
+    const splitElements = [
+        { key: "logoChars", selector: ".preloader-logo h1", type: "chars" },
+        { key: "footerLines", selector: ".preloader-footer p", type: "lines" },
+        { key: "headerChars", selector: ".header-work h1", type: "chars" },
+        { key: "heroFooterH3", selector: ".hero-footer-work h3", type: "lines" },
+        { key: "heroFooterP", selector: ".hero-footer-work p", type: "lines" },
+        { key: "heroHeaderP", selector: ".contact-btn-work p", type: "lines" },
+        // { key: "btnLabels", selector: ".btn-label span", type: "lines" },
+    ];
+
+    const splits = createSplitTexts(splitElements);
+    console.log(splits)
+
+    // Make visible again now that GSAP is ready to control position
+gsap.set(splits.logoChars.chars, { visibility: "visible" });
+
+    gsap.set([splits.logoChars.chars], { x: "100%", y: "0%" });
+    gsap.set(
+        [
+            splits.footerLines.lines,
+            splits.headerChars.chars,
+            splits.heroFooterH3.lines,
+            splits.heroFooterP.lines,
+            splits.heroHeaderP.lines,
+            // splits.btnLabels.lines,
+        ],
+        { y: "100%" }
+    );
+    // gsap.set(".btn-icon", { clipPath: "circle(0% at 50% 50%)" });
+    // gsap.set(".btn", { scale: 0 });
+    gsap.set(".bottom-nav-work", { opacity: 0, y: 20 });
+
+    function animateProgress(duration = 4) {
+        const tl = gsap.timeline();
+        const counterSteps = 5;
+        let currentProgress = 0;
+
+        for (let i = 0; i < counterSteps; i++) {
+            const finalStep = i === counterSteps - 1;
+            const targetProgress = finalStep
+                ? 1
+                : Math.min(currentProgress + Math.random() * 0.3 + 0.1, 0.9);
+            currentProgress = targetProgress;
+
+            tl.to(".preloader-progress-bar", {
+                scaleX: targetProgress,
+                duration: duration / counterSteps,
+                ease: "power2.out",
+            });
+        }
+
+        return tl;
+    }
+
+    const tl = gsap.timeline({ delay: 0.5 });
+
+    tl.to(splits.logoChars.chars, {
+        x: "0%",
+        stagger: 0.05,
+        duration: 1,
+        ease: "power4.inOut",
+    }).to (
+      splits.footerLines.lines, 
+      {
+        y: "0%",
+        stagger: 0.1,
+        duration: 1,
+        ease: "power4.inOut",
+      },
+      "0.25"
+    )
+    .add(animateProgress(), "<")
+        .set(".preloader-progress", { backgroundColor: "var(--base-300)" })
+        .to(
+            splits.logoChars.chars,
+            {
+                x: "-100%",
+                stagger: 0.05,
+                duration: 1,
+                ease: "power4.inOut",
+            },
+            "-=0.5"
+        )
+        .to(
+            splits.footerLines.lines,
+            {
+                y: "-100%",
+                stagger: 0.1,
+                duration: 1,
+                ease: "power4.inOut",
+            },
+            "<"
+        )
+        .to(
+          ".preloader-progress",
+          {
+            opacity:0,
+            duration:0.5,
+            ease: "power3.out",
+          },
+          "-=0.25"
+        )
+        .to(
+          ".preloader-mask",
+          {
+            scale: 5,
+            duration:2.5,
+            ease: "power3.out",
+          },
+          "<"
+        )
+        .to (
+          ".hero-img-work",
+          {
+            scale: 1,
+            duration: 1.5,
+            ease: "power3.out",
+          },
+          "<"
+        )
+        .to(splits.headerChars.chars, {
+            y: 0,
+            stagger: 0.05,
+            duration: 1,
+            ease: "power4.out",
+            delay: -2,
+        })
+        .to(
+            [splits.heroFooterH3.lines, splits.heroFooterP.lines, splits.heroHeaderP.lines],
+            {
+                y: 0,
+                stagger: 0.1,
+                duration: 1,
+                ease: "power4.out",
+            },
+            "-=1.5"
+        )
+        .to(
+            ".bottom-nav-work",
+            {
+                opacity: 1,
+                y: 0,
+                duration: 0.8,
+                ease: "power4.out",
+            },
+            "-=0.8"  // overlaps slightly with the footer text reveal
+        );
+
+        // ── About Work — Sharp Character Highlight ────────────
+        const mm = gsap.matchMedia();
+
+        mm.add({
+            isLarge: "(min-width: 1600px)",
+            isSmall: "(max-width: 1599px)"
+        }, (context) => {
+            const { isLarge, isSmall } = context.conditions;
+
+            const aboutHighlight = SplitText.create(".about-work p", {
+                type: "words, chars",
+                charsClass: "aw-char",
+            });
+
+            gsap.set(aboutHighlight.chars, {
+                color: "rgba(255, 255, 255, 0.125)",
+            });
+
+            gsap.to(aboutHighlight.chars, {
+                color: "white",
+                stagger: 0.1,
+                ease: "none",
+                scrollTrigger: {
+                    trigger: ".about-work",
+                    start: isLarge ? "top 69%" : "top 50%",
+                    end: isLarge ? "+=100%" : "+=130%",
+                    scrub: 0.5,
+                },
+            });
+
+            return () => {
+                aboutHighlight.revert(); // clean up SplitText on breakpoint change
+            };
+        });
+                
+        });
+
+        if (document.querySelector(".menu-overlay")) {
+          const container = document.querySelector(".menu-container");
+          const navToggle = document.querySelector(".btn-menu.nav-toggle");
+          console.log("navToggle:", navToggle); // should NOT be null
+          const menuOverlay = document.querySelector(".menu-overlay");
+          const menuContent = document.querySelector(".menu-content");
+          const menuImage = document.querySelector(".menu-img");
+          const menuLinksWrapper = document.querySelector(".menu-links-wrapper");
+          const linkHighlighter = document.querySelector(".link-highlighter");
+
+          let currentX = 0;
+          let targetX = 0;
+          const lerpFactor = 0.05;
+
+          let currentHighlighterX = 0;
+          let targetHighlighterX = 0;
+          let currentHighlighterWidth = 0;
+          let targetHighlighterWidth = 0;
+
+          let isMenuOpen = false;
+          let isMenuAnimating = false;
+
+          const menuLinks = document.querySelectorAll(".menu-link a");
+          menuLinks.forEach((link) => {
+            const chars = link.querySelectorAll("span");
+            chars.forEach((char, charIndex) => {
+              const split = new SplitText(char, { type: "chars" });
+              split.chars.forEach((char) => {
+                char.classList.add("char");
+              });
+              if (charIndex === 1) {
+                gsap.set(split.chars, { y: "110%" });
+              }
+            });
+          });
+
+          gsap.set(menuContent, { y: "50%", opacity: 0.25 });
+          gsap.set(menuImage, { scale: 0.5, opacity: 0.25 });
+          gsap.set(menuLinks, { y: "150%" });
+          gsap.set(linkHighlighter, { y: "150%" });
+
+          const defaultLinkText = document.querySelector(
+            ".menu-link:first-child a span"
+          );
+          if (defaultLinkText) {
+            const linkWidth = defaultLinkText.offsetWidth;
+            linkHighlighter.style.width = linkWidth + "px";
+            currentHighlighterWidth = linkWidth;
+            targetHighlighterWidth = linkWidth;
+
+            const defaultLinkTextElement = document.querySelector(
+              ".menu-link:first-child"
+            );
+            const linkRect = defaultLinkTextElement.getBoundingClientRect();
+            const menuWrapperRect = menuLinksWrapper.getBoundingClientRect();
+            const initialX = linkRect.left - menuWrapperRect.left;
+            currentHighlighterX = initialX;
+            targetHighlighterX = initialX;
+          }
+
+          function openMenu() {
+            if (isMenuAnimating || isMenuOpen) return;
+            isMenuAnimating = true;
+
+            // Hide the top nav
+            const topNav = document.querySelector('nav');
+            if (topNav) topNav.classList.add('nav-hidden');
+
+            // Disable scroll
+            document.body.style.overflow = 'hidden';
+            if (lenis) lenis.stop();
+
+            gsap.to(container, {
+                y: "-40%",
+                opacity: 0.25,
+                duration: 1.25,
+                ease: "expo.out",
+            });
+
+            gsap.to(menuOverlay, {
+                clipPath: "polygon(0% 100%, 100% 100%, 100% 0%, 0% 0%)",
+                duration: 1.25,
+                ease: "expo.out",
+                onComplete: () => {
+                    gsap.set(container, { y: "40%" });
+                    gsap.set(".menu-link", { overflow: "visible" });
+                    isMenuOpen = true;
+                    isMenuAnimating = false;
+                },
+            });
+
+            gsap.to(menuContent, {
+                y: "0%",
+                opacity: 1,
+                duration: 1.5,
+                ease: "expo.out",
+            });
+
+            gsap.to(menuImage, {
+                scale: 1,
+                opacity: 1,
+                duration: 1.5,
+                ease: "expo.out",
+            });
+
+            gsap.to(menuLinks, {
+                y: "0%",
+                duration: 1.25,
+                stagger: 0.1,
+                delay: 0.25,
+                ease: "expo.out",
+            });
+
+            gsap.to(linkHighlighter, {
+                y: "0%",
+                duration: 1,
+                delay: 1,
+                ease: "expo.out",
+            });
+        }
+
+        function closeMenu() {
+            if (isMenuAnimating || !isMenuOpen) return;
+            isMenuAnimating = true;
+
+            // Restore the top nav
+            const topNav = document.querySelector('nav');
+            if (topNav) topNav.classList.remove('nav-hidden');
+
+            // Re-enable scroll
+            document.body.style.overflow = '';
+            if (lenis) lenis.start();
+
+            gsap.to(container, {
+                y: "0%",
+                opacity: 1,
+                duration: 1.25,
+                ease: "expo.out",
+            });
+
+            gsap.to(menuLinks, {
+                y: "-200%",
+                duration: 1.25,
+                ease: "expo.out",
+            });
+
+            gsap.to(menuContent, {
+                y: "-100%",
+                opacity: 0.25,
+                duration: 1.25,
+                ease: "expo.out",
+            });
+
+            gsap.to(menuImage, {
+                y: "-100%",
+                opacity: 0.5,
+                duration: 1.25,
+                ease: "expo.out",
+            });
+
+            gsap.to(menuOverlay, {
+                clipPath: "polygon(0% 0%, 100% 0%, 100% 0%, 0% 0%)",
+                duration: 1.25,
+                ease: "expo.out",
+                onComplete: () => {
+                    gsap.set(menuOverlay, {
+                        clipPath: "polygon(0% 100%, 100% 100%, 100% 100%, 0% 100%)",
+                    });
+                    gsap.set(menuLinks, { y: "150%" });
+                    gsap.set(linkHighlighter, { y: "150%" });
+                    gsap.set(menuContent, { y: "50%", opacity: 0.25 });
+                    gsap.set(menuImage, { y: "0%", scale: 0.5, opacity: 0.25 });
+                    gsap.set(".menu-link", { overflow: "hidden" });
+                    gsap.set(menuLinksWrapper, { x: 0 });
+                    currentX = 0;
+                    targetX = 0;
+                    isMenuOpen = false;
+                    isMenuAnimating = false;
+                },
+            });
+        }
+
+        // Wire up open to the nav Menu button only
+        if (navToggle) {
+            navToggle.addEventListener("click", openMenu);
+        }
+
+        // Wire up close to the overlay Close p tag only
+        const menuCloseOverlay = document.getElementById('menu-close-overlay');
+        if (menuCloseOverlay) {
+            menuCloseOverlay.addEventListener("click", closeMenu);
+        }
+
+        // Escape key also closes
+        document.addEventListener('keydown', e => {
+            if (e.key === 'Escape' && isMenuOpen) closeMenu();
+        });
+
+
+        const menuLinkContainers = document.querySelectorAll(".menu-link");
+        menuLinkContainers.forEach((link) => {
+            link.addEventListener("mouseenter", () => {
+              if (window.innerWidth < 1000) return;
+
+              const linkCopy = link.querySelectorAll("a span");
+              const visibleCopy = linkCopy[0];
+              const animatedCopy = linkCopy[1];
+
+              const visibleChars = visibleCopy.querySelectorAll(".char");
+              gsap.to(visibleChars, {
+                y: "-110%",
+                stagger: 0.03,
+                duration: 0.5,
+                ease: "expo.inOut",
+              });
+
+              const animatedChars = animatedCopy.querySelectorAll(".char");
+              gsap.to(animatedChars, {
+                y: "0%",
+                stagger: 0.03,
+                duration: 0.5,
+                ease: "expo.inOut",
+              });
+
+              // NEW — color matches the highlighter bar
+              gsap.to(link.querySelector("a"), {
+                color: "#F25623",
+                duration: 0.4,
+                ease: "expo.inOut",
+              });
+              });
+            link.addEventListener("mouseleave", () => {
+            if (window.innerWidth < 1000) return;
+
+            const linkCopy = link.querySelectorAll("a span");
+            const visibleCopy = linkCopy[0];
+            const animatedCopy = linkCopy[1];
+
+            const animatedChars = animatedCopy.querySelectorAll(".char");
+            gsap.to(animatedChars, {
+              y: "110%",
+              stagger: 0.03,
+              duration: 0.5,
+              ease: "expo.inOut",
+            });
+
+            const visibleChars = visibleCopy.querySelectorAll(".char");
+            gsap.to(visibleChars, {
+              y: "0%",
+              stagger: 0.03,
+              duration: 0.5,
+              ease: "expo.inOut",
+            });
+
+            // NEW — revert color back to white
+            gsap.to(link.querySelector("a"), {
+              color: "#F5F5F5",
+              duration: 0.4,
+              ease: "expo.inOut",
+            });
+          });
+      });
+
+
+        menuOverlay.addEventListener("mousemove", (e) => {
+          if (window.innerWidth < 1000) return;
+
+          const mouseX = e.clientX;
+          const viewportWidth = window.innerWidth;
+          const menuLinksWrapperWidth = menuLinksWrapper.offsetWidth;
+
+          const maxMoveLeft = 0;
+          const maxMoveRight = viewportWidth - menuLinksWrapperWidth;
+
+          const sensitivityRange = viewportWidth * 0.5;
+          const startX = (viewportWidth - sensitivityRange) / 2;
+          const endX = startX + sensitivityRange;
+
+          let mousePercentage;
+          if (mouseX <= startX) {
+            mousePercentage = 0;
+          } else if (mouseX >= endX) {
+            mousePercentage = 1;
+          } else {
+            mousePercentage = (mouseX - startX) / sensitivityRange;
+          }
+
+          targetX = maxMoveLeft + mousePercentage * (maxMoveRight - maxMoveLeft);
+          });
+
+          menuLinkContainers.forEach((link) => {
+            link.addEventListener("mouseenter", () => {
+              if (window.innerWidth < 1000) return;
+
+              const linkRect = link.getBoundingClientRect();
+              const menuWrapperRect = menuLinksWrapper.getBoundingClientRect();
+
+              targetHighlighterX = linkRect.left - menuWrapperRect.left;
+
+              const linkCopyElement = link.querySelector("a span");
+              targetHighlighterWidth = linkCopyElement
+                ? linkCopyElement.offsetWidth
+                : link.offsetWidth;
+            });
+          });
+
+          menuLinksWrapper.addEventListener("mouseleave", () => {
+            const defaultLinkText = document.querySelector(".menu-link:first-child");
+            const defaultLinkTextSpan = defaultLinkText.querySelector("a span");
+
+            const linkRect = defaultLinkText.getBoundingClientRect();
+            const menuWrapperRect = menuLinksWrapper.getBoundingClientRect();
+
+            targetHighlighterX = linkRect.left - menuWrapperRect.left;
+            targetHighlighterWidth = defaultLinkTextSpan.offsetWidth;
+          });
+
+          function animateMenu() {
+            currentX += (targetX - currentX) * lerpFactor;
+            currentHighlighterX +=
+              (targetHighlighterX - currentHighlighterX) * lerpFactor;
+            currentHighlighterWidth +=
+              (targetHighlighterWidth - currentHighlighterWidth) * lerpFactor;
+
+            gsap.to(menuLinksWrapper, {
+              x: currentX,
+              duration: 0.3,
+              ease: "power4.out",
+            });
+
+            gsap.to(linkHighlighter, {
+              x: currentHighlighterX,
+              width: currentHighlighterWidth,
+              duration: 0.3,
+              ease: "power4.out",
+            });
+
+            requestAnimationFrame(animateMenu);
+          }
+
+          animateMenu();
+        }
+
+        const cards = gsap.utils.toArray(".card-work");
+        if (cards.length) {
+        const introCard = cards[0];
+
+        const titles = gsap.utils.toArray(".card-title-work h1");
+        titles.forEach((title) => {
+            const split = new SplitText(title, {
+                type: "char",
+                charsClass: "char",
+                tag: "div",
+            });
+            split.chars.forEach((char) => {
+                char.innerHTML = `<span>${char.textContent}</span>`;
+            });
+        });
+
+        const cardImgWrapper = introCard.querySelector(".card-img-work");
+        const cardImg = introCard.querySelector(".card-img-work img");
+        gsap.set(cardImgWrapper, { scale: 0.5, borderRadius: "400px" });
+        gsap.set(cardImg, { scale: 1.5 });
+
+        function animateContentIn(titleChars, description) {
+            gsap.to(titleChars, { x: "0%", duration: 0.75, ease: "power4.out" });
+            gsap.to(description, {
+                x: 0,
+                opacity: 1,
+                duration: 0.75,
+                delay: 0.1,
+                ease: "power4.out",
+            });
+        }
+
+        function animateContentOut(titleChars, description) {
+        gsap.to(titleChars, { x: "100%", duration: 0.5, ease: "power4.out" });
+        gsap.to(description, {
+            x: "40px",
+            opacity: 0,
+            duration: 0.5,
+            ease: "power4.out",
+        });
+    }
+
+        const marquee = introCard.querySelector(".card-marquee-work .marquee-work");
+        const titleChars = introCard.querySelector(".char span");
+        const description = introCard.querySelector(".card-description-work");
+
+        ScrollTrigger.create({
+            trigger: introCard,
+            start: "top top",
+            end: "+=300vh",
+            onUpdate: (self) => {
+                const progress = self.progress;
+                const imgScale = 0.5 + progress * 0.5;
+                const borderRadius = 400 - progress * 375;
+                const innerImgScale = 1.5 - progress * 0.5;
+
+                gsap.set(cardImgWrapper, {
+                    scale: imgScale,
+                    borderRadius: borderRadius + "px",
+                });
+                gsap.set(cardImg, { scale: innerImgScale });
+
+                if (imgScale >= 0.5 && imgScale <= 0.75) {
+                    const fadeProgress = (imgScale - 0.5) / (0.75 - 0.5);
+                    gsap.set(marquee, { opacity: 1 - fadeProgress });
+                } else if (imgScale < 0.5) {
+                    gsap.set(marquee, { opacity: 1 });
+                } else if (imgScale > 0.75) {
+                    gsap.set(marquee, { opacity: 0 });
+                }
+
+                if (progress >= 1 && !introCard.contentRevealed) {
+                    introCard.contentRevealed = true;
+                    animateContentIn(titleChars, description);
+                }
+                if (progress < 1 && introCard.contentRevealed) {
+                    introCard.contentRevealed = false;
+                    animateContentOut(titleChars, description);
+                }
+            },
+        });
+
+        cards.forEach((card, index) => {
+        const isLastCard = index === cards.length - 1;
+        ScrollTrigger.create({
+            trigger: card,
+            start: "top top",
+            end: isLastCard ? "+=100vh" : "top top",
+            endTrigger: isLastCard ? null : cards[cards.length - 1],
+            pin: true,
+            pinSpacing: isLastCard,
+        });
+        });
+
+        cards.forEach((card, index) => {
+              if (index < cards.length - 1) {
+                  const cardWrapper = card.querySelector(".card-wrapper-work");
+                  ScrollTrigger.create({
+                      trigger: cards[index + 1],
+                      start: "top bottom",
+                      end: "top top",
+                      onUpdate: (self) => {
+                          const progress = self.progress;
+                          gsap.set(cardWrapper, {
+                              scale: 1 - progress * 0.25,
+                              opacity: 1 - progress,
+                          });
+                      },
+                  });
+              }
+          });
+
+          cards.forEach((card, index) => {
+              if (index > 0) {
+                  const cardImg = card.querySelector(".card-img-work img");
+                  const imgContainer = card.querySelector(".card-img-work");
+                  ScrollTrigger.create({
+                      trigger: card,
+                      start: "top bottom",
+                      end: "top top",
+                      onUpdate: (self) => {
+                          const progress = self.progress;
+                          gsap.set(cardImg, { scale: 2 - progress });
+                          gsap.set(imgContainer, { borderRadius: 150 - progress * 125 + "px" });
+                      },
+                  });
+              }
+          });
+
+          cards.forEach((card, index) => {
+              if (index === 0) return;
+
+              const cardDescription = card.querySelector(".card-description-work");
+              const cardTitleChars = card.querySelectorAll(".char span");
+
+              ScrollTrigger.create({
+                  trigger: card,
+                  start: "top top",
+                  onEnter: () => animateContentIn(cardTitleChars, cardDescription),
+                  onLeaveBack: () => animateContentOut(cardTitleChars, cardDescription),
+              });
+          });
+
+          setupMarqueeAnimation();
+
+
+
+          
+
+        }
+
+
+
+        // ── Work card thumbnail parallax ──────────────────────
+gsap.utils.toArray('.work-card .card-media').forEach(media => {
+    const img = media.querySelector('.card-image');
+    if (!img) return;
+
+    gsap.fromTo(img,
+        { yPercent: -10 },
+        {
+            yPercent: 10,
+            ease: 'none',                 // critical — no easing on parallax
+            scrollTrigger: {
+                trigger: media,
+                start: 'top bottom',      // card enters from below
+                end: 'bottom top',        // card exits at top
+                scrub: 0.4,               // slight lag = the "classy" feel
+            },
+        }
+    );
+});
+
+
+
+
+const cardContainers = document.querySelectorAll(".card-media.try");
+
+cardContainers.forEach((cardContainer) => {
+  const cardPaths = cardContainer.querySelectorAll(".svg-stroke path");
+  
+  const cardTitle = cardContainer.querySelector(".card-title h3");
+  if (!cardTitle) return;
+
+  const split = SplitText.create(cardTitle, {
+    type: "words",
+    mask: "words",
+  });
+
+  gsap.set(split.words, { yPercent: 100 });
+
+  cardPaths.forEach((path) => {
+    const length = path.getTotalLength();
+    path.style.strokeDasharray = length;
+    path.style.strokeDashoffset = length;
+  });
+
+  let tl;
+
+  cardContainer.addEventListener("mouseenter", () => {
+    if (tl) tl.kill();
+    tl = gsap.timeline();
+
+    cardPaths.forEach((path) => {
+      tl.to(
+        path,
+        {
+          strokeDashoffset: 0,
+          strokeWidth: 70,
+          duration: 1.5,
+          ease: "power2.out",
+        },
+        0,
+      );
+    });
+
+    tl.to(
+      split.words,
+      {
+        yPercent: 0,
+        duration: 0.75,
+        ease: "power3.out",
+        stagger: 0.075,
+      },
+      0.35,
+    );
+  });
+
+  cardContainer.addEventListener("mouseleave", () => {
+    if (tl) tl.kill();
+    tl = gsap.timeline();
+
+    cardPaths.forEach((path) => {
+      const length = path.getTotalLength();
+      tl.to(
+        path,
+        {
+          strokeDashoffset: length,
+          strokeWidth: 10,
+          duration: 1,
+          ease: "power2.out",
+        },
+        0,
+      );
+    });
+
+    tl.to(
+      split.words,
+      {
+        yPercent: 100,
+        duration: 0.5,
+        ease: "power3.out",
+        stagger: { each: 0.05, from: "end" },
+      },
+      0,
+    );
+  });
+});
+
+
+// ── Smooth-scroll same-page anchor links through Lenis instead of
+// letting the browser jump natively.
+document.querySelectorAll('a[href*="#"]').forEach((link) => {
+    link.addEventListener('click', (e) => {
+        const [path, hash] = link.getAttribute('href').split('#');
+        const samePage = !path || path === window.location.pathname.split('/').pop();
+        const target = hash && document.getElementById(hash);
+
+        if (samePage && target && window.lenis) {
+            e.preventDefault();
+            window.lenis.scrollTo(target);
+        }
+        // otherwise let it navigate normally — different page, Lenis
+        // isn't loaded yet there
+    });
+});
+
+const docsWrapper = document.querySelector('.docs-dropdown');
+const docsTrigger = document.getElementById('docsTrigger');
+
+docsTrigger.addEventListener('click', (e) => {
+    e.stopPropagation();
+    docsWrapper.classList.toggle('open');
+    docsTrigger.setAttribute('aria-expanded', docsWrapper.classList.contains('open'));
+});
+
+document.addEventListener('click', (e) => {
+    if (!docsWrapper.contains(e.target)) {
+        docsWrapper.classList.remove('open');
+        docsTrigger.setAttribute('aria-expanded', false);
+    }
+});
+
+
+
+
+          }
+
+        
+
+          
+  
   
 });

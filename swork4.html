@@ -1,0 +1,1379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cardiac Care — I.S</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/Converted/view-transitions.css">
+    
+    <style>
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        @view-transition {
+            navigation: auto;
+        }
+        :root {
+            --bg: #F5F5F5;
+            --dark: #171717;
+            --orange: #F25623;
+            --mid: #2a2a2a;
+            --inner: #3a3a3a;
+            --text-dim: #BCBBBB;
+            --text-white: #F5F5F5;
+            --pad-outer: clamp(10px, 1.5vw, 18px);
+            --radius-outer: clamp(16px, 2vw, 28px);
+            --radius-inner: clamp(10px, 1.2vw, 18px);
+            --radius-innermost: clamp(8px, 1vw, 14px);
+            --radius-cell: clamp(8px, 1vw, 13px);
+        }
+
+        html, body {
+            font-family: "Inter", sans-serif;
+            color: #171717;
+            background-color: #F5F5F5;
+            overflow-x: hidden;
+        }
+
+       .page-content {
+            position: relative;
+            z-index: 1;
+            background-color: #F5F5F5;
+        }
+        p {
+            font-size: clamp(14px, 1.4vw, 20px);
+            font-weight: 500;
+        }
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            padding: 1.5em 2.5em;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            z-index: 2;
+        }
+
+        .nav-2 { position: relative; left: -14vw; }
+        .nav-top { color: #171717; }
+        .nav-top span { margin-bottom: 2px; }
+        .nav-bottom { font-weight: 400; color: #BCBBBB; margin-top: 2px; }
+
+        .availability-dot {
+            display: inline-block;
+            width: 8px; height: 8px;
+            border-radius: 50%;
+            background-color: #22c55e;
+            flex-shrink: 0;
+        }
+
+        p .nav-bottom { color: #BCBBBB; }
+
+        .links { display: flex; gap: clamp(0.75em, 2vw, 5em); align-items: center; }
+
+        .btn-contact {
+            background-color: #171717;
+            color: #ffffff;
+            border: none;
+            border-radius: 999px;
+            padding: 10px 20px;
+            font-family: "Inter", sans-serif;
+            font-size: 20px;
+            font-weight: 400;
+            cursor: pointer;
+            transition: background 0.2s ease, transform 0.15s ease;
+        }
+        
+        .btn-contact:hover { background-color: #333333; transform: scale(0.97); }
+
+        /* ── LINKS BAR ─────────────────────────── */
+        .links-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1em;
+            padding: 0.6em 2em;
+            margin-top: 8em;
+            font-size: 13px;
+            color: var(--dark);
+            font-weight: 500;
+        }
+
+        .links-bar span { font-size: 1.5em; font-weight: 600; color: #BCBBBB; }
+
+        .links-bar a {
+            display: inline-flex;
+            align-items: center;
+            gap: 1em;
+            text-decoration: none;
+            background: var(--dark);
+            color: var(--text-white);
+            border-radius: 999px;
+            padding: 1em 1em 1em 1em;
+            font-size: 1.5em;
+            font-weight: 600;
+            letter-spacing: 0.02em;
+            transition: background 0.2s;
+        }
+
+        .btn-back { display: inline-flex; align-items: center; gap: 0.5em; }
+        .links-bar .btn-back { padding: 0.5em 1em 0.7em 1em; }
+
+        .btn-back-arrow {
+            display: inline-block;
+            transition: transform 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            margin-bottom: 0.2em;
+            color: #F5F5F5;
+        }
+
+        .btn-back:hover .btn-back-arrow { transform: translateX(-4px); }
+
+        .links-bar a:hover { background: var(--orange); }
+
+        /* ── PAGE WRAPPER ──────────────────────── */
+        .page-wrapper {
+            width: 100%;
+            padding: 0 clamp(1em, 2vw, 2em) clamp(2em, 4vh, 4em);
+            margin-top: 1.5em;
+        }
+
+        /* BOX 1 — OUTERMOST */
+        .box-outer {
+            background-color: var(--dark);
+            border-radius: var(--radius-outer);
+            padding: var(--pad-outer);
+            display: flex;
+            flex-direction: column;
+            gap: var(--pad-outer);
+        }
+
+        .title-block {
+            padding: clamp(0.8em, 1.5vw, 1.4em) clamp(0.8em, 1.5vw, 1.2em) clamp(0.5em, 1vw, 0.8em);
+        }
+
+        .title-block h1 {
+            font-size: clamp(4rem, 7vw, 8rem);
+            font-weight: 800;
+            letter-spacing: -0.04em;
+            text-transform: uppercase;
+            color: var(--text-white);
+            line-height: 0.92;
+            margin-bottom: 0.5em;
+            margin-left: 2.9em;
+        }
+
+        .title-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 0.5em;
+            margin-bottom: 1.3em;
+        }
+
+        .title-meta-item { display: flex; align-items: center; gap: 0.5em; }
+
+        .meta-label {
+            font-size: clamp(0.5em, 1.9vw, 1.3em);
+            font-weight: 600;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: #BCBBBB;
+        }
+
+        .meta-value {
+            font-size: clamp(0.5em, 1.9vw, 1.3em);
+            font-weight: 700;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--text-white);
+        }
+
+        /* BOX 2 — MIDDLE */
+        .box-middle {
+            background-color: var(--mid);
+            border-radius: var(--radius-inner);
+            padding: var(--pad-outer);
+            display: flex;
+            flex-direction: column;
+            gap: var(--pad-outer);
+        }
+
+        .info-row {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: clamp(2em, 2.9vw, 4em);
+            margin-bottom: 2em;
+        }
+
+        .info-left { display: flex; flex-direction: column; gap: clamp(0.5em, 1vw, 0.75em); }
+
+        .year-block {
+            display: flex;
+            flex-direction: column;
+            gap: 0.2em;
+            margin-top: 1em;
+            margin-bottom: 1.5em;
+        }
+
+        .info-label {
+            font-size: clamp(0.5em, 1.5vw, 1.7em);
+            font-weight: 900;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+            color: #BCBBBB;
+            margin-bottom: 0.3em;
+        }
+
+        .year-value {
+            font-size: clamp(1.3rem, 2.4vw, 3.5rem);
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            color: var(--text-white);
+            line-height: 1;
+        }
+
+        .stack-chip {
+            background-color: var(--dark);
+            border-radius: var(--radius-innermost);
+            padding: clamp(0.6em, 1vw, 0.9em) clamp(0.7em, 1.2vw, 1em);
+        }
+
+        .stack-list { display: flex; flex-direction: column; gap: 0.3em; margin-top: 0.4em; }
+
+        .stack-item {
+            font-size: clamp(0.5em, 1.9vw, 1.8em);
+            font-weight: 600;
+            letter-spacing: 0.08em;
+            color: #F5F5F5;
+            line-height: 1.4;
+        }
+
+        .summary-chip {
+            background-color: var(--dark);
+            border-radius: var(--radius-innermost);
+            padding: clamp(0.7em, 1.2vw, 1.1em);
+            height: 100%;
+        }
+
+        .summary-chip p {
+            font-size: clamp(0.5em, 1.9vw, 2.8em);
+            font-weight: 400;
+            line-height: 1.65;
+            color: #F5F5F5;
+            margin-top: 0.5em;
+        }
+
+        .summary-chip .info-label { font-size: clamp(0.5em, 1.2vw, 1.8em); font-weight: 900; }
+
+        /* ═══════════════════════════════════════════
+           BOX 3 — INNERMOST  (#3a3a3a)
+           Row 1: full-width desktop VIDEO
+           Row 2: two equal PHOTO cells side by side
+           Row 3: friends VIDEO (left, large) |
+                  grade-reveal VIDEO (top-right, smaller) +
+                  alma mater emblem strip (bottom-right)
+        ═══════════════════════════════════════════ */
+        .box-inner {
+            background-color: var(--inner);
+            border-radius: var(--radius-cell);
+            padding: clamp(6px, 0.9vw, 10px);
+            display: flex;
+            flex-direction: column;
+            gap: clamp(6px, 0.8vw, 10px);
+            height: auto;
+        }
+ 
+        .collage-row-1 {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 16/7;
+            background-color: #c8c8c8;
+            border-radius: calc(var(--radius-cell) - 3px);
+            overflow: hidden;
+            display: flex; align-items: center; justify-content: center;
+        }
+ 
+        .collage-row-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: clamp(6px, 0.8vw, 10px);
+        }
+
+        /* Row 3: left video (2fr) | right stack (1fr) */
+        .collage-row-3 {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: clamp(6px, 0.8vw, 10px);
+            align-items: stretch;
+        }
+ 
+        .collage-cell {
+            position: relative;
+            aspect-ratio: 4/3;
+            background-color: #c8c8c8;
+            border-radius: calc(var(--radius-cell) - 3px);
+            overflow: hidden;
+            display: flex; 
+            align-items: center; 
+            justify-content: right;
+        }
+
+        /* Right column of row 3: video stacked above an emblem strip.
+           This flex column stretches to match the height of the left
+           "friends" cell. The grade video only occupies part of that
+           height (flex-basis 65%) — matching the area marked off in the
+           reference screenshot — leaving the strip below for the emblem. */
+        .collage-cell-stack {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            gap: clamp(6px, 0.8vw, 10px);
+            height: 100%;
+        }
+
+        .collage-grade-video {
+            position: relative;
+            flex: 0 0 65%;
+            background-color: #c8c8c8;
+            border-radius: calc(var(--radius-cell) - 3px);
+            overflow: hidden;
+            display: flex; align-items: center; justify-content: center;
+        }
+
+        /* Dark shaded strip beneath the video — holds the alma mater emblem */
+        .collage-emblem-strip {
+            position: relative;
+            flex: 1;
+            background-color: var(--inner);
+            border: 1px dashed rgba(255,255,255,0.18);
+            border-radius: calc(var(--radius-cell) - 3px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        /* Drop your alma mater's logo/emblem image in here */
+        .collage-emblem-strip img {
+            max-width: 50%;
+            max-height: 50%;
+            width: auto;
+            height: auto;
+            object-fit: contain;
+        }
+
+        .collage-emblem-strip .collage-label {
+            font-size: clamp(0.7rem, 1.6vw, 1.1rem);
+            color: rgba(255,255,255,0.25);
+        }
+ 
+        .collage-label {
+            font-size: clamp(1.2rem, 4vw, 3.5rem);
+            font-weight: 800; letter-spacing: -0.02em;
+            text-transform: uppercase;
+            color: rgba(0,0,0,0.25);
+            pointer-events: none; user-select: none;
+            text-align: center;
+        }
+ 
+        .collage-sublabel {
+            position: absolute;
+            top: clamp(8px, 1vw, 12px);
+            left: 50%; transform: translateX(-50%);
+            font-size: clamp(6px, 0.55vw, 8px);
+            font-weight: 700; letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: rgba(0,0,0,0.28);
+            white-space: nowrap;
+            text-align: center;
+            line-height: 1.4;
+        }
+ 
+         /* Row 3: "Grade - B" text (left) | white emblem box with school logo (right) */
+        .collage-row-3 {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: clamp(6px, 0.8vw, 10px);
+            align-items: stretch;
+        }
+        .collage-row-1 img,
+        .collage-row-1 video,
+        .collage-cell img,
+        .collage-cell video,
+        .collage-grade-video img,
+        .collage-grade-video video {
+            position: absolute;
+            inset: 0; width: 100%; height: 100%;
+            object-fit: cover; border-radius: 0;
+        }
+
+        
+        /* ═══════════════════════════════════════════════════════
+   BOTTOM NAV — WORK PAGE VARIANT
+   ═══════════════════════════════════════════════════════ */
+
+.bottom-nav-work {
+    position: fixed;
+    bottom: clamp(1.5em, 2.9vh, 2.75em);
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 200;
+
+    display: flex;
+    align-items: center;
+    gap: 0.75em;
+
+    width: clamp(140px, 43vw, 460px);
+    height: clamp(5.5em, 8vh, 10em);
+
+    background-color: #171717;
+    border-radius: 9999px;
+    overflow: hidden;
+    padding: 0.5em 0.5em 0.6em clamp(0.5em, 3vw, 2em);
+    border: 1px solid rgba(230, 230, 230, 0.12);
+}
+
+/* Avatar — left side */
+.bnav-avatar {
+    width: 4.4em;
+    height: 4.2em;
+    border-radius: clamp(8px, 0.9vw, 12px);
+    overflow: hidden;
+    flex-shrink: 0;
+}
+
+.bnav-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    position: static;
+    border-radius: 0;
+    pointer-events: none;
+}
+
+.bnav-avatar-video {
+    width: 100%;
+    height: 80%;
+    object-fit: cover;
+    border-radius: 0;
+    pointer-events: none;
+    transform: scale(1.4);
+    transform-origin: center 40%;
+}
+
+/* Body — stacked name + ticker */
+.bnav-body {
+    flex: 1;
+    min-width: 0;
+    max-width: 65%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 3px;
+    overflow: hidden;
+    margin-left: 0.2em;
+}
+
+.bnav-name {
+    font-size: clamp(15px, 0.95vw, 18px);
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: #ffffff;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+/* Ticker */
+.bnav-ticker-wrap {
+    position: relative;
+    overflow: hidden;
+    height: clamp(18px, 1.6vw, 22px);
+    flex-shrink: 0;
+    margin-top: 0.4em;
+}
+
+.bnav-ticker-wrap::before,
+.bnav-ticker-wrap::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 1.3em;
+    z-index: 2;
+    pointer-events: none;
+}
+
+.bnav-ticker-wrap::before {
+    left: 0;
+    background: linear-gradient(to right, #171717 0%, transparent 100%);
+}
+
+.bnav-ticker-wrap::after {
+    right: 0;
+    background: linear-gradient(to left, #171717 0%, transparent 100%);
+}
+
+.bnav-ticker-row {
+    position: absolute;
+    top: 50%;
+    white-space: nowrap;
+    font-size: clamp(13px, 0.6vw, 16px) !important;
+    font-weight: 300;
+    letter-spacing: 0.10em;
+    text-transform: uppercase;
+    color: #ffffff;
+    will-change: transform;
+    margin: 0;
+    padding: 0;
+}
+
+.bnav-ticker-row span { padding: 0 0.5em; }
+.bnav-sep { opacity: 0.3; }
+
+/* Hamburger button */
+.bnav-menu-btn {
+    flex-shrink: 0;
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    background-color: #171717;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    transition: background 0.2s ease;
+}
+
+.burger-line {
+    display: block;
+    width: 22px;
+    height: 2px;
+    background-color: #ffffff;
+    border-radius: 2px;
+    transform-origin: center;
+    transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                opacity   0.3s ease;
+    margin: 0;
+    flex-shrink: 0;
+}
+
+.bnav-menu-btn.is-open .burger-line--top {
+    transform: translateY(7px) rotate(45deg);
+}
+.bnav-menu-btn.is-open .burger-line--mid {
+    opacity: 0;
+    transform: scaleX(0);
+}
+.bnav-menu-btn.is-open .burger-line--bot {
+    transform: translateY(-7px) rotate(-45deg);
+}
+
+/* Reveal state — JS (index.js) animates this from opacity:0/y:20
+   to visible on load; keep this as the resting "hidden" start state
+   so it doesn't flash visible before the animation runs. */
+#bottom-nav-work {
+    opacity: 0;
+    transform: translateX(-50%) translateY(20px);
+}
+
+/* ── Popover — stacked above the pill ─────────────────── */
+.bnav-wrapper {
+    position: fixed;
+    bottom: clamp(1.5em, 2.9vh, 2.75em);
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 200;
+
+    border-radius: 1.6em;
+
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+
+    height: auto;
+    width: clamp(280px, 43vw, 460px);
+}
+
+.bmenu-popover {
+    background-color: #171717;
+    border-radius: 2em;
+    padding: 0.5em;
+    width: 100%;
+
+    opacity: 0;
+    transform: translateY(20px);
+    pointer-events: none;
+
+    max-height: 0;
+    overflow: hidden;
+
+    transition: max-height 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                opacity    0.3s ease,
+                transform  0.35s cubic-bezier(0.34, 1.2, 0.64, 1);
+    margin-bottom: 2.4em;
+    border: 1px solid rgba(230, 230, 230, 0.12);
+}
+
+.bnav-wrapper.is-open .bmenu-popover {
+    max-height: 400px;
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+}
+
+/* ── Nav list ─────────────────────────────────────────── */
+nav.bmenu-nav-list {
+    position: static !important;
+    top: auto !important;
+    left: auto !important;
+    width: 100% !important;
+    padding: 0 !important;
+    padding-bottom: 5em !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: flex-start !important;
+    align-items: stretch !important;
+    mix-blend-mode: normal !important;
+    z-index: auto !important;
+}
+
+.bmenu-nav-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+}
+
+.bmenu-nav-item {
+    display: flex;
+    align-items: center;
+    gap: 1em;
+    text-decoration: none;
+    padding: 0.55em 0.7em;
+    border-radius: 1.1em;
+    transition: background 0.18s ease;
+    opacity: 0;
+    transform: translateY(12px);
+}
+
+.bnav-wrapper.is-open .bmenu-nav-item {
+    transform: translateY(0);
+}
+
+.bmenu-nav-item:hover {
+    background: rgba(255,255,255,0.08);
+}
+
+.bmenu-nav-thumb {
+    width: clamp(52px, 5vw, 68px);
+    height: clamp(52px, 5vw, 68px);
+    border-radius: 0.85em;
+    overflow: hidden;
+    flex-shrink: 0;
+    background: #2a2a2a;
+}
+
+.bmenu-nav-thumb--dark { background: #1a1a1a; }
+
+.bmenu-nav-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    position: static;
+    border-radius: 0;
+    pointer-events: none;
+}
+
+.bmenu-nav-label {
+    font-size: clamp(1.2rem, 2.3vw, 1.6rem);
+    font-weight: 700;
+    letter-spacing: -0.025em;
+    color: #ffffff;
+    line-height: 1;
+    text-transform: none;
+}
+
+.nav-2 {
+    width: 50%;
+    height: 4em;
+    display: flex;
+    align-items: center;
+}
+
+.nav-2 .menu {
+    width: 50%;
+    flex-grow: 1;
+    display: flex;
+    justify-content: end;
+    gap: 0.5rem;
+}
+
+.nav-2 .menu .menu-line-index {
+    width: min-content;
+    height: 1.35rem;
+    min-height: 1.35rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.nav-link.top-1 {
+    margin-top: -1.35rem;
+}
+
+.nav-link {
+    display: block;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.menu-line-index:hover .nav-link.top-1 {
+    transform: translateY(25px);
+}
+
+.menu-line-index:hover .nav-link:not(.top-1) {
+    transform: scale(1.5) translateY(25px);
+}
+
+.nav-2 .menu a {
+    color: #000000;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 1.2rem;
+    text-transform: none;
+    transition-property: all;
+    transition-duration: 0.6s;
+    transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.nav-2 .menu .nav-link.top-1 a {
+    font-weight: 700;
+}
+
+.btn-menu {
+    background-color: #e0e0e0;
+    color: #000000;
+    border: none;
+    border-radius: 999px;
+    padding: 10px 10px;
+    font-family: "Inter", sans-serif;
+    font-size: 20px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.2s ease, transform 0.15s ease;
+}
+
+.menu-overlay img {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.menu-overlay p, a {
+    text-decoration: none;
+    text-transform: uppercase;
+    font-weight: 600;
+    font-size: 1.4rem;
+    line-height: 1;
+    user-select: none;
+}
+
+.menu-col p, a {
+    text-transform: none;
+}
+
+.menu-links-wrapper p, a {
+    text-transform: uppercase;
+}
+
+.links-bar a {
+    text-transform: none;
+}
+
+.menu-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100svh;
+    overflow: hidden;
+    background-color: #171717;
+    color: #F5F5F5;
+    z-index: 150 !important;
+    will-change: clip-path;
+    clip-path: polygon(0% 100%, 100% 100%, 100% 100%, 0% 100%);
+}
+
+.menu-overlay-top-nav {
+    position: absolute;
+    width: 100%;
+    top: 10%;
+    transform: translateY(-50%);
+    display: flex;
+    padding: 2rem;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Hide top nav when menu is open */
+nav.nav-hidden {
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+}
+
+nav {
+    transition: opacity 0.3s ease;
+}
+
+#menu-close-overlay {
+    cursor: pointer;
+    user-select: none;
+    transition: opacity 0.2s ease;
+}
+
+#menu-close-overlay:hover {
+    opacity: 0.6;
+}
+
+.menu-content {
+    position: absolute;
+    top: 45%;
+    transform: translateY(-50%);
+    width: 100%;
+    padding: 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    will-change: transorm, opacity;
+}
+
+.menu-col:nth-child(2) {
+    text-align: right;
+}
+
+.menu-img {
+    position: absolute;
+    top: 45%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 150px;
+    will-change: transform, opacity;
+}
+
+.menu-img video {
+    border-radius: 1em;
+}
+
+.menu-links-wrapper {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: max-content;
+    padding: 2rem;
+    display: flex;
+    justify-content: space-between;
+    gap: 4rem;
+    will-change: transform;
+}
+
+.menu-link .char {
+    transform: translateY(0);
+}
+
+.menu-link {
+    position: relative;
+    will-change: transform;
+    overflow: hidden;
+}
+
+.menu-link a {
+    position: relative;
+    color: #F5F5F5;
+    font-size: 10rem;
+    font-weight: 600;
+    letter-spacing: -0.02rem;
+    display: inline-block;
+    overflow: hidden;
+}
+
+.menu-link a span:nth-child(2) {
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.link-highlighter {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 400px;
+    height: 0.75rem;
+    background-color: #F25623;
+    will-change: transform, width;
+}
+
+.char {
+    position: relative;
+    display: inline-block;
+    will-change: transform;
+}
+
+.docs-dropdown {
+    position: relative;
+}
+.links-bar-right {
+    display: flex;
+    align-items: center;
+    gap: 1em;
+}
+.docs-dropdown-trigger {
+    display: flex;
+    align-items: center;
+    gap: 1em;
+    background: #171717;
+    color: #F5F5F5;
+    border: none;
+    border-radius: 999px;
+    padding: 1em 1em;
+    font-size: 1.5em;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.docs-dropdown-trigger:hover {
+    background: var(--orange);
+}
+.docs-dropdown:hover .docs-dropdown-menu {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.docs-dropdown:hover .docs-dropdown-caret {
+    transform: rotate(180deg);
+}
+
+.docs-dropdown-caret {
+    transition: transform 0.2s ease;
+}
+
+.docs-dropdown.open .docs-dropdown-caret {
+    transform: rotate(180deg);
+}
+
+.docs-dropdown-menu {
+    position: absolute;
+    top: calc(99% + 1px);
+    right: 0;
+    min-width: 240px;
+    background: #1a1a1a;
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 12px;
+    
+    padding: 6px;
+    padding-top: 8px;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-6px);
+    transition: opacity 0.15s ease, transform 0.15s ease;
+    z-index: 50;
+}
+
+.docs-dropdown.open .docs-dropdown-menu {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.docs-dropdown-menu a {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 12px;
+    color: #F5F5F5;
+    font-size: 14px;
+    border-radius: 8px;
+    text-decoration: none;
+}
+
+.docs-dropdown-menu a:hover {
+    background: rgba(255,255,255,0.08);
+}
+.btn-contact {
+    display: inline-block;
+    text-decoration: none;
+    text-transform: none;
+}
+@media (max-width: 1000px) {
+    .menu-content {
+        top: 25%;
+    }
+
+    .menu-img, .link-highlighter {
+        display: none;
+    }
+
+    .menu-links-wrapper {
+        flex-direction: column;
+        gap: 0;
+    }
+
+    .menu-link a {
+        font-size: 4rem;
+        letter-spacing: 0;
+    }
+}
+
+/* ── Responsive ───────────────────────────────────────── */
+@media (max-width: 900px) {
+    .bnav-avatar {
+        width: 42px;
+        height: 42px;
+    }
+
+    .bnav-menu-btn {
+        width: 44px;
+        height: 44px;
+    }
+}
+
+ 
+        @media (max-width: 640px) {
+            .info-row { grid-template-columns: 1fr; }
+            .nav-avail { display: none; }
+ 
+            .collage-row-2 { grid-template-columns: 1fr; }
+            .collage-row-3 { grid-template-columns: 1fr; }
+
+            .collage-cell { aspect-ratio: 16/9; }
+
+            .collage-cell-stack { height: auto; }
+            .collage-grade-video { aspect-ratio: 16/9; flex: none; }
+            .collage-emblem-strip { min-height: 90px; }
+        }
+    </style>
+</head>
+<body onload="window.scrollTo(0, 0)" >
+    <div class="menu-overlay" style="background-color: #171717;">
+            <div class="menu-overlay-top-nav">
+                <div class="menu-col">
+                    <p>Menu</p>
+                </div>
+                <div class="menu-col">
+                    <p id="menu-close-overlay" style="cursor: pointer;">Close</p>
+                </div>
+            </div>
+                <div class="menu-content">
+                    <div class="menu-col">
+                        <p>EVRIMA</p>
+                        <p>2026</p>
+                        <br>
+                        <br>
+                        <p>REACH OUT</p>
+                        <p>curtis.oluoch@gmail.com</p>
+                        <br>
+                        <br>
+                        <p>DIRECT</p>
+                        <p>+254 714 467 377</p>
+                    </div>
+                    <div class="menu-col">
+                        <p>INSTAGRAM</p>
+                        <p>Ochweda_</p>
+                        <br>
+                        <br>
+                        <p>LANGUAGE</p>
+                        <p>English</p>
+                        
+                    </div>
+                </div>
+
+                <div class="menu-img">
+                    <video
+                        src="/Converted/videos/memoji2.mp4"
+                        autoplay
+                        muted
+                        loop
+                        playsinline
+                        class="bnav-avatar-video">
+                    </video>
+                </div>
+
+                <div class="menu-links-wrapper">
+                    <div class="menu-link">
+                        <a href="/Converted/index.html">
+                            <span>Home</span>
+                            <span>Home</span>
+                        </a>
+                    </div>
+                    <div class="menu-link">
+                        <a href="/Converted/swork.html">
+                            <span>Work</span>
+                            <span>Work</span>
+                        </a>
+                    </div>
+                    <div class="menu-link">
+                        <a href="/Converted/Work.html">
+                            <span>Lab</span>
+                            <span>Lab</span>
+                        </a>
+                    </div>
+                    <div class="menu-link">
+                        <a href="mailto:curtis.oluoch@gmail.com">
+                            <span>Contact</span>
+                            <span>Contact</span>
+                        </a>
+                    </div>
+
+                    <div class="link-highlighter"></div>
+                </div>
+
+
+            </div>
+    <main class="page-content">
+
+    <!-- NAV -->
+    <nav>
+        <div class="nav-1">
+            <p class="nav-top">Kenya-Based</p>
+            <p class="nav-bottom">Working Globally</p>
+        </div>
+        <div class="nav-2">
+            <div class="menu">
+                <div class="menu-line-index">
+                    <a class="nav-link top-1" href="/Converted/index.html">Home,</a>
+                    <a class="nav-link" href="/Converted/index.html">Home,</a>
+                </div>
+                <div class="menu-line-index">
+                    <a class="nav-link top-1" href="/Converted/index.html">About,</a>
+                    <a class="nav-link" href="/Converted/index.html">About,</a>
+                </div>
+                <div class="menu-line-index">
+                    <a class="nav-link top-1" href="/Converted/swork.html">Work,</a>
+                    <a class="nav-link" href="/Converted/swork.html">Work,</a>
+                </div>
+                <div class="menu-line-index">
+                    <a class="nav-link top-1" href="/Converted/Work.html">Lab,</a>
+                    <a class="nav-link" href="/Converted/Work.html">Lab,</a>
+                </div>
+                <div class="menu-line-index">
+                    <a class="nav-link top-1" href="mailto:curtis.oluoch@gmail.com">Contact</a>
+                    <a class="nav-link" href="mailto:curtis.oluoch@gmail.com">Contact</a>
+                </div>
+            </div> 
+        </div>
+
+        <div class="links">
+            <!-- <button class="btn-case">
+                 Lab
+            </button> -->
+            <a href="mailto:curtis.oluoch@gmail.com" class="btn-contact">Get In Touch</a>
+            <div class="btn-menu nav-toggle">Menu</div>
+        </div>
+
+       
+
+        
+    </nav>
+
+
+    <!-- LINKS BAR -->
+    <div class="links-bar">
+
+        <a href="/Converted/swork.html" class="btn-back">
+            <span class="btn-back-arrow" style="color: #F5F5F5;">←</span>
+            Back to Selection
+        </a>
+
+        <div class="links-bar-right">
+            <span>Links:</span>
+            <a href="#" target="_blank">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/>
+                </svg>
+                Access code
+            </a>
+        </div>
+
+    </div>
+
+    <!-- PAGE WRAPPER -->
+    <div class="page-wrapper">
+
+        <!-- BOX 1: OUTER -->
+        <div class="box-outer">
+
+            <div class="title-block">
+                <h1>BOTATOUILLE</h1>
+                <div class="title-meta">
+                    <div class="title-meta-item">
+                        <span class="meta-label">Focus:</span>
+                        <span class="meta-value"> HAVING FUN (To be deleted)</span>
+                    </div>
+                    
+                </div>
+            </div>
+
+            <!-- BOX 2: MIDDLE -->
+            <div class="box-middle">
+
+                <div class="info-row">
+                    <div class="info-left">
+
+                        <div class="year-block">
+                            <p class="info-label">Year</p>
+                            <p class="year-value">2025</p>
+                        </div>
+
+                        <div class="stack-chip">
+                            <div class="stack-list">
+                                
+                                
+                                <span class="stack-item">React JS</span>
+                                
+                                <span class="stack-item">Claude Code</span>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="summary-chip">
+                        <p class="info-label">Summary</p>
+                        <p>As an initiation project into the world of AI Engineering, I endeavoured to connect with Claude’s API to build my first application powered by a LLM. A simple interface that receives ingredients as inputs and then displays a markdown of a recipe depending on the ingredients specified.  </p>
+                    </div>
+                </div>
+
+                <!-- BOX 3: INNERMOST — 3-row collage -->
+                <div class="box-inner">
+ 
+                   
+ 
+                    <!-- Row 2: two system diagram photos -->
+                    <div class="collage-row-2">
+                        <div class="collage-cell">
+                            
+                            
+                                <img src="/Converted/images/Chef1.png" alt="System diagram 1">
+                            
+                        </div>
+                        <div class="collage-cell">
+                            
+                        
+                               <video src="/Converted/videos/ChefOchwedaVideo.mp4" autoplay muted loop playsinline></video>
+                           
+                        </div>
+                    </div>
+ 
+                    <!-- Row 3: "Grade - B" text (left) | white emblem box with school logo (right) -->
+                   <!-- Row 1: full-width desktop video -->
+                    <div class="collage-row-1">
+                        
+                        
+                            <img src="/Converted/images/Chef.png" alt="">
+                        
+                    </div>
+ 
+                </div>
+                <!-- /box-inner -->
+                    <!-- Row 2: two system diagram photos -->
+                    
+
+                    
+ 
+                </div>
+                <!-- /box-inner -->
+ 
+            </div>
+            <!-- /box-middle -->
+ 
+        </div>
+        <!-- /box-outer -->
+
+    <div class="bnav-wrapper" id="bnav-wrapper">
+
+    <!-- Popover — sits above the pill, hidden by overflow:hidden on wrapper -->
+     <div class="bmenu-popover" id="bmenu-popover">
+        <nav class="bmenu-nav-list">
+            <a href="/Converted/index.html" class="bmenu-nav-item" data-index="0">
+                <div class="bmenu-nav-thumb">
+                    <img src="/Converted/images/PortIMG.jpg" alt="Home">
+                </div>
+                <span class="bmenu-nav-label">Home</span>
+            </a>
+            <a href="/Converted/swork.html" class="bmenu-nav-item" data-index="1">
+                <div class="bmenu-nav-thumb">
+                    <img  src="/Converted/images/VybeThumb3.png" alt="Work">
+                </div>
+                <span class="bmenu-nav-label">Work</span>
+            </a>
+            <a href="/Converted/Work.html" class="bmenu-nav-item" data-index="2">
+                <div class="bmenu-nav-thumb bmenu-nav-thumb--dark">
+                    <img src="/Converted/images/BNavWork.png" alt="Lab">
+                </div>
+                <span class="bmenu-nav-label">Lab</span>
+            </a>
+        </nav>
+    </div>
+
+    <!-- Pill — always visible at the bottom of the wrapper -->
+    <div class="bottom-nav-work" id="bottom-nav-work">
+
+        <div class="bnav-avatar">
+            <video
+                src="/Converted/videos/memoji2.mp4"
+                autoplay muted loop playsinline
+                class="bnav-avatar-video">
+            </video>
+        </div>
+
+        <div class="bnav-body">
+            <span class="bnav-name">CURTIS OLUOCH OCHWEDA</span>
+            <div class="bnav-ticker-wrap">
+                <p class="bnav-ticker-row">
+                    <span>AWWARDS ENTHUSIAST</span><span class="bnav-sep">·</span>
+                    <span>AI FANATIC</span><span class="bnav-sep">·</span>
+                    <span>FULL STACK ENGINEER</span><span class="bnav-sep">·</span>
+                    <span>LOVERBOY</span><span class="bnav-sep">·</span>
+                </p>
+                <p class="bnav-ticker-row" aria-hidden="true">
+                    <span>AWWARDS ENTHUSIAST</span><span class="bnav-sep">·</span>
+                    <span>AI FANATIC</span><span class="bnav-sep">·</span>
+                    <span>FULL STACK ENGINEER</span><span class="bnav-sep">·</span>
+                    <span>LOVERBOY</span><span class="bnav-sep">·</span>
+                </p>
+            </div>
+        </div>
+
+        <button class="bnav-menu-btn" id="bnav-menu-btn"
+                aria-label="Toggle menu" aria-expanded="false">
+            <span class="burger-line burger-line--top"></span>
+            <span class="burger-line burger-line--mid"></span>
+            <span class="burger-line burger-line--bot"></span>
+        </button>
+
+    </div>
+</div>
+    <!-- /page-wrapper -->
+     </main>
+
+    <!-- GSAP -->
+    <script src="https://code.iconify.design/iconify-icon/2.1.0/iconify-icon.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.19.0/matter.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/ScrollTrigger.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/SplitText.min.js"></script>
+    <script src="https://unpkg.com/lenis@1.1.14/dist/lenis.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/CustomEase.min.js"></script>
+    <script src="/Converted/index.js"></script>
+</body>
+</html>
