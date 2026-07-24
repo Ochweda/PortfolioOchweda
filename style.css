@@ -2126,7 +2126,7 @@ path {
 
 .preloader-mask {
     background-color: #171717;
-    mask: linear-gradient(#F5F5F5, #F5F5F5), url("/Converted/images/mask3.svg") center/50% no-repeat;
+    mask: linear-gradient(#F5F5F5, #F5F5F5), url("/images/mask3.svg") center/50% no-repeat;
     mask-composite: subtract;
     will-change: transform;
     z-index: 1;
@@ -2898,7 +2898,7 @@ nav.bmenu-nav-list {
     }
 
     .preloader-mask {
-        mask: linear-gradient(#F5F5F5, #F5F5F5), url("/Converted/images/mask3.svg") center/90% no-repeat;
+        mask: linear-gradient(#F5F5F5, #F5F5F5), url("/images/mask3.svg") center/90% no-repeat;
         mask-composite: subtract;
     }
 
