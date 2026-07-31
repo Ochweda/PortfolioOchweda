@@ -930,9 +930,33 @@ document.querySelectorAll('.card-tech-wrap').forEach(wrap => {
     //     });
     // });
 
-    // After ALL triggers are created
-ScrollTrigger.refresh();
+    // Don't refresh here — the .scard-img images (and everything else
+    // on the page) may not have finished loading yet, which would bake
+    // in trigger start/end points measured against a too-short page.
 })();
+
+// Refresh once everything has actually loaded, so the pin/scrub trigger
+// points above are measured against the final, fully-rendered page height.
+window.addEventListener("load", () => {
+    ScrollTrigger.refresh();
+});
+
+// Belt-and-suspenders: also refresh specifically once every image in the
+// services/work sections has decoded, since 'load' can still race lazy
+// or slow images on a slower connection.
+const criticalImages = document.querySelectorAll(
+    ".scard-img img, .card-media img, .image-preview img"
+);
+Promise.all(
+    Array.from(criticalImages).map(img =>
+        img.complete
+            ? Promise.resolve()
+            : new Promise(resolve => {
+                  img.addEventListener("load", resolve, { once: true });
+                  img.addEventListener("error", resolve, { once: true });
+              })
+    )
+).then(() => ScrollTrigger.refresh());
 
   // ── Tech stack — direction-aware hover ───────────────
 (function initTechGrid() {
@@ -2240,19 +2264,97 @@ document.querySelectorAll('a[href*="#"]').forEach((link) => {
 const docsWrapper = document.querySelector('.docs-dropdown');
 const docsTrigger = document.getElementById('docsTrigger');
 
-docsTrigger.addEventListener('click', (e) => {
-    e.stopPropagation();
-    docsWrapper.classList.toggle('open');
-    docsTrigger.setAttribute('aria-expanded', docsWrapper.classList.contains('open'));
-});
+if (docsWrapper && docsTrigger) {
+    docsTrigger.addEventListener('click', (e) => {
+        e.stopPropagation();
+        docsWrapper.classList.toggle('open');
+        docsTrigger.setAttribute('aria-expanded', docsWrapper.classList.contains('open'));
+    });
 
-document.addEventListener('click', (e) => {
-    if (!docsWrapper.contains(e.target)) {
-        docsWrapper.classList.remove('open');
-        docsTrigger.setAttribute('aria-expanded', false);
-    }
-});
+    document.addEventListener('click', (e) => {
+        if (!docsWrapper.contains(e.target)) {
+            docsWrapper.classList.remove('open');
+            docsTrigger.setAttribute('aria-expanded', false);
+        }
+    });
+}
 
+
+// ── SERVICES title — sliced letter shutter effect ────────
+(function initServicesSlicedTitle() {
+    const el = document.querySelector(".services-title");
+    if (!el) return;
+
+    const mm = gsap.matchMedia();
+
+    mm.add("(min-width: 900px)", () => {
+        const text = el.textContent;
+        el.textContent = "";
+
+        const letterEls = [];
+
+        [...text].forEach((char) => {
+            const displayChar = char === " " ? "\u00A0" : char;
+
+            const letter = document.createElement("span");
+            letter.className = "sliced-letter";
+
+            const spacer = document.createElement("span");
+            spacer.className = "letter-spacer";
+            spacer.setAttribute("aria-hidden", "true");
+            spacer.textContent = displayChar;
+
+            const top = document.createElement("span");
+            top.className = "slice slice-top";
+            top.textContent = displayChar;
+
+            const bottom = document.createElement("span");
+            bottom.className = "slice slice-bottom";
+            bottom.textContent = displayChar;
+
+            letter.append(spacer, top, bottom);
+            el.appendChild(letter);
+            letterEls.push(letter);
+        });
+
+        el.classList.add("sliced-active");
+        el.setAttribute("aria-label", text);
+
+        letterEls.forEach((letter, i) => {
+            const top = letter.querySelector(".slice-top");
+            const bottom = letter.querySelector(".slice-bottom");
+            const dir = i % 2 === 0 ? 1 : -1;
+
+            gsap.timeline({
+                scrollTrigger: {
+                    trigger: ".services-header",
+                    start: "top bottom",
+                    end: "top 30%",
+                    scrub: 1,
+                },
+            })
+                .fromTo(
+                    top,
+                    { xPercent: 55 * dir, opacity: 0.35 },
+                    { xPercent: 0, opacity: 1, ease: "hop" },
+                    0
+                )
+                .fromTo(
+                    bottom,
+                    { xPercent: -55 * dir, opacity: 0.35 },
+                    { xPercent: 0, opacity: 1, ease: "hop" },
+                    0
+                );
+        });
+
+        // Cleanup when the breakpoint no longer matches
+        return () => {
+            el.classList.remove("sliced-active");
+            el.removeAttribute("aria-label");
+            el.textContent = text;
+        };
+    });
+})();
 
 
 
