@@ -1250,6 +1250,14 @@ img {
 }
 /* ── SERVICES sliced-letter scroll effect ─────────────── */
 .services-title {
+    font-size: clamp(56px, 12vw, 200px);
+    font-weight: 800;
+    letter-spacing: -0.04em;
+    text-transform: uppercase;
+    color: #171717;
+    line-height: 0.85;
+    display: inline-block;
+    white-space: nowrap;
     display: inline-block;
     white-space: nowrap;
 }

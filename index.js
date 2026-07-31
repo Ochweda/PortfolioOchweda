@@ -19,50 +19,8 @@ document.addEventListener("DOMContentLoaded", () =>{
   // At the very top of DOMContentLoaded, BEFORE the if (window.innerWidth >= 900) check:
         let lenis = null;
         let prePreloaderControlsBottomNav = false;
-    if (window.innerWidth >= 900) {
 
-        lenis = new Lenis();
-        const imageContainer = document.querySelector(".image-container-desktop");
-        const imageTitleElements = document.querySelectorAll(".image-title p");
-
-        lenis.on("scroll", ScrollTrigger.update);
-
-        gsap.ticker.add((time) => {
-            lenis.raf(time * 1000)
-        })
-
-        gsap.ticker.lagSmoothing(0);
-
-        //Large screen settings at aspect-ratio 5/4 to get perfect spacing for image preview section
-
-    //     const breakpoints = [
-    //   { maxWidth: 1000, translateY: -135, movMultiplier: 450 },
-    //   { maxWidth: 1100, translateY: -130, movMultiplier: 500 },
-    //   { maxWidth: 1200, translateY: -125, movMultiplier: 550 },
-    //   { maxWidth: 1300, translateY: -120, movMultiplier: 600 },
-    //   { maxWidth: 1440, translateY: -122, movMultiplier: 650 },  // ← ADD laptop range
-    //   // { maxWidth: 1536, translateY: -108, movMultiplier: 460 },
-    // ];
-
-    // const getInitialValues = () => {
-    //   const width = window.innerWidth;
-
-    //   for (const bp of breakpoints) {
-    //     if (width <= bp.maxWidth) {
-    //       return {
-    //         translateY: bp.translateY,
-    //         movementMultiplier: bp.movMultiplier,
-    //       };
-    //     }
-    //   }
-
-    //   return {
-    //     translateY: -130,
-    //     movementMultiplier: 650,
-    //   };
-    // };
-
-
+      
     CustomEase.create("hop", "0.8, 0, 0.2, 1");
     CustomEase.create("hop2", "0.9, 0, 0.1, 1");
 
@@ -316,6 +274,55 @@ function skipPreloader(splits) {
         }
 
   }
+
+
+
+
+
+
+    if (window.innerWidth >= 900) {
+
+        lenis = new Lenis();
+        const imageContainer = document.querySelector(".image-container-desktop");
+        const imageTitleElements = document.querySelectorAll(".image-title p");
+
+        lenis.on("scroll", ScrollTrigger.update);
+
+        gsap.ticker.add((time) => {
+            lenis.raf(time * 1000)
+        })
+
+        gsap.ticker.lagSmoothing(0);
+
+        //Large screen settings at aspect-ratio 5/4 to get perfect spacing for image preview section
+
+    //     const breakpoints = [
+    //   { maxWidth: 1000, translateY: -135, movMultiplier: 450 },
+    //   { maxWidth: 1100, translateY: -130, movMultiplier: 500 },
+    //   { maxWidth: 1200, translateY: -125, movMultiplier: 550 },
+    //   { maxWidth: 1300, translateY: -120, movMultiplier: 600 },
+    //   { maxWidth: 1440, translateY: -122, movMultiplier: 650 },  // ← ADD laptop range
+    //   // { maxWidth: 1536, translateY: -108, movMultiplier: 460 },
+    // ];
+
+    // const getInitialValues = () => {
+    //   const width = window.innerWidth;
+
+    //   for (const bp of breakpoints) {
+    //     if (width <= bp.maxWidth) {
+    //       return {
+    //         translateY: bp.translateY,
+    //         movementMultiplier: bp.movMultiplier,
+    //       };
+    //     }
+    //   }
+
+    //   return {
+    //     translateY: -130,
+    //     movementMultiplier: 650,
+    //   };
+    // };
+
 
 
 
@@ -807,6 +814,9 @@ gsap.from(".work-title", {
     },
 });
 
+
+
+
 gsap.from(".work-year", {
     x: 80,
     opacity: 0,
@@ -814,6 +824,18 @@ gsap.from(".work-year", {
     ease: "power3.out",
     scrollTrigger: {
         trigger: ".work-header",
+        start: "top 88%",
+        toggleActions: "play none none none",
+    },
+});
+
+gsap.from(".services-title", {
+    x: -80,
+    opacity: 0,
+    duration: 1,
+    ease: "power3.out",
+    scrollTrigger: {
+        trigger: ".services-header",
         start: "top 88%",
         toggleActions: "play none none none",
     },
@@ -2281,80 +2303,80 @@ if (docsWrapper && docsTrigger) {
 
 
 // ── SERVICES title — sliced letter shutter effect ────────
-(function initServicesSlicedTitle() {
-    const el = document.querySelector(".services-title");
-    if (!el) return;
+// (function initServicesSlicedTitle() {
+//     const el = document.querySelector(".services-title");
+//     if (!el) return;
 
-    const mm = gsap.matchMedia();
+//     const mm = gsap.matchMedia();
 
-    mm.add("(min-width: 900px)", () => {
-        const text = el.textContent;
-        el.textContent = "";
+//     mm.add("(min-width: 900px)", () => {
+//         const text = el.textContent;
+//         el.textContent = "";
 
-        const letterEls = [];
+//         const letterEls = [];
 
-        [...text].forEach((char) => {
-            const displayChar = char === " " ? "\u00A0" : char;
+//         [...text].forEach((char) => {
+//             const displayChar = char === " " ? "\u00A0" : char;
 
-            const letter = document.createElement("span");
-            letter.className = "sliced-letter";
+//             const letter = document.createElement("span");
+//             letter.className = "sliced-letter";
 
-            const spacer = document.createElement("span");
-            spacer.className = "letter-spacer";
-            spacer.setAttribute("aria-hidden", "true");
-            spacer.textContent = displayChar;
+//             const spacer = document.createElement("span");
+//             spacer.className = "letter-spacer";
+//             spacer.setAttribute("aria-hidden", "true");
+//             spacer.textContent = displayChar;
 
-            const top = document.createElement("span");
-            top.className = "slice slice-top";
-            top.textContent = displayChar;
+//             const top = document.createElement("span");
+//             top.className = "slice slice-top";
+//             top.textContent = displayChar;
 
-            const bottom = document.createElement("span");
-            bottom.className = "slice slice-bottom";
-            bottom.textContent = displayChar;
+//             const bottom = document.createElement("span");
+//             bottom.className = "slice slice-bottom";
+//             bottom.textContent = displayChar;
 
-            letter.append(spacer, top, bottom);
-            el.appendChild(letter);
-            letterEls.push(letter);
-        });
+//             letter.append(spacer, top, bottom);
+//             el.appendChild(letter);
+//             letterEls.push(letter);
+//         });
 
-        el.classList.add("sliced-active");
-        el.setAttribute("aria-label", text);
+//         el.classList.add("sliced-active");
+//         el.setAttribute("aria-label", text);
 
-        letterEls.forEach((letter, i) => {
-            const top = letter.querySelector(".slice-top");
-            const bottom = letter.querySelector(".slice-bottom");
-            const dir = i % 2 === 0 ? 1 : -1;
+//         letterEls.forEach((letter, i) => {
+//             const top = letter.querySelector(".slice-top");
+//             const bottom = letter.querySelector(".slice-bottom");
+//             const dir = i % 2 === 0 ? 1 : -1;
 
-            gsap.timeline({
-                scrollTrigger: {
-                    trigger: ".services-header",
-                    start: "top bottom",
-                    end: "top 30%",
-                    scrub: 1,
-                },
-            })
-                .fromTo(
-                    top,
-                    { xPercent: 55 * dir, opacity: 0.35 },
-                    { xPercent: 0, opacity: 1, ease: "hop" },
-                    0
-                )
-                .fromTo(
-                    bottom,
-                    { xPercent: -55 * dir, opacity: 0.35 },
-                    { xPercent: 0, opacity: 1, ease: "hop" },
-                    0
-                );
-        });
+//             gsap.timeline({
+//                 scrollTrigger: {
+//                     trigger: ".services-header",
+//                     start: "top bottom",
+//                     end: "top 30%",
+//                     scrub: 1,
+//                 },
+//             })
+//                 .fromTo(
+//                     top,
+//                     { xPercent: 55 * dir, opacity: 0.35 },
+//                     { xPercent: 0, opacity: 1, ease: "hop" },
+//                     0
+//                 )
+//                 .fromTo(
+//                     bottom,
+//                     { xPercent: -55 * dir, opacity: 0.35 },
+//                     { xPercent: 0, opacity: 1, ease: "hop" },
+//                     0
+//                 );
+//         });
 
-        // Cleanup when the breakpoint no longer matches
-        return () => {
-            el.classList.remove("sliced-active");
-            el.removeAttribute("aria-label");
-            el.textContent = text;
-        };
-    });
-})();
+//         // Cleanup when the breakpoint no longer matches
+//         return () => {
+//             el.classList.remove("sliced-active");
+//             el.removeAttribute("aria-label");
+//             el.textContent = text;
+//         };
+//     });
+// })();
 
 
 
