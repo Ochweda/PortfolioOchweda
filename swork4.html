@@ -1062,6 +1062,323 @@ nav {
             .collage-grade-video { aspect-ratio: 16/9; flex: none; }
             .collage-emblem-strip { min-height: 90px; }
         }
+
+        
+            /* ═══════════════════════════════════════════════════════
+   TOP NAV — MOBILE (matches index/swork/Work.html)
+   ═══════════════════════════════════════════════════════ */
+
+@media (max-width: 900px) {
+    .nav-1,
+    .nav-2 {
+        display: none;
+    }
+
+    nav {
+        justify-content: flex-end;
+        width: 100%;
+        max-width: 100vw;
+        box-sizing: border-box;
+        padding-right: 1.25em;
+        padding-left: 1.25em;
+    }
+
+    .btn-contact {
+        display: none;
+    }
+
+    .links {
+        gap: 0;
+    }
+
+    .btn-menu {
+        position: relative;
+        width: 44px;
+        height: 44px;
+        padding: 0;
+        border-radius: 50%;
+        background-color: rgb(224, 220, 220);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 5px;
+        flex-shrink: 0;
+    }
+
+    .btn-menu .btn-menu-text {
+        display: none;
+    }
+
+    .btn-menu .mobile-burger-line {
+        display: block;
+        width: 18px;
+        height: 2px;
+        background-color: #000000;
+        border-radius: 2px;
+    }
+
+    /* ── BACK BUTTON — fixed circle, arrow only ──
+       .links-bar .btn-back beats .links-bar a on specificity */
+    .links-bar .btn-back {
+        position: fixed;
+        top: 1.5em;
+        left: 1.25em;
+        z-index: 210;
+
+        width: 44px;
+        height: 44px;
+        padding: 0 !important;
+        border-radius: 50%;
+        background-color: #171717;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        font-size: 0;   /* collapses the bare "Back to Selection" text node */
+        gap: 0;
+    }
+
+    .links-bar .btn-back .btn-back-arrow {
+        font-size: 20px;   /* arrow restores its own visible size */
+        color: #F5F5F5;
+    }
+
+    .links-bar {
+        justify-content: flex-end;
+        gap: 0.6em;
+        padding: 2.5em 1.25em 0.4em 1.25em; 
+        margin-top: 5.5em;
+    }
+
+    .links-bar-right {
+        gap: 0.5em;
+    }
+
+    .links-bar-right span {
+        display: none;
+    }
+
+    .docs-dropdown-trigger {
+        font-size: 13px;
+        padding: 0.6em 0.9em;
+        gap: 0.5em;
+    }
+
+    .docs-dropdown-menu {
+        right: 0;
+        left: auto;
+        min-width: 200px;
+    }
+
+    .bnav-wrapper {
+        display: none;
+    }
+}
+@media (max-width: 900px) {
+    .links-bar .btn-back {
+        position: fixed;
+        top: 1.5rem;      /* was 1.5em — now matches hamburger's real offset */
+        left: 1.25rem;    /* was 1.25em — same fix, for consistency */
+        z-index: 210;
+
+        width: 44px;
+        height: 44px;
+        padding: 0 !important;
+        border-radius: 50%;
+        background-color: #171717;
+         border: 1px solid #F5F5F5;   /* ← new *
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        font-size: 0;
+        gap: 0;
+    }
+
+    .links-bar .btn-back .btn-back-arrow {
+        font-size: 22px;                    /* slightly larger */
+        font-weight: 900;
+        color: #F5F5F5;
+        -webkit-text-stroke: 1px #F5F5F5;   /* thickens the glyph */
+        text-stroke: 1px #F5F5F5;
+        margin-bottom: 0.1em;
+    }
+}
+/* ═══════════════════════════════════════════════════════
+   MENU OVERLAY — MOBILE FONT SIZING
+   ═══════════════════════════════════════════════════════ */
+
+@media (max-width: 900px) {
+
+    /* "Menu" / "Close" top row, and EVRIMA/REACH OUT/INSTAGRAM columns */
+    .menu-overlay p,
+    .menu-overlay a {
+        font-size: clamp(13px, 3.2vw, 16px);
+        line-height: 1.3;
+    }
+
+     .menu-overlay-top-nav p {
+        font-size: 1.4rem !important;
+    }
+
+    /* "HOME / WORK / LAB / CONTACT" — the big nav links */
+    .menu-link a {
+        font-size: clamp(2.2rem, 11vw, 3.2rem) !important;
+        letter-spacing: -0.01em;
+    }
+
+    /* Tighten the vertical gaps between stacked nav links to match
+       the smaller font size */
+    .menu-links-wrapper {
+        gap: 0.15em !important;
+    }
+
+    /* Optional — pull the top-nav row's padding in slightly since
+       the text is now much smaller relative to the original spacing */
+    .menu-overlay-top-nav {
+        padding: 1.5rem;
+    }
+
+    /* Optional — tighten the content block's padding too */
+    .menu-content {
+        padding: 1.5rem;
+    }
+}
+@media (max-width: 640px) {
+    .info-row {
+        grid-template-columns: 1fr;
+    }
+
+    .nav-avail { display: none; }
+
+    /* ── Title: center-aligned ── */
+    .title-block {
+        padding: 1.6em 1.2em 1.2em;
+        text-align: center;
+    }
+
+    .title-block h1 {
+        font-size: clamp(2rem, 11vw, 3rem);
+        text-align: center;
+        margin-left: 0;          /* kill the 1.7em desktop indent */
+        margin-bottom: 0.7em;
+    }
+
+    /* ── Focus / Role / Status: single column ── */
+    .title-meta {
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: flex-start;
+        gap: 0.6em;
+        text-align: left;
+        margin-bottom: 0.2em;
+    }
+
+    .title-meta-item {
+        width: 100%;
+        gap: 0.5em;
+        align-items: baseline;
+    }
+
+    .meta-label {
+        font-size: 17px;
+        letter-spacing: 0.12em;
+        flex-shrink: 0;
+    }
+
+    .meta-value {
+        font-size: 17px;
+        letter-spacing: 0.05em;
+    }
+
+    .collage-bottom {
+        grid-template-columns: 1fr;
+    }
+
+    .collage-cell {
+        aspect-ratio: 16/9;
+    }
+}
+@media (max-width: 640px) {
+    /* ── Year ── */
+    .info-label {
+        font-size: 17px;
+        letter-spacing: 0.14em;
+        margin-bottom: 0.4em;
+    }
+
+    .year-value {
+        font-size: 1.9rem;
+        letter-spacing: -0.02em;
+    }
+
+    .year-block {
+        margin-top: 0.5em;
+        margin-bottom: 1em;
+    }
+
+    /* ── Stack ── */
+    .stack-item {
+        font-size: 17px;
+        letter-spacing: 0.04em;
+        line-height: 1.6;
+    }
+
+    /* ── Summary ── */
+    .summary-chip .info-label {
+        font-size: 21px;
+        font-weight: 700;
+        margin-bottom: 0.5em;
+    }
+
+    .summary-chip p {
+        font-size: 17px;
+        font-weight: 400;
+        line-height: 1.65;
+        margin-top: 0;
+    }
+
+    .summary-chip {
+        padding: 1.1em;
+    }
+}
+@media (max-width: 640px) {
+    .title-block {
+        position: relative;   /* anchor for the absolutely-positioned logo */
+    }
+
+    .title-top {
+        display: block;       /* stop the flex row from pushing h1 off-center */
+    }
+
+    .title-block h1 {
+        font-size: clamp(1.5rem, 10vw, 2.9rem);   /* smaller — was 2rem–3rem */
+        margin-bottom: 0.6em;
+    }
+
+    .project-logo {
+        position: absolute;
+        bottom: -0.2em;
+        right: 0.6em;
+        width: clamp(3.5em, 16vw, 5em);
+        height: auto;
+        margin: 0;
+    }
+
+    .project-logo img {
+        object-fit: contain;
+    }
+}
+@media (max-width: 900px) {
+    .links-bar-right a {
+        font-size: 17px;
+        padding: 0.6em 0.9em;
+        gap: 0.5em;
+    }
+}
     </style>
 </head>
 <body onload="window.scrollTo(0, 0)" >
@@ -1173,12 +1490,17 @@ nav {
             </div> 
         </div>
 
-        <div class="links">
+       <div class="links">
             <!-- <button class="btn-case">
                  Lab
             </button> -->
             <a href="mailto:curtis.oluoch@gmail.com" class="btn-contact">Get In Touch</a>
-            <div class="btn-menu nav-toggle">Menu</div>
+            <div class="btn-menu nav-toggle">
+                <span class="btn-menu-text">Menu</span>
+                <span class="mobile-burger-line"></span>
+                <span class="mobile-burger-line"></span>
+                <span class="mobile-burger-line"></span>
+            </div>
         </div>
 
        

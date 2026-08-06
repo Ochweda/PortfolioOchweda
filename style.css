@@ -551,7 +551,7 @@ p .nav-bottom {
     color: #ffffff;
     border: none;
     border-radius: 999px;
-    padding: 10px 20px;
+    padding: 15px 20px;
     font-family: "Inter", sans-serif;
     font-size: 20px;
     font-weight: 400;
@@ -570,7 +570,7 @@ p .nav-bottom {
     color: #000000;
     border: none;
     border-radius: 999px;
-    padding: 10px 10px;
+    padding: 14px 15px;
     font-family: "Inter", sans-serif;
     font-size: 20px;
     font-weight: 500;
@@ -1148,6 +1148,19 @@ img {
     background: linear-gradient(to left, #171717 0%, transparent 100%);
 }
 
+@media (max-width: 900px) {
+    .card-tech-wrap::before {
+        left: 0;
+        background: none;
+    }
+
+    .card-tech-wrap::after {
+        right: 0;
+        background: none;
+    }
+}
+
+
 .card-tech-row {
     position: absolute;
     top: 14%;
@@ -1201,7 +1214,7 @@ img {
     padding-bottom: clamp(5em, 8vh, 7em);
 }
 .work-footer a {
-   font-weight: 700;
+   font-weight: 500;
 }
 
 .see-all-btn {
@@ -1212,8 +1225,8 @@ img {
     color: #ffffff;
     text-decoration: none;
     border-radius: 999px;
-    padding: clamp(10px, 1.2vh, 14px) clamp(20px, 2.5vw, 32px);
-    font-size: clamp(12px, 1vw, 15px);
+    padding: clamp(15px, 1.6vh, 21px) clamp(20px, 2.5vw, 32px);
+    font-size: clamp(14px, 1.5vw, 20px);
     font-weight: 500;
     letter-spacing: 0.04em;
     transition: background 0.2s ease, gap 0.2s ease, transform 0.15s ease;
@@ -2260,6 +2273,21 @@ path {
     width: 85%;
 }
 
+@media (max-width: 1600px) {
+    .about-work p {
+        font-size: clamp(1rem, 5vw, 5.2rem);
+    font-weight: 700;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    /* color: #F5F5F5; */
+    /* max-width: 100%; */
+    margin-right: 4em;
+    color: rgba(255, 255, 255, 0.125);
+    transition: color 0.3s;
+    width: 85%; /* larger viewport — pushes CTA lower */
+    }
+}
+
 .work-img {
     position: relative;
     width: 100%;
@@ -2393,8 +2421,21 @@ path {
     pointer-events: auto;
     margin-bottom: 6em; 
 }
+
+@media (max-width: 1600px) {
+    .card-description-work {
+        width: 540px;
+    }
+    
+}
 .card-description-work.adj {
-    margin-bottom: 10em;
+    margin-bottom: 7.5em;
+}
+
+@media (max-width: 1600px) {
+    .card-description-work.adj {
+        margin-bottom: 7em;
+    }
 }
 
 .card-description-work p {
@@ -2406,8 +2447,10 @@ path {
     margin-bottom: 9em;  
 }
 
+
+
 .card-description-work.adj p{
-    margin-bottom: 10em;
+    margin-bottom: 13em;
 }
 
 /* ── Badges row ──────────────────────────────────────── */
@@ -2554,6 +2597,15 @@ path {
 .object p {
     font-size: 3rem;
     font-weight: 600;
+}
+
+@media (max-width: 1600px) {
+    .object {
+        padding: 1.35rem 3rem;
+    }
+    .object p {
+        font-size: 1.8rem;
+    }
 }
 
 .object.orange {
@@ -2924,58 +2976,7 @@ nav.bmenu-nav-list {
         left: 1rem;
     }
  }
-@media (max-width: 800px) {
-    .hero-inner-work {
-        border-radius: 3rem;
-    }
 
-    .header-work h1 {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        text-align: center;
-        width: 100%;
-        font-size: 4rem;
-        letter-spacing: 0;
-    }
-
-    .hero-footer-work {
-        flex-direction: column;
-        gap: 0.5rem;
-        align-items: flex-start;
-    }
-
-    .hero-footer-work h3, .hero-footer-work p {
-        width: 100%;
-        text-align: left;
-    }
-
-    .hero-footer-work h3 {
-        font-size: 1.25rem;
-    }
-
-    .preloader-progress-bar {
-        left: 0%;
-        width: 100%;
-        transform: translateX(0%) scaleX(0);
-    }
-
-    .preloader-logo h1 {
-        font-size: 2rem;
-        margin-left: 0.5em;
-    }
-
-    .preloader-mask {
-        mask: linear-gradient(#F5F5F5, #F5F5F5), url("images/mask3.svg") center/90% no-repeat;
-        mask-composite: subtract;
-    }
-
-    .preloader-footer {
-        width: 75%;
-    }
-
-}
 /* ── Responsive ───────────────────────────────────────── */
 @media (max-width: 900px) {
     .bottom-nav,
@@ -3012,10 +3013,10 @@ nav.bmenu-nav-list {
 
 }
 @media (max-width: 900px) {
-    .scard-img,
+    /* .scard-img,
     .scard-description {
         display: none;
-    }
+    } */
 
     .scard {
         height: 300px;
@@ -3090,6 +3091,7 @@ nav.bmenu-nav-list {
     .card-description-work p {
         font-size: 18px;
         line-height: 1.55;
+        margin-bottom: 6em;
     }
     .card-description-work.adj p {
         font-size: 18px;
@@ -3106,3 +3108,807 @@ nav.bmenu-nav-list {
     }
 }
 
+/* ═══════════════════════════════════════════════════════
+   HERO — MOBILE REDESIGN
+   ═══════════════════════════════════════════════════════ */
+
+.hero-bg-mobile {
+    display: none; /* desktop: hidden */
+}
+/* Desktop default: no break, stays on one line */
+.name-break {
+    display: none;
+}
+
+
+
+@media (max-width: 900px) {
+    .name-break {
+        display: inline;
+    }
+
+    body,
+    html {
+        overflow-x: hidden;
+    }
+
+    html {
+        scrollbar-gutter: auto;
+    }
+
+    /* ── Nav cleanup ─────────────────────────────────── */
+    .nav-1,
+    .nav-2 {
+        display: none;
+    }
+
+    nav {
+        justify-content: flex-end;
+        width: 100%;
+        max-width: 100vw;
+        box-sizing: border-box;
+        padding-right: 1.25em; 
+    }
+
+    .btn-contact {
+        display: none;
+    }
+
+    .links {
+        gap: 0;
+    }
+
+    .btn-menu {
+        position: relative;
+        width: 44px;
+        height: 44px;
+        padding: 0;
+        border-radius: 50%;
+        background-color: rgb(224, 220, 220);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 5px;
+        flex-shrink: 0;
+    }
+
+    .btn-menu .btn-menu-text {
+        display: none;
+    }
+
+    .btn-menu .mobile-burger-line {
+        display: block;
+        width: 18px;
+        height: 2px;
+        background-color: #000000;
+        border-radius: 2px;
+    }
+
+    /* ── Bottom nav removed on mobile hero ───────────── */
+    .bnav-wrapper {
+        display: none;
+    }
+
+    /* ── Hero background image ───────────────────────── */
+    .hero {
+        position: relative;
+        overflow: hidden;
+        justify-content: flex-start;
+        padding-bottom: 2.5em;
+    }
+
+    .hero-bg-mobile {
+        display: block;
+        position: absolute;
+        inset: 0;
+        z-index: 0;
+    }
+
+    .hero-bg-mobile img {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        border-radius: 0;
+        object-fit: cover;
+        object-position: center 15%;
+        transform: scale(1.35);   /* ← starting zoomed-in state */
+        will-change: transform;
+    }
+
+    .hero-bg-mobile::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        /* background: linear-gradient(
+            to bottom,
+            rgba(0, 0, 0, 0.1) 0%,
+            rgba(0, 0, 0, 0.45) 55%,
+            rgba(0, 0, 0, 0.7) 100%
+        ); */
+    }
+
+    /* ── Text layering above the image ───────────────── */
+    .preheader,
+    .hero-role-row,
+    .hero-copy {
+        position: relative;
+        z-index: 1;
+    }
+
+    /* "A SERIOUSLY GOOD" row removed */
+    .hero-labels-row {
+        display: none;
+    }
+
+    .hero-role-row {
+        margin-left: 0 !important;
+        flex-direction: column !important;
+        align-items: center;
+        gap: 0.15em;
+        text-align: center;
+    }
+
+    /* Name — white, centered */
+    .preheader {
+        margin-top: 32vh; /* tune to taste */
+        height: auto !important;
+        min-height: 1.1em;
+    }
+
+
+    .preheader h1 {
+        color: #F5F5F5;
+        text-align: left;
+        width: 100%;
+        font-size: 12vw;
+        letter-spacing: -0.03em;
+        margin-top: 3em;
+        margin-left: 0;
+    }
+
+    /* Role row — centered under the name */
+    .hero-role-row {
+        margin-left: 0;
+        margin-top: 0.4em;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.15em;
+        text-align: left;
+    }
+
+    .role-label {
+        color: rgba(245, 245, 245, 0.85);
+    }
+
+    .role-main {
+        font-size: 8vw;
+    }
+
+    /* Scroll copy — pinned to bottom, white */
+    .hero-copy {
+        margin-top: auto;
+    }
+
+    .hero-copy p {
+        color: #F5F5F5;
+        font-size: 13px;
+        font-weight: 500;
+    }
+}
+
+/* ═══════════════════════════════════════════════════════
+   MENU OVERLAY — MOBILE FONT SIZING
+   ═══════════════════════════════════════════════════════ */
+
+@media (max-width: 900px) {
+
+    /* "Menu" / "Close" top row, and EVRIMA/REACH OUT/INSTAGRAM columns */
+    .menu-overlay p,
+    .menu-overlay a {
+        font-size: clamp(13px, 3.2vw, 16px);
+        line-height: 1.3;
+    }
+
+     .menu-overlay-top-nav p {
+        font-size: 1.4rem !important;
+    }
+
+    /* "HOME / WORK / LAB / CONTACT" — the big nav links */
+    .menu-link a {
+        font-size: clamp(2.2rem, 11vw, 3.2rem) !important;
+        letter-spacing: -0.01em;
+    }
+
+    /* Tighten the vertical gaps between stacked nav links to match
+       the smaller font size */
+    .menu-links-wrapper {
+        gap: 0.15em !important;
+    }
+
+    /* Optional — pull the top-nav row's padding in slightly since
+       the text is now much smaller relative to the original spacing */
+    .menu-overlay-top-nav {
+        padding: 1.5rem;
+    }
+
+    /* Optional — tighten the content block's padding too */
+    .menu-content {
+        padding: 1.5rem;
+    }
+}
+
+/* ═══════════════════════════════════════════════════════
+   INTRO + ABOUT — MOBILE REDESIGN
+   ═══════════════════════════════════════════════════════ */
+
+@media (max-width: 900px) {
+
+    /* 1. Remove the entire intro section (desktop scroll-driven
+       image animation + its mobile fallback) */
+    .intro {
+        display: none !important;
+    }
+
+    /* 3. About text — smaller, left-aligned, natural wrapping */
+    .about-break {
+        display: none;
+    }
+
+    .about-text p {
+        font-size: clamp(15px, 4vw, 18px);
+        font-weight: 500;
+        line-height: 1.6;
+        letter-spacing: normal;
+        text-align: left;
+        text-justify: auto;
+    }
+
+    /* Single column now that there's no animated image landing here */
+    .about-layout {
+        display: block;
+    }
+
+    .about-image-slot {
+        display: none;
+    }
+
+    .about {
+        min-height: auto;
+        padding: 2em 1.5em;
+        gap: 1em;
+    }
+}
+
+/* ═══════════════════════════════════════════════════════
+   WORK CARDS — MOBILE REDESIGN
+   ═══════════════════════════════════════════════════════ */
+
+@media (max-width: 900px) {
+
+    /* Bigger media area — more room for the parallax to be felt */
+    .card-media {
+        height: clamp(240px, 62vw, 380px);
+    }
+
+    /* ── Info row — smaller icon, tighter padding, smaller text ── */
+    .card-info {
+        padding: 0.5em 0.75em 0.2em 0.75em;
+    }
+
+    .card-icon {
+        width: 24px;
+        height: 24px;
+    }
+
+    .card-info-left {
+        gap: 0.5em;
+    }
+
+    .card-project,
+    .card-year,
+    .card-type {
+        font-size: 10px;
+        letter-spacing: 0.03em;
+    }
+
+    .card-type {
+        margin-right: 8px;
+    }
+
+    /* ── Tech carousel + static tech line ──────────────────
+       Both need their left margin recalculated to match the
+       new smaller icon width + info padding above, or the
+       text will drift out of alignment with the icon */
+    .card-tech-wrap {
+        height: 26px;
+        width: 81%;
+        padding: 0.4em;
+        margin-left: calc(0.75em + 24px + 0.5em);
+        margin-top: 0.19em;
+    }
+
+    .card-tech-row {
+        font-size: 10px;
+    }
+
+    .card-tech-row span {
+        padding: 0 6px;
+    }
+
+    .card-tech-row span:nth-child(even) {
+        padding: 0 3px;
+    }
+
+    .card-tech-static {
+        margin-left: 2em;
+        font-size: 10px;
+        padding: 0.3em 0 2em calc(0.75em + 24px + 0.5em);
+        margin-left: 0; /* padding now handles the offset above */
+    }
+    /* .card-tech-wrap::before,
+    .card-tech-wrap::after {
+        width: 28px;
+    } */
+
+    .card-media {
+        width: 95%;                    /* was 97% — more horizontal padding */
+        margin: 0.65rem auto 0;        /* adds a touch more top padding too */
+    }
+
+    .card-tech-static {
+        font-size: 10px;
+        padding: 0.3em 0 2em calc(0.75em + 24px + 0.5em + 18px);
+        margin-left: 0;
+    }
+    .work {
+        margin-bottom: 0;
+    }
+
+    .work-footer {
+        padding-bottom: 2em;
+    }
+    .work {
+        padding-bottom: 1em;
+    }
+    section.services {
+        padding-bottom: 0;
+        padding-top: 0;
+    }
+}
+.see-all-btn {
+    text-transform: none;
+}
+/* ═══════════════════════════════════════════════════════
+   SERVICES CARDS — MOBILE REDESIGN
+   ═══════════════════════════════════════════════════════ */
+
+@media (max-width: 900px) {
+
+   /* 1. Square corners, matching the design */
+    .scard-inner {
+        border-radius: 0 !important;
+        flex-direction: column;      /* stack content + image vertically */
+        gap: 1.5em;
+        padding: 2em 1.5em;
+    }
+
+    /* Without JS pinning, .scard no longer needs a fixed height —
+       let it size naturally to its stacked content */
+    .scard {
+        height: auto;
+    }
+
+    /* 3. Smaller heading + description + stack text */
+    .scard-content h3 {
+        font-size: clamp(2.4rem, 10vw, 2.9rem);
+        margin-bottom: 0.6em;
+    }
+
+    #scard-4 .scard-content h3 {
+        margin-bottom: 0.6em; /* was 2em on desktop — no longer needed */
+    }
+
+    .scard-body {
+        grid-template-columns: 1fr;   /* single column: description then stack */
+        gap: 1.2em;
+    }
+
+    .scard-description p {
+        font-size: 17px;
+        line-height: 1.5;
+    }
+
+    .scard-stack {
+        gap: 0.4em;
+    }
+
+    .scard-stack p {
+        font-size: 11px;
+    }
+
+    /* 4. Smaller image, positioned below the text like the Figma */
+    .scard-img {
+        flex: none;
+        width: 100%;
+        max-width: 240px;
+        aspect-ratio: 4 / 3;
+        margin-top: 0;
+        align-self: flex-end;
+    }
+
+    /* Reset the desktop image-position tweaks — they were tuned
+       for the wider 16:9 desktop crop and look wrong at this size */
+    
+    .scard-img--video img {
+        width: 125%;
+        margin-right: 1em;
+        object-position: center center;
+        transform: translateX(-6.5%);
+    }
+
+    .scard-img--systems img{
+        width: 115%;
+        margin-right: 1em;
+        object-position: center center;
+        transform: translateX(-5%);
+    }
+
+    .scard-img--fsd img {
+        width: 155%;
+        margin-right: 1em;
+        object-position: center center;
+        transform: translateX(-14.5%);
+    }
+}
+
+@media (max-width: 900px) {
+
+    .tech-stack {
+        min-height: auto;
+        padding: 0 1.25em;
+        margin-bottom: 4em;
+    }
+
+    .tech-stack-inner {
+        min-height: auto;
+        justify-content: center;   /* was flex-start — this centers the block horizontally */
+        align-items: center;
+        padding: 3em 1.5em 2.5em;  /* more top/bottom breathing room */
+        gap: 1.75em;                /* more space between heading and grid */
+    }
+
+    .tech-stack-line {
+        font-size: clamp(2.4rem, 11vw, 3.2rem);
+    }
+
+    /* Desktop grid is hidden entirely on mobile now */
+    .tech-grid-desktop {
+        display: none;
+    }
+}
+
+/* ═══════════════════════════════════════════════════════
+   TECH STACK — MOBILE STAGGERED TWO-COLUMN LAYOUT
+   ═══════════════════════════════════════════════════════ */
+
+.tech-grid-mobile {
+    display: none; /* hidden on desktop */
+}
+
+@media (max-width: 900px) {
+
+    .tech-grid-mobile {
+        display: flex;
+        width: 100%;
+    }
+
+    .tech-col {
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+        min-width: 0;
+    }
+
+    /* Only ONE vertical line — between the two columns.
+       No outer left/right borders. */
+    .tech-col-left {
+        border-right: 1px solid rgba(0, 0, 0, 0.12);
+    }
+
+    .tech-cell-m {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+    }
+
+    .tech-cell-m iconify-icon {
+        font-size: clamp(1.8rem, 7.5vw, 2.4rem);
+        color: #1a1a1a;
+    }
+
+    /* Last cell in each column — no bottom line, dangles open
+       like the Figma crop */
+    .tech-col-left .tech-cell-m:last-child,
+    .tech-col-right .tech-cell-m:last-child {
+        border-bottom: none;
+    }
+
+    /* Independent heights per column — this staggering is what
+       makes the dividers NOT line up between columns.
+       Tweak these px values freely to match your Figma exactly. */
+    .tech-col-left .tech-cell-m:nth-child(1) { height: 200px; }  /* Python */
+    .tech-col-left .tech-cell-m:nth-child(2) { height: 153px; }  /* HuggingFace */
+    .tech-col-left .tech-cell-m:nth-child(3) { height: 140px; }  /* React */
+    .tech-col-left .tech-cell-m:nth-child(4) { height: 168px; }  /* TS */
+    .tech-col-left .tech-cell-m:nth-child(5) { height: 110px; }  /* n8n */
+    .tech-col-left .tech-cell-m:nth-child(6) { height: 150px; }  /* OpenAI */
+    .tech-col-left .tech-cell-m:nth-child(7) { height: 120px; }  /* Node.js */
+    
+
+    .tech-col-right .tech-cell-m:nth-child(1) { height: 120px;  } /* Playwright */
+    .tech-col-right .tech-cell-m:nth-child(2) { height: 168px; } /* Supabase */
+    .tech-col-right .tech-cell-m:nth-child(3) { height: 170px; } /* GCP */
+    .tech-col-right .tech-cell-m:nth-child(4) { height: 140px; } /* mdi-connection */
+    .tech-col-right .tech-cell-m:nth-child(5) { height: 120px; } /* ffmpeg */
+    .tech-col-right .tech-cell-m:nth-child(6) { height: 140px; } /* Next.js */
+    .tech-col-right .tech-cell-m:nth-child(7) { height: 130px; } /* Anthropic */
+    .tech-col-right .tech-cell-m:nth-child(8) { height: 150px; }  /* Tailwind */
+}
+
+/* ═══════════════════════════════════════════════════════
+   FOOTER — MOBILE REDESIGN
+   ═══════════════════════════════════════════════════════ */
+
+@media (max-width: 900px) {
+
+    .footer {
+        min-height: auto;          /* was 80svh — height now driven by content */
+        height: auto;
+        padding: 1.5em;
+        gap: 1.5em;
+    }
+
+    .footer-topbar {
+        font-size: 14px;
+        padding-top: 0.5em;
+    }
+
+    .footer-headline {
+        text-align: left;          /* was centered */
+        font-size: clamp(1.8rem, 7vw, 2.4rem);
+        margin-top: 0.5em;
+    }
+
+    .footer-body {
+        flex-direction: column;    /* stack instead of side-by-side */
+        align-items: flex-start !important;
+        gap: 1em;
+        margin-top: 1.5em;
+    }
+
+    .footer-socials {
+        margin-left: 0;            /* was auto — that's what pushed it right on desktop */
+        align-items: flex-start;
+        gap: 0.75em;
+    }
+
+    .footer-link {
+        font-size: 25px;
+    }
+
+    .footer-cta-area {
+        padding-top: 2em;
+        padding-bottom: 1.5em;
+    }
+
+    .footer-cta-text {
+        font-size: clamp(1.5rem, 8vw, 2.5rem);
+    }
+}
+
+@media (max-width: 900px) {
+    .hero-work {
+        padding: 0.4rem;                 /* thinner black border around the image */
+    }
+
+    .hero-inner-work {
+        border-radius: 2rem;
+    }
+
+    .hero-img-work {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;      /* clips the zoomed image to the rounded box */
+}
+
+.hero-img-work .work-img {
+    position: absolute !important;
+    inset: 0;
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+    object-position: 85% center;
+    transform: scale(1) !important;   /* ← this line is what was missing */
+    transform-origin: center center;
+}
+
+    .header-work h1 {
+        position: absolute;
+        top: 8%;                         /* was vertically centered — now near top */
+        left: 5%;
+        transform: none;
+        text-align: left;
+        width: 90%;
+        font-size: 3.4rem;
+        letter-spacing: 0;
+    }
+
+    .contact-btn-work {
+        display: none;
+    }
+
+    .hero-footer-work {
+        flex-direction: column;
+        gap: 0.5rem;
+        align-items: flex-start;
+        margin-bottom: 10em;
+    }
+
+    .hero-footer-work h3 {
+        display: none;                   /* "Watch me cook!" removed on mobile */
+    }
+
+    .hero-footer-work p {
+        width: 100%;
+        text-align: left;
+        font-size: 1.1rem;
+        font-weight: 500;
+    }
+
+    .preloader-progress-bar {
+        left: 0%;
+        width: 100%;
+        transform: translateX(0%) scaleX(0);
+    }
+
+    .preloader-logo h1 {
+        font-size: 2rem;
+        margin-left: 0.5em;
+    }
+
+    .preloader-mask {
+        mask: linear-gradient(#F5F5F5, #F5F5F5), url("images/mask3.svg") center/90% no-repeat;
+        mask-composite: subtract;
+    }
+
+    .preloader-footer {
+        width: 75%;
+    }
+}
+@media (max-width: 900px) {
+    .preloader-mask {
+        width: 0;
+        right: 0;
+        
+    }
+    .preloader-footer p{
+        color: #000000;
+    }
+}
+
+@media (max-width: 900px) {
+    .preloader-progress,
+    .preloader-mask {
+        z-index: 5;
+    }
+
+    .preloader-content {
+        z-index: 6;
+    }
+}
+
+/* ═══════════════════════════════════════════════════════
+   ABOUT-WORK (Lab page) — MOBILE REDESIGN
+   ═══════════════════════════════════════════════════════ */
+
+@media (max-width: 900px) {
+    .about-work {
+        min-height: auto;
+        height: auto;
+        align-items: flex-start;
+        padding: 2.5em 1.5em 3.5em;
+    }
+
+    .about-work p {
+    font-size: clamp(1.6rem, 7.5vw, 2.2rem);
+    font-weight: 700;
+    line-height: 1.25;
+    letter-spacing: -0.01em;
+    margin-right: 0;
+    width: 100%;
+}
+
+/* Fallback color only for the case where JS hasn't split the
+   paragraph into .aw-char spans yet (e.g. before SplitText runs,
+   or if it fails). Once split, GSAP's inline styles on .aw-char
+   take over and this rule no longer applies to them. */
+.about-work p:not(:has(.aw-char)) {
+    color: #F5F5F5;
+}
+}
+@media (max-width: 900px) {
+    .about-work {
+        margin-top: -1px;
+        margin-bottom: -1px;
+    }
+
+    .cards-work {
+        margin-top: -1px;
+    }
+}
+/* ═══════════════════════════════════════════════════════
+   CARD DESCRIPTION (Lab page cards) — MOBILE REDESIGN
+   ═══════════════════════════════════════════════════════ */
+
+@media (max-width: 900px) {
+    .card-description-work {
+        width: calc(100% - 2rem);
+        max-width: none;
+        left: 1rem;
+        bottom: 8rem;
+        max-height: calc(100% - 2rem);
+        padding: 1.25rem;
+        gap: 0.75rem;
+    }
+
+    .card-description-work.adj {
+        bottom: 14rem;
+    }
+
+    .card-description-work.adj2 {
+        bottom: 12rem;
+    }
+
+    /* the huge desktop margins (6em / 7.5em / 13em) were pushing
+       content way past the card — collapse them on mobile */
+    .card-description-work p,
+    .card-description-work.adj p,
+    .card-description-work.adj2 p {
+        margin-bottom: 7em;
+        font-size: 15px;
+        line-height: 1.5;
+    }
+
+    .card-description-work.adj,
+    .card-description-work.adj2 {
+        margin-bottom: 0;
+    }
+
+    .card-title-work h1 {
+        font-size: clamp(1.6rem, 7vw, 2.2rem);
+    }
+
+    .card-title-work h2 {
+        font-size: clamp(0.9rem, 3.5vw, 1.2rem);
+    }
+
+    .card-work {
+        padding: 1em;
+    }
+
+    .card-img-work {
+        border-radius: 2rem;
+    }
+}
+
+@media (max-width: 900px) {
+    .swork {
+        margin-bottom: 2em;
+    }
+}

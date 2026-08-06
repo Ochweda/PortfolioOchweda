@@ -15,9 +15,93 @@
         @view-transition {
             navigation: auto;
         }
+
+        @media (min-width: 900px) {
+            nav {
+                display: none;
+            }
+        }
     </style>
 </head>
 <body onload="window.scrollTo(0, 0)">
+
+    <div class="menu-overlay" style="background-color: #171717;">
+            <div class="menu-overlay-top-nav">
+                <div class="menu-col">
+                    <p></p>
+                </div>
+                <div class="menu-col">
+                    <p id="menu-close-overlay" style="cursor: pointer;">Close</p>
+                </div>
+            </div>
+                <div class="menu-content">
+                    <div class="menu-col">
+                        <p>EVRIMA</p>
+                        <p>2026</p>
+                        <br>
+                        <br>
+                        <p>REACH OUT</p>
+                        <p>curtis.oluoch@gmail.com</p>
+                        <br>
+                        <br>
+                        <p>DIRECT</p>
+                        <p>+254 714 467 377</p>
+                    </div>
+                    <div class="menu-col">
+                        <p>INSTAGRAM</p>
+                        <p>Ochweda_</p>
+                        <br>
+                        <br>
+                        <p>LANGUAGE</p>
+                        <p>English</p>
+                        
+                    </div>
+                </div>
+
+                <div class="menu-img">
+                    <video
+                        src="videos/memoji2.mp4"
+                        autoplay
+                        muted
+                        loop
+                        playsinline
+                        class="bnav-avatar-video">
+                    </video>
+                </div>
+
+                <div class="menu-links-wrapper">
+                    <div class="menu-link">
+                        <a href="index.html">
+                            <span>Home</span>
+                            <span>Home</span>
+                        </a>
+                    </div>
+                    <div class="menu-link">
+                        <a href="swork.html">
+                            <span>Work</span>
+                            <span>Work</span>
+                        </a>
+                    </div>
+                    <div class="menu-link">
+                        <a href="Work.html">
+                            <span>Lab</span>
+                            <span>Lab</span>
+                        </a>
+                    </div>
+                    <div class="menu-link">
+                        <a href="mailto:curtis.oluoch@gmail.com">
+                            <span>Contact</span>
+                            <span>Contact</span>
+                        </a>
+                    </div>
+
+                    <div class="link-highlighter"></div>
+                </div>
+
+
+            </div>
+
+
     <main class="page-content">
             <div class="preloader-progress">
                 <div class="preloader-progress-bar"></div>
@@ -32,7 +116,56 @@
                 </div>
             </div>
 
+             
+
             <div class="container-work">
+                <nav>
+        <div class="nav-1">
+            <p class="nav-top">Kenya-Based</p>
+            <p class="nav-bottom">Working Globally</p>
+        </div>
+         <div class="nav-2">
+            <div class="menu">
+                <div class="menu-line-index">
+                    <a class="nav-link top-1" href="">Home,</a>
+                    <a class="nav-link" href="">Home,</a>
+                </div>
+                <div class="menu-line-index">
+                    <a class="nav-link top-1" href="index.html">About,</a>
+                    <a class="nav-link" href="index.html">About,</a>
+                </div>
+                <div class="menu-line-index">
+                    <a class="nav-link top-1" href="swork.html">Work,</a>
+                    <a class="nav-link" href="swork.html">Work,</a>
+                </div>
+                <div class="menu-line-index">
+                    <a class="nav-link top-1" href="Work.html">Lab,</a>
+                    <a class="nav-link" href="Work.html">Lab,</a>
+                </div>
+                <div class="menu-line-index">
+                    <a class="nav-link top-1" href="mailto:curtis.oluoch@gmail.com">Contact</a>
+                    <a class="nav-link" href="mailto:curtis.oluoch@gmail.com">Contact</a>
+                </div>
+            </div> 
+        </div>
+
+        <div class="links">
+            <!-- <button class="btn-case">
+                 Lab
+            </button> -->
+            <a href="mailto:curtis.oluoch@gmail.com" class="btn-contact">Get In Touch</a>
+            <div class="btn-menu nav-toggle">
+                <span class="btn-menu-text">Menu</span>
+                <span class="mobile-burger-line"></span>
+                <span class="mobile-burger-line"></span>
+                <span class="mobile-burger-line"></span>
+            </div>
+        </div>
+
+       
+
+        
+    </nav>
                 <section class="hero-work">
                     <div class="hero-inner-work">
                         <div class="hero-img-work">

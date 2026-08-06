@@ -51,6 +51,7 @@ function skipPreloader(splits) {
     // straight to its final "revealed" state
     gsap.set(splits.preloaderHeaderSplit.chars, { visibility: "visible" });
     gsap.set(".image-container-desktop .image-preview", { scale: 1, opacity: 1 });
+    gsap.set(".hero-bg-mobile img", { scale: 1 });   // ← add this line — was stuck at 1.35
     gsap.set(splits.headerSplit.chars, { y: "0%" });
     gsap.set(
         [splits.navSplit.words, splits.navLeftSplit.words, splits.navButtonsSplit.words],
@@ -87,7 +88,9 @@ function skipPreloader(splits) {
           rotate: (i) => preloaderImgInitRotations[i],
         });
         gsap.set(".image-container-desktop .image-preview", { scale: 1.15, opacity: 0 });
+        gsap.set(".hero-bg-mobile img", { scale: 1.35 }); 
         gsap.set(".bottom-nav-work", { opacity: 0, y: 20 });   // ← add this line
+        
         prePreloaderControlsBottomNav = true;   
 
         if (playPreloader) { 
@@ -177,6 +180,16 @@ function skipPreloader(splits) {
           {
             clipPath: "polygon(0% 0%, 100% 0%, 100% 0%, 0% 0%)",
             duration: 1,
+            ease: "hop2",
+          },
+          4.35,
+        );
+
+        tl.to(
+          ".hero-bg-mobile img",
+          {
+            scale: 1,
+            duration: 1.9,
             ease: "hop2",
           },
           4.35,
@@ -280,8 +293,9 @@ function skipPreloader(splits) {
 
 
 
-    if (window.innerWidth >= 900) {
+    const isDesktop = window.innerWidth >= 900;
 
+    
         lenis = new Lenis();
         const imageContainer = document.querySelector(".image-container-desktop");
         const imageTitleElements = document.querySelectorAll(".image-title p");
@@ -485,10 +499,10 @@ function skipPreloader(splits) {
   // ── About text animations ──────────────────────────────
   const paragraph = document.querySelector(".about-text p");
 
-  if (paragraph) {
+  if (paragraph && isDesktop) {
 
     const rawHTML = paragraph.innerHTML.trim();
-    const lineSegments = rawHTML.split(/<br\s*\/?>/i);
+    const lineSegments = rawHTML.split(/<br[^>]*>/i);
 
     // ── Custom class assignment per word ─────────────────────
     // One number per word, in reading order.
@@ -877,6 +891,9 @@ document.querySelectorAll('.card-tech-wrap').forEach(wrap => {
 
 (function initServicesCards() {
 
+
+    // if (!isDesktop) return;
+
     // Store all triggers for cleanup — mirrors the
     // return () => ScrollTrigger.getAll().forEach(t => t.kill())
     // cleanup in the useGSAP version
@@ -885,6 +902,11 @@ document.querySelectorAll('.card-tech-wrap').forEach(wrap => {
     const scards = gsap.utils.toArray(".scard");
 
     if (!scards.length || !scards[0]) return;
+
+    // Mobile cards are taller (stacked content) and the viewport is
+    // shorter, so use a smaller per-card fold distance than desktop.
+    const mobileFoldStep = 14; // vh — was 22 on desktop
+    const foldStep = isDesktop ? 22 : mobileFoldStep;
 
     // ── 1. Pin .services-intro ───────────────────────────
     // Equivalent to the first ScrollTrigger.create in useGSAP:
@@ -921,7 +943,7 @@ document.querySelectorAll('.card-tech-wrap').forEach(wrap => {
             // Scrub card-inner upward as scroll continues —
             // creates the "next card folding over" illusion
             const cardTween = gsap.to(cardInner, {
-                y: `-${(scards.length - index) * 22}vh`,
+                y: `-${(scards.length - index) * foldStep}vh`,
                 ease: "none",
                 scrollTrigger: {
                     trigger: card,
@@ -1366,6 +1388,10 @@ setInterval(updateFooterTime, 10000); // updates every 10s
 
 // ── Hide navs when footer is revealed ────────────────
 (function initFooterNavHide() {
+  if (window.innerWidth < 900) {
+        // Mouse trail is desktop-only; nothing to do here on mobile.
+        return;
+    }
     const topNav      = document.querySelector('nav'); // may be null on work page — that's fine
     const bottomNav   = document.getElementById('bottom-nav')
                      || document.getElementById('bottom-nav-work');
@@ -1403,14 +1429,16 @@ const smoothPointer = {
 }
 const totalPointsArray = [40, 35, 30, 25, 20, 15, 10];
 
-window.addEventListener("mousemove", (event) => {
-  gsap.to(smoothPointer, {
-    x:event.clientX,
-    y:event.clientY,
-    duration:0.5,
-    ease: "power2.out",
-  });
-});
+if (window.innerWidth >= 900) {
+    window.addEventListener("mousemove", (event) => {
+        gsap.to(smoothPointer, {
+            x:event.clientX,
+            y:event.clientY,
+            duration:0.5,
+            ease: "power2.out",
+        });
+    });
+}
 
 function updatePath(){
   trails.forEach((path, index) => {
@@ -1627,39 +1655,56 @@ gsap.set(splits.logoChars.chars, { visibility: "visible" });
         );
 
         // ── About Work — Sharp Character Highlight ────────────
-        const mm = gsap.matchMedia();
+        // ── About Work — Sharp Character Highlight ────────────
+const mm = gsap.matchMedia();
 
-        mm.add({
-            isLarge: "(min-width: 1600px)",
-            isSmall: "(max-width: 1599px)"
-        }, (context) => {
-            const { isLarge, isSmall } = context.conditions;
+mm.add({
+    isLarge: "(min-width: 1600px)",
+    isSmall: "(min-width: 900px) and (max-width: 1599px)",
+    isMobile: "(max-width: 899px)"
+}, (context) => {
+    const { isLarge, isSmall, isMobile } = context.conditions;
 
-            const aboutHighlight = SplitText.create(".about-work p", {
-                type: "words, chars",
-                charsClass: "aw-char",
-            });
+    const aboutHighlight = SplitText.create(".about-work p", {
+        type: "words, chars",
+        charsClass: "aw-char",
+    });
 
-            gsap.set(aboutHighlight.chars, {
-                color: "rgba(255, 255, 255, 0.125)",
-            });
+    gsap.set(aboutHighlight.chars, {
+        color: "rgba(255, 255, 255, 0.125)",
+    });
 
-            gsap.to(aboutHighlight.chars, {
-                color: "white",
-                stagger: 0.1,
-                ease: "none",
-                scrollTrigger: {
-                    trigger: ".about-work",
-                    start: isLarge ? "top 69%" : "top 50%",
-                    end: isLarge ? "+=100%" : "+=130%",
-                    scrub: 0.5,
-                },
-            });
+    // Mobile: start earlier and give the scrub far more scroll
+    // distance to finish, since the paragraph wraps to many more
+    // lines and the viewport is shorter than on desktop.
+    let start, end;
+    if (isMobile) {
+        start = "top 75%";
+        end = "+=100%";
+    } else if (isLarge) {
+        start = "top 69%";
+        end = "+=100%";
+    } else {
+        start = "top 50%";
+        end = "+=130%";
+    }
 
-            return () => {
-                aboutHighlight.revert(); // clean up SplitText on breakpoint change
-            };
-        });
+    gsap.to(aboutHighlight.chars, {
+        color: "white",
+        stagger: 0.1,
+        ease: "none",
+        scrollTrigger: {
+            trigger: ".about-work",
+            start: start,
+            end: end,
+            scrub: 0.5,
+        },
+    });
+
+    return () => {
+        aboutHighlight.revert(); // clean up SplitText on breakpoint change
+    };
+});
                 
         });
 
@@ -2380,7 +2425,7 @@ if (docsWrapper && docsTrigger) {
 
 
 
-          }
+          
 
         
 

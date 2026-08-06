@@ -30,7 +30,7 @@
 <div class="menu-overlay" style="background-color: #171717;">
             <div class="menu-overlay-top-nav">
                 <div class="menu-col">
-                    <p>Menu</p>
+                    <p></p>
                 </div>
                 <div class="menu-col">
                     <p id="menu-close-overlay" style="cursor: pointer;">Close</p>
@@ -112,6 +112,9 @@
    
 <main class="page-content main" >
 
+
+    
+
     
 
     <div class="pre-preloader">
@@ -176,7 +179,12 @@
                  Lab
             </button> -->
             <a href="mailto:curtis.oluoch@gmail.com" class="btn-contact">Get In Touch</a>
-            <div class="btn-menu nav-toggle">Menu</div>
+            <div class="btn-menu nav-toggle">
+                <span class="btn-menu-text">Menu</span>
+                <span class="mobile-burger-line"></span>
+                <span class="mobile-burger-line"></span>
+                <span class="mobile-burger-line"></span>
+            </div>
         </div>
 
        
@@ -187,10 +195,14 @@
    
 
     <section class="hero">
+
+        <div class="hero-bg-mobile">
+            <img src="images/PortIMG.jpg" alt="Curtis Ochweda">
+        </div>
  
         
         <div class="preheader">
-                <h1>CURTIS OCHWEDA</h1>
+                <h1>CURTIS<br class="name-break"> OCHWEDA</h1>
         </div>
 
         <div class="hero-labels-row">
@@ -240,12 +252,12 @@
         <div class="about-layout">
             <div class="about-text">
                 <p>
-                    Passionate about bridging<br> the gap between <br>
-                    conceptualization &amp; <br>instantiation. I design,
-                    build <br>and ship <br>intelligent systems<br> powered by AI.
-                    <br>With leverage being <br>my main concern, I <br>craft full
-                    stack systems <br>whose value addition <br>would  be to
-                    reduce <br>wastage around time <br>and money.
+                    Passionate about bridging<br class="about-break"> the gap between <br class="about-break">
+                    conceptualization &amp; <br class="about-break">instantiation. I design,
+                    build <br class="about-break">and ship <br class="about-break">intelligent systems<br class="about-break"> powered by AI.
+                    <br class="about-break">With leverage being <br class="about-break">my main concern, I <br class="about-break">craft full
+                    stack systems <br class="about-break">whose value addition <br class="about-break">would  be to
+                    reduce <br class="about-break">wastage around time <br class="about-break">and money.
                 </p>
             </div>
             <div class="about-image-slot"></div>
@@ -564,7 +576,7 @@
         </h2>
     </div>
 
-    <div class="tech-grid">
+    <div class="tech-grid tech-grid-desktop">
 
     <!-- Row 1 — Python wide/short, Supabase and React tall -->
         <div class="tech-cell has-icon cell-python">
@@ -598,7 +610,7 @@
     <!-- <div class="tech-cell"><div class="cell-bg"></div></div> -->
 
     <!-- Row 3 -->
-    <div class="tech-cell has-icon">
+    <div class="tech-cell has-icon cell-n8n">
         <div class="cell-bg"></div>
         <iconify-icon icon="simple-icons:n8n"></iconify-icon>
     </div>
@@ -622,7 +634,7 @@
         <div class="cell-bg"></div>
         <iconify-icon icon="simple-icons:openai"></iconify-icon>
     </div>
-    <div class="tech-cell has-icon">
+    <div class="tech-cell has-icon cell-tailwind">
         <div class="cell-bg"></div>
         <iconify-icon icon="simple-icons:tailwindcss"></iconify-icon>
     </div>
@@ -642,6 +654,29 @@
         <iconify-icon icon="simple-icons:nodedotjs"></iconify-icon>
     </div>
 
+</div>
+
+<!-- ── MOBILE-ONLY staggered two-column layout ─────────────── -->
+<div class="tech-grid-mobile">
+    <div class="tech-col tech-col-left">
+    <div class="tech-cell-m"><iconify-icon icon="simple-icons:python"></iconify-icon></div>
+    <div class="tech-cell-m"><iconify-icon icon="simple-icons:huggingface"></iconify-icon></div>
+    <div class="tech-cell-m"><iconify-icon icon="simple-icons:react"></iconify-icon></div>
+    <div class="tech-cell-m"><iconify-icon icon="simple-icons:typescript"></iconify-icon></div>
+    <div class="tech-cell-m"><iconify-icon icon="simple-icons:n8n"></iconify-icon></div>
+    <div class="tech-cell-m"><iconify-icon icon="simple-icons:openai"></iconify-icon></div>
+    <div class="tech-cell-m"><iconify-icon icon="simple-icons:nodedotjs"></iconify-icon></div>
+</div>
+<div class="tech-col tech-col-right">
+    <div class="tech-cell-m"><iconify-icon icon="simple-icons:playwright"></iconify-icon></div>
+    <div class="tech-cell-m"><iconify-icon icon="simple-icons:supabase"></iconify-icon></div>
+    <div class="tech-cell-m"><iconify-icon icon="simple-icons:googlecloud"></iconify-icon></div>
+    <div class="tech-cell-m"><iconify-icon icon="mdi:connection"></iconify-icon></div>
+    <div class="tech-cell-m"><iconify-icon icon="simple-icons:ffmpeg"></iconify-icon></div>
+    <div class="tech-cell-m"><iconify-icon icon="simple-icons:nextdotjs"></iconify-icon></div>
+    <div class="tech-cell-m"><iconify-icon icon="simple-icons:anthropic"></iconify-icon></div>
+    <div class="tech-cell-m"><iconify-icon icon="simple-icons:tailwindcss"></iconify-icon></div>
+</div>
 </div>
 </section>
 
