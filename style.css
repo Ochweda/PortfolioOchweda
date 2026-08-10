@@ -3193,7 +3193,7 @@ nav.bmenu-nav-list {
     /* ── Hero background image ───────────────────────── */
     .hero {
         position: relative;
-        overflow: hidden;
+        overflow: visible;
         justify-content: flex-start;
         padding-bottom: 2.5em;
     }
@@ -3253,7 +3253,7 @@ nav.bmenu-nav-list {
 
     /* Name — white, centered */
     .preheader {
-        margin-top: 32vh; /* tune to taste */
+        margin-top: 29vh; /* tune to taste */
         height: auto !important;
         min-height: 1.1em;
     }
@@ -3265,7 +3265,7 @@ nav.bmenu-nav-list {
         width: 100%;
         font-size: 12vw;
         letter-spacing: -0.03em;
-        margin-top: 3em;
+        margin-top: 2.5em;
         margin-left: 0;
     }
 
