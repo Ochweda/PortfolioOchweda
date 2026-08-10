@@ -890,46 +890,21 @@ document.querySelectorAll('.card-tech-wrap').forEach(wrap => {
 
 
 (function initServicesCards() {
+    const mm = gsap.matchMedia();
 
+    // ── Desktop: existing pin/fold stacking effect, unchanged ──
+    mm.add("(min-width: 901px)", () => {
+        const serviceTriggers = [];
+        const scards = gsap.utils.toArray(".scard");
+        if (!scards.length) return;
 
-    // if (!isDesktop) return;
+        const foldStep = 22; // vh
 
-    // Store all triggers for cleanup — mirrors the
-    // return () => ScrollTrigger.getAll().forEach(t => t.kill())
-    // cleanup in the useGSAP version
-    const serviceTriggers = [];
+        scards.forEach((card, index) => {
+            const isLastCard = index === scards.length - 1;
+            const cardInner = card.querySelector(".scard-inner");
+            if (isLastCard) return;
 
-    const scards = gsap.utils.toArray(".scard");
-
-    if (!scards.length || !scards[0]) return;
-
-    // Mobile cards are taller (stacked content) and the viewport is
-    // shorter, so use a smaller per-card fold distance than desktop.
-    const mobileFoldStep = 14; // vh — was 22 on desktop
-    const foldStep = isDesktop ? 22 : mobileFoldStep;
-
-    // ── 1. Pin .services-intro ───────────────────────────
-    // Equivalent to the first ScrollTrigger.create in useGSAP:
-    // pins intro from when first card hits 35% to last card at 30%
-    // const introPin = ScrollTrigger.create({
-    //     trigger: scards[0],
-    //     start: "top 35%",
-    //     endTrigger: scards[scards.length - 1],
-    //     end: "top 30%",
-    //     pin: ".services-intro",
-    //     pinSpacing: false,
-    // });
-    // serviceTriggers.push(introPin);
-
-    // ── 2. Pin each card + scrub card-inner upward ───────
-    // Equivalent to the cards.forEach loop in useGSAP
-    scards.forEach((card, index) => {
-        const isLastCard = index === scards.length - 1;
-        const cardInner = card.querySelector(".scard-inner");
-
-        if (!isLastCard) {
-
-            // Pin the card in place
             const cardPin = ScrollTrigger.create({
                 trigger: card,
                 start: "top 25%",
@@ -940,8 +915,6 @@ document.querySelectorAll('.card-tech-wrap').forEach(wrap => {
             });
             serviceTriggers.push(cardPin);
 
-            // Scrub card-inner upward as scroll continues —
-            // creates the "next card folding over" illusion
             const cardTween = gsap.to(cardInner, {
                 y: `-${(scards.length - index) * foldStep}vh`,
                 ease: "none",
@@ -951,32 +924,33 @@ document.querySelectorAll('.card-tech-wrap').forEach(wrap => {
                     endTrigger: ".tech-stack",
                     end: "top 65%",
                     scrub: true,
-                    onUpdate: self => {
-                        serviceTriggers.push(self); // capture for cleanup
-                    }
-                }
+                },
             });
+            if (cardTween.scrollTrigger) serviceTriggers.push(cardTween.scrollTrigger);
+        });
 
-            if (cardTween.scrollTrigger) {
-                serviceTriggers.push(cardTween.scrollTrigger);
-            }
-        }
+        // matchMedia cleanup — auto-runs if the breakpoint is crossed
+        return () => serviceTriggers.forEach(t => t.kill && t.kill());
     });
 
-    // ── Cleanup ──────────────────────────────────────────
-    // Mirrors: return () => ScrollTrigger.getAll().forEach(t => t.kill())
-    // Runs on page unload to prevent memory leaks
-    // window.addEventListener("beforeunload", () => {
-    //     serviceTriggers.forEach(trigger => {
-    //         if (trigger && typeof trigger.kill === "function") {
-    //             trigger.kill();
-    //         }
-    //     });
-    // });
-
-    // Don't refresh here — the .scard-img images (and everything else
-    // on the page) may not have finished loading yet, which would bake
-    // in trigger start/end points measured against a too-short page.
+    // ── Mobile: no pinning — cards just flow, with a gentle reveal ──
+    mm.add("(max-width: 900px)", () => {
+        const scards = gsap.utils.toArray(".scard");
+        const tweens = scards.map(card =>
+            gsap.from(card, {
+                opacity: 0,
+                y: 40,
+                duration: 0.6,
+                ease: "power2.out",
+                scrollTrigger: {
+                    trigger: card,
+                    start: "top 85%",
+                    toggleActions: "play none none none",
+                },
+            })
+        );
+        return () => tweens.forEach(tw => tw.scrollTrigger && tw.scrollTrigger.kill());
+    });
 })();
 
 // Refresh once everything has actually loaded, so the pin/scrub trigger
