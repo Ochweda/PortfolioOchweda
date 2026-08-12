@@ -3072,17 +3072,17 @@ nav.bmenu-nav-list {
     .card-description-work p {
         font-size: 18px;
         line-height: 1.55;
-        margin-bottom: 6em;
+        margin-bottom: 4em;
     }
     .card-description-work.adj p {
         font-size: 18px;
         line-height: 1.55;
-        margin-bottom: 9em;
+        margin-bottom: 7em;
     }
     .card-description-work.adj2 p {
         font-size: 18px;
         line-height: 1.45;
-        margin-bottom: 5.5em; 
+        margin-bottom: 2.5em; 
     }
     .card-title-work h1 {
         font-size: clamp(1.6rem, 3vw, 3rem);
