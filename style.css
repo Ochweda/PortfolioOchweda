@@ -2405,10 +2405,10 @@ path {
     position: absolute;
     bottom: 4rem;
     left: 2rem;
-    width: clamp(280px, 40%, 540px);
+    width: clamp(280px, 50%, 580px);
     /* Real ceiling in both relative AND absolute terms — whichever is smaller wins,
        so it can never blow past the section on short viewports */
-    max-height: min(calc(100% - 3rem), 79svh);
+    max-height: min(calc(100% - 2rem), 85svh);
     overflow-y: auto;
     background-color: rgba(235, 235, 235, 0.92);
     backdrop-filter: blur(12px);
