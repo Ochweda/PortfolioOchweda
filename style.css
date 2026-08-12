@@ -3912,3 +3912,41 @@ nav.bmenu-nav-list {
         margin-bottom: 2em;
     }
 }
+
+.nav-availability {
+    display: flex;
+    align-items: center;
+    gap: 0.6em;
+}
+
+.availability-text .nav-top,
+.availability-text .nav-bottom {
+    line-height: 1.2;
+}
+
+@media (max-width: 900px) {
+    .nav-left {
+        display: none;
+    }
+}
+
+.nav-left {
+    display: flex;
+    align-items: center;
+    gap: clamp(2em, 9vw, 9em); /* controls the gap between the two text blocks — tune to taste */
+}
+
+.nav-availability {
+    display: flex;
+    align-items: center;
+    gap: 0.6em;
+}
+
+.availability-text .nav-top,
+.availability-text .nav-bottom {
+    line-height: 1.2;
+}
+
+.links {
+    margin-left: auto;
+}

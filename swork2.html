@@ -1482,6 +1482,66 @@ nav {
         aspect-ratio: 4/2.2;
     }
 }
+@media (max-width: 900px) {
+    .nav-left {
+        display: none;
+    }
+
+}
+
+.nav-left {
+    display: flex;
+    align-items: center;
+    gap: clamp(2em, 9vw, 9em); /* controls the gap between the two text blocks — tune to taste */
+}
+
+.nav-availability {
+    display: flex;
+    align-items: center;
+    gap: 0.6em;
+}
+
+.availability-text .nav-top,
+.availability-text .nav-bottom {
+    line-height: 1.2;
+}
+
+.links {
+    margin-left: auto;
+}
+
+/* Get In Touch — dark background */
+.btn-contact {
+    background-color: #171717;
+    color: #ffffff;
+    border: none;
+    border-radius: 999px;
+    padding: 15px 20px;
+    font-family: "Inter", sans-serif;
+    font-size: 20px;
+    font-weight: 400;
+    cursor: pointer;
+    transition: background 0.2s ease, transform 0.15s ease;
+}
+ 
+.btn-contact:hover {
+    background-color: #333333;
+    transform: scale(0.97);
+}
+
+.btn-menu {
+    
+    background-color: #e0e0e0;
+    color: #000000;
+    border: none;
+    border-radius: 999px;
+    padding: 14px 15px;
+    font-family: "Inter", sans-serif;
+    font-size: 20px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.2s ease, transform 0.15s ease;
+}
     </style>
 </head>
 <body onload="window.scrollTo(0, 0)">
@@ -1566,52 +1626,32 @@ nav {
 
      <!-- NAV -->
     <nav>
+    <div class="nav-left">
         <div class="nav-1">
             <p class="nav-top">Kenya-Based</p>
             <p class="nav-bottom">Working Globally</p>
         </div>
-        <div class="nav-2">
-            <div class="menu">
-                <div class="menu-line-index">
-                    <a class="nav-link top-1" href="index.html">Home,</a>
-                    <a class="nav-link" href="index.html">Home,</a>
-                </div>
-                <div class="menu-line-index">
-                    <a class="nav-link top-1" href="index.html">About,</a>
-                    <a class="nav-link" href="index.html">About,</a>
-                </div>
-                <div class="menu-line-index">
-                    <a class="nav-link top-1" href="swork.html">Work,</a>
-                    <a class="nav-link" href="swork.html">Work,</a>
-                </div>
-                <div class="menu-line-index">
-                    <a class="nav-link top-1" href="Work.html">Lab,</a>
-                    <a class="nav-link" href="Work.html">Lab,</a>
-                </div>
-                <div class="menu-line-index">
-                    <a class="nav-link top-1" href="mailto:curtis.oluoch@gmail.com">Contact</a>
-                    <a class="nav-link" href="mailto:curtis.oluoch@gmail.com">Contact</a>
-                </div>
-            </div> 
-        </div>
 
-        <div class="links">
-            <!-- <button class="btn-case">
-                 Lab
-            </button> -->
-            <a href="mailto:curtis.oluoch@gmail.com" class="btn-contact">Get In Touch</a>
-            <div class="btn-menu nav-toggle">
-                <span class="btn-menu-text">Menu</span>
-                <span class="mobile-burger-line"></span>
-                <span class="mobile-burger-line"></span>
-                <span class="mobile-burger-line"></span>
+        <div class="nav-availability">
+            <span class="availability-dot"></span>
+            <div class="availability-text">
+                <p class="nav-top">Freelance Availability</p>
+                <p class="nav-bottom">Don't hesitate</p>
             </div>
         </div>
+    </div>
 
-       
+    <div class="links">
+        <a href="mailto:curtis.oluoch@gmail.com" class="btn-contact">Get In Touch</a>
+        <div class="btn-menu nav-toggle">
+            <span class="btn-menu-text">Menu</span>
+            <span class="mobile-burger-line"></span>
+            <span class="mobile-burger-line"></span>
+            <span class="mobile-burger-line"></span>
+        </div>
+    </div>
+</nav>
 
-        
-    </nav>
 
     <!-- LINKS BAR -->
     <div class="links-bar">
@@ -1754,70 +1794,7 @@ nav {
 
     </div>
     <!-- /page-wrapper -->
-     <div class="bnav-wrapper" id="bnav-wrapper">
-
-    <!-- Popover — sits above the pill, hidden by overflow:hidden on wrapper -->
-     <div class="bmenu-popover" id="bmenu-popover">
-        <nav class="bmenu-nav-list">
-            <a href="index.html" class="bmenu-nav-item" data-index="0">
-                <div class="bmenu-nav-thumb">
-                    <img src="images/PortIMG.jpg" alt="Home">
-                </div>
-                <span class="bmenu-nav-label">Home</span>
-            </a>
-            <a href="swork.html" class="bmenu-nav-item" data-index="1">
-                <div class="bmenu-nav-thumb">
-                    <img  src="images/VybeThumb3.png" alt="Work">
-                </div>
-                <span class="bmenu-nav-label">Work</span>
-            </a>
-            <a href="Work.html" class="bmenu-nav-item" data-index="2">
-                <div class="bmenu-nav-thumb bmenu-nav-thumb--dark">
-                    <img src="images/BNavWork.png" alt="Lab">
-                </div>
-                <span class="bmenu-nav-label">Lab</span>
-            </a>
-        </nav>
-    </div>
-
-    <!-- Pill — always visible at the bottom of the wrapper -->
-    <div class="bottom-nav-work" id="bottom-nav-work">
-
-        <div class="bnav-avatar">
-            <video
-                src="videos/memoji2.mp4"
-                autoplay muted loop playsinline
-                class="bnav-avatar-video">
-            </video>
-        </div>
-
-        <div class="bnav-body">
-            <span class="bnav-name">CURTIS OLUOCH OCHWEDA</span>
-            <div class="bnav-ticker-wrap">
-                <p class="bnav-ticker-row">
-                    <span>AWWARDS ENTHUSIAST</span><span class="bnav-sep">·</span>
-                    <span>AI FANATIC</span><span class="bnav-sep">·</span>
-                    <span>FULL STACK ENGINEER</span><span class="bnav-sep">·</span>
-                    <span>LOVERBOY</span><span class="bnav-sep">·</span>
-                </p>
-                <p class="bnav-ticker-row" aria-hidden="true">
-                    <span>AWWARDS ENTHUSIAST</span><span class="bnav-sep">·</span>
-                    <span>AI FANATIC</span><span class="bnav-sep">·</span>
-                    <span>FULL STACK ENGINEER</span><span class="bnav-sep">·</span>
-                    <span>LOVERBOY</span><span class="bnav-sep">·</span>
-                </p>
-            </div>
-        </div>
-
-        <button class="bnav-menu-btn" id="bnav-menu-btn"
-                aria-label="Toggle menu" aria-expanded="false">
-            <span class="burger-line burger-line--top"></span>
-            <span class="burger-line burger-line--mid"></span>
-            <span class="burger-line burger-line--bot"></span>
-        </button>
-
-    </div>
-</div>
+    
      </main>
 
       <!-- GSAP -->
