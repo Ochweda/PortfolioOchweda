@@ -2405,7 +2405,7 @@ path {
     position: absolute;
     bottom: 4rem;
     left: 2rem;
-    width: clamp(280px, 50%, 580px);
+    width: clamp(280px, 60%, 600px);
     /* Real ceiling in both relative AND absolute terms — whichever is smaller wins,
        so it can never blow past the section on short viewports */
     max-height: min(calc(100% - 2rem), 85svh);
