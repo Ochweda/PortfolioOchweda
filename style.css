@@ -2403,7 +2403,7 @@ path {
 /* Panel — the frosted white box */
 .card-description-work {
     position: absolute;
-    bottom: 3rem;
+    bottom: 5rem;
     left: 2rem;
     width: clamp(280px, 60%, 600px);
     /* Real ceiling in both relative AND absolute terms — whichever is smaller wins,
