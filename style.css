@@ -791,7 +791,7 @@ img {
 }
  
 .about-text p {
-    font-size: clamp(30px, 2.8vw, 54px);
+    font-size: clamp(35px, 3vw, 54px);
     font-weight: 600;
     line-height: 1.05;
     color: #171717;
