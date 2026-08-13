@@ -20,6 +20,83 @@ document.addEventListener("DOMContentLoaded", () =>{
         let lenis = null;
         let prePreloaderControlsBottomNav = false;
 
+
+
+        // Put this near the top of DOMContentLoaded, alongside your other
+// function declarations — NOT inside document.fonts.ready.then(...)
+
+function initTextReveal() {
+    if (typeof SplitText === "undefined" || typeof ScrollTrigger === "undefined") return;
+    gsap.registerPlugin(SplitText, ScrollTrigger);
+
+    const EASE = "expo.out";
+
+    document.querySelectorAll(".title-block h1, .scard-content h3").forEach((heading) => {
+        SplitText.create(heading, {
+            type: "words",
+            wordsClass: "reveal-word",
+            mask: "words",
+            autoSplit: true,
+            onSplit(self) {
+                return gsap.from(self.words, {
+                    yPercent: 110,
+                    opacity: 0,
+                    duration: 1,
+                    ease: EASE,
+                    stagger: 0.05,
+                    scrollTrigger: { trigger: heading, start: "top 85%", once: true },
+                });
+            },
+        });
+    });
+
+    document.querySelectorAll(".summary-chip p, .scard-description p").forEach((para) => {
+        SplitText.create(para, {
+            type: "lines",
+            linesClass: "reveal-line", 
+            mask: "lines",
+            autoSplit: true,
+            onSplit(self) {
+                return gsap.from(self.lines, {
+                    yPercent: 110,
+                    opacity: 0,
+                    duration: 0.9,
+                    ease: EASE,
+                    stagger: 0.09,
+                    scrollTrigger: { trigger: para, start: "top 88%", once: true },
+                });
+            },
+        });
+    });
+
+    ["title-meta", "stack-list", "scard-stack"].forEach((cls) => {
+        document.querySelectorAll(`.${cls}`).forEach((group) => {
+            const items = [...group.children];
+            if (!items.length) return;
+            gsap.set(items, { opacity: 0, y: 22 });
+            ScrollTrigger.create({
+                trigger: group,
+                start: "top 88%",
+                once: true,
+                onEnter: () =>
+                    gsap.to(items, { opacity: 1, y: 0, duration: 0.7, ease: EASE, stagger: 0.07 }),
+            });
+        });
+    });
+
+    document.querySelectorAll(".year-value").forEach((el) => {
+        gsap.set(el, { opacity: 0, y: 16 });
+        ScrollTrigger.create({
+            trigger: el,
+            start: "top 90%",
+            once: true,
+            onEnter: () => gsap.to(el, { opacity: 1, y: 0, duration: 0.6, ease: EASE }),
+        });
+    });
+}
+
+// Call it independently, right after your existing document.fonts.ready.then(...) block:
+document.fonts.ready.then(initTextReveal);
       
     CustomEase.create("hop", "0.8, 0, 0.2, 1");
     CustomEase.create("hop2", "0.9, 0, 0.1, 1");
@@ -2398,8 +2475,7 @@ if (docsWrapper && docsTrigger) {
 // })();
 
 
-
-          
+   
 
         
 

@@ -133,7 +133,7 @@
             font-size: 14px;
         }
         
-        /* Get In Touch — dark background */
+        /* Get In Touch — dark background
         .btn-contact {
             background-color: #171717;
             color: #ffffff;
@@ -150,7 +150,7 @@
         .btn-contact:hover {
             background-color: #333333;
             transform: scale(0.97);
-        }
+        } */
 
         /* ── LINKS BAR ─────────────────────────── */
         /* REPLACE your existing .links-bar with this */
@@ -1064,11 +1064,11 @@ nav {
     background: rgba(255,255,255,0.08);
 }
 
-.btn-contact {
+/* .btn-contact {
     display: inline-block;
     text-decoration: none;
     text-transform: none;
-}
+} */
 @media (max-width: 1000px) {
     .menu-content {
         top: 25%;
@@ -1142,9 +1142,9 @@ nav {
         padding-left: 1.25em;
     }
 
-    .btn-contact {
+    /* .btn-contact {
         display: none;
-    }
+    } */
 
     .links {
         gap: 0;
@@ -1448,37 +1448,77 @@ nav {
     margin-left: auto;
 }
 
-/* Get In Touch — dark background */
 .btn-contact {
-    background-color: #171717;
-    color: #ffffff;
-    border: none;
-    border-radius: 999px;
-    padding: 15px 20px;
-    font-family: "Inter", sans-serif;
-    font-size: 20px;
-    font-weight: 400;
+    position: relative;
+    display: inline-flex;
+    text-decoration: none;
     cursor: pointer;
-    transition: background 0.2s ease, transform 0.15s ease;
-}
- 
-.btn-contact:hover {
-    background-color: #333333;
-    transform: scale(0.97);
 }
 
-.btn-menu {
-    
-    background-color: #e0e0e0;
-    color: #000000;
-    border: none;
+/* the emoji disc, tucked behind + rotated out of sight */
+.btn-contact-icon {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 52px;
+    height: 52px;
     border-radius: 999px;
-    padding: 14px 15px;
-    font-family: "Inter", sans-serif;
+    background: var(--pill-bg, #171717);
+    border: 1px solid var(--pill-border, #2a2a2a);
+    display: flex;
+    align-items: center;
+    justify-content: center;
     font-size: 20px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: background 0.2s ease, transform 0.15s ease;
+    z-index: 0;
+    transform: rotate(180deg) scale(0.9);
+    transition: transform 700ms cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.btn-contact:hover .btn-contact-icon {
+    transform: rotate(0deg) scale(1) translateX(-100%);
+}
+
+/* the visible label pill — just the shape, no clipping here */
+.btn-contact-label {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    height: 52px;
+    padding: 0 26px;
+    border-radius: 999px;
+    background: var(--pill-bg, #171717);
+    border: 1px solid var(--pill-border, #2a2a2a);
+    color: var(--pill-text, #f5f5f5);
+    font-weight: 400;
+    font-size: 20px;
+    text-transform: none;
+}
+
+/* the mask — locked to ONE line's height, this is what actually clips */
+.btn-contact-mask {
+    height: 18px;
+    line-height: 18px;
+    overflow: hidden;
+}
+
+/* two stacked copies of the text, sliding up on hover */
+.btn-contact-track {
+    display: flex;
+    flex-direction: column;
+    transition: transform 500ms cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.btn-contact:hover .btn-contact-track {
+    transform: translateY(-18px);
+}
+
+.btn-contact-line {
+    height: 18px;
+    line-height: 18px;
+}
+.btn-contact-line:last-child {
+    margin-bottom: 0;
 }
     </style>
 </head>
@@ -1655,7 +1695,17 @@ nav {
     </div>
 
     <div class="links">
-        <a href="mailto:curtis.oluoch@gmail.com" class="btn-contact">Get In Touch</a>
+        <a href="mailto:curtis.oluoch@gmail.com" class="btn-contact">
+            <span class="btn-contact-icon">🤙</span>
+            <span class="btn-contact-label">
+                <span class="btn-contact-mask">
+                    <span class="btn-contact-track">
+                        <span class="btn-contact-line">Get In Touch</span>
+                        <span class="btn-contact-line">Get In Touch</span>
+                    </span>
+                </span>
+            </span>
+        </a>
         <div class="btn-menu nav-toggle">
             <span class="btn-menu-text">Menu</span>
             <span class="mobile-burger-line"></span>
