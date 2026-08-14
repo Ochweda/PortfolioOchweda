@@ -2475,7 +2475,56 @@ if (docsWrapper && docsTrigger) {
 // })();
 
 
-   
+   function initTechStackLetters() {
+    const lines = document.querySelectorAll('.tech-stack-line');
+    if (!lines.length) return;
+
+    lines.forEach(line => {
+        const split = new SplitText(line, {
+            type: "words, chars",
+            charsClass: "tech-letter"
+        });
+
+        split.chars.forEach(char => {
+            const text = char.textContent;
+            char.innerHTML = `
+                <span class="tech-letter-inner">${text}</span>
+                <span class="tech-letter-dup" aria-hidden="true">${text}</span>
+            `;
+        });
+    });
+
+    const letters = gsap.utils.toArray('.tech-stack-heading .tech-letter');
+    gsap.set(letters, { yPercent: 100 });
+
+    const tl = gsap.timeline({
+        scrollTrigger: {
+            trigger: ".tech-stack-inner",
+            start: "top 60%",   // ← widened scroll range so the
+            end: "top -20%",    //   longer timeline isn't rushed
+            scrub: 1
+        }
+    });
+
+    // Must be comfortably bigger than the longest possible duration,
+    // or startAt has no room to vary (this was the bug above)
+    const timelineLength = 6;
+
+    letters.forEach(letter => {
+        const duration = gsap.utils.random(2.35, 2.85);  // per-letter flip length
+        const startAt  = gsap.utils.random(0, timelineLength - duration); // spread across the timeline
+
+        tl.to(letter, {
+            yPercent: 0,
+            ease: "power2.out",
+            duration
+        }, startAt);
+    });
+
+    ScrollTrigger.refresh();
+}
+
+initTechStackLetters();
 
         
 

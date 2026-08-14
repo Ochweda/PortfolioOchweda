@@ -1588,6 +1588,28 @@ section.services {
     line-height: 0.9;
     text-transform: uppercase;
     color: #171717;
+    overflow: hidden;        /* ← the mask that clips the sliding letters */
+    padding-bottom: 0.07em;   /* ← descender room, same trick as .reveal-line */
+    margin-bottom: -0.1em;
+}
+
+.tech-letter {
+    position: relative;
+    display: inline-block;
+    will-change: transform;
+}
+
+.tech-letter-inner,
+.tech-letter-dup {
+    display: block;
+}
+
+/* duplicate sits directly above the real letter, filling the gap
+   while it's mid-slide and still partially clipped by the mask */
+.tech-letter-dup {
+    position: absolute;
+    left: 0;
+    bottom: 100%;
 }
 
 /* ── Tech grid ───────────────────────────────────────── */
