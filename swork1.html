@@ -1448,6 +1448,19 @@ nav {
     margin-left: auto;
 }
 
+.btn-menu {
+    
+    background-color: #e0e0e0;
+    color: #000000;
+    border: none;
+    border-radius: 999px;
+    padding: 14px 15px;
+    font-family: "Inter", sans-serif;
+    font-size: 20px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.2s ease, transform 0.15s ease;
+}
 .btn-contact {
     position: relative;
     display: inline-flex;
@@ -1520,6 +1533,12 @@ nav {
 .btn-contact-line:last-child {
     margin-bottom: 0;
 }
+@media (max-width: 900px) {
+    .btn-contact {
+        display: none;
+    }
+}
+
     </style>
 </head>
 <body onload="window.scrollTo(0, 0)" >

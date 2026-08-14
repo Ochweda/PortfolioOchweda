@@ -649,6 +649,11 @@ p .nav-bottom {
     cursor: pointer;
     transition: background 0.2s ease, transform 0.15s ease;
 }
+@media (max-width: 900px) {
+    .btn-contact {
+        display: none;
+    }
+}
 
 section {
     width: 100vw;
