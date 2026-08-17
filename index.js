@@ -12,18 +12,84 @@ gsap.registerPlugin(ScrollTrigger);
 gsap.registerPlugin(SplitText);
 gsap.registerPlugin(CustomEase);
 
+/* ── Scroll lock ──────────────────────────────────────
+   Module scope so it exists before DOMContentLoaded. */
+let lenis = null;
+
+const ScrollLock = (() => {
+    let locked = false;
+    let failsafe = null;
+
+    const opts = { passive: false, capture: true };
+
+    const stop = (e) => { e.preventDefault(); e.stopPropagation(); };
+
+    const keys = { 32:1, 33:1, 34:1, 35:1, 36:1, 38:1, 40:1 };
+    const stopKeys = (e) => {
+        const tag = (e.target.tagName || "").toLowerCase();
+        if (tag === "input" || tag === "textarea") return;
+        if (keys[e.keyCode]) { e.preventDefault(); e.stopPropagation(); }
+    };
+
+    // Anything that slips through gets snapped back the same frame, so
+    // offset can never accumulate — and there's nothing to reset later.
+    const pin = () => { if (locked && window.scrollY !== 0) window.scrollTo(0, 0); };
+
+    const api = {
+        lock() {
+            if (locked) return;
+            locked = true;
+            document.documentElement.classList.add("is-scroll-locked");
+            window.addEventListener("wheel",     stop,     opts);
+            window.addEventListener("touchmove", stop,     opts);
+            window.addEventListener("keydown",   stopKeys, opts);
+            window.addEventListener("scroll",    pin,      { passive: true });
+            if (lenis) lenis.stop();
+            failsafe = setTimeout(() => api.unlock(), 8000);
+        },
+        unlock() {
+            clearTimeout(failsafe);
+            document.documentElement.classList.remove("is-scroll-locked");
+            if (!locked) return;
+            locked = false;
+            window.removeEventListener("wheel",     stop,     opts);
+            window.removeEventListener("touchmove", stop,     opts);
+            window.removeEventListener("keydown",   stopKeys, opts);
+            window.removeEventListener("scroll",    pin,      { passive: true });
+            if (lenis) lenis.start();       // ← no scrollTo, no jump
+            ScrollTrigger.refresh();
+        },
+        get isLocked() { return locked; },
+        attachLenis(instance) { if (locked) instance.stop(); },
+    };
+    return api;
+})();
+
+// Lock right now if this page has a preloader. index.js is loaded at the
+// end of <body>, so the DOM is already queryable here.
+if (document.querySelector(".pre-preloader") || document.querySelector(".preloader-progress")) {
+    ScrollLock.lock();
+}
 
 
 document.addEventListener("DOMContentLoaded", () =>{
 
   // At the very top of DOMContentLoaded, BEFORE the if (window.innerWidth >= 900) check:
-        let lenis = null;
+        // let lenis = null;
         let prePreloaderControlsBottomNav = false;
 
 
 
         // Put this near the top of DOMContentLoaded, alongside your other
 // function declarations — NOT inside document.fonts.ready.then(...)
+
+ // ── Lenis first, so ScrollLock has something to actually stop ──
+    lenis = new Lenis();
+    window.lenis = lenis;
+    lenis.on("scroll", ScrollTrigger.update);
+    gsap.ticker.add((time) => lenis.raf(time * 1000));
+    gsap.ticker.lagSmoothing(0);
+    ScrollLock.attachLenis(lenis);   // ← stops it immediately if locked
 
 function initTextReveal() {
     if (typeof SplitText === "undefined" || typeof ScrollTrigger === "undefined") return;
@@ -141,6 +207,8 @@ function skipPreloader(splits) {
     if (document.querySelector(".bottom-nav-work")) {
         gsap.set(".bottom-nav-work", { opacity: 1, y: 0 });
     }
+
+    ScrollLock.unlock();
 }
 
     if (document.querySelector(".pre-preloader")) {
@@ -258,6 +326,7 @@ function skipPreloader(splits) {
             clipPath: "polygon(0% 0%, 100% 0%, 100% 0%, 0% 0%)",
             duration: 1,
             ease: "hop2",
+             onStart: () => ScrollLock.unlock(),
           },
           4.35,
         );
@@ -373,17 +442,17 @@ function skipPreloader(splits) {
     const isDesktop = window.innerWidth >= 900;
 
     
-        lenis = new Lenis();
+        // lenis = new Lenis();
         const imageContainer = document.querySelector(".image-container-desktop");
         const imageTitleElements = document.querySelectorAll(".image-title p");
 
-        lenis.on("scroll", ScrollTrigger.update);
+        // lenis.on("scroll", ScrollTrigger.update);
 
-        gsap.ticker.add((time) => {
-            lenis.raf(time * 1000)
-        })
+        // gsap.ticker.add((time) => {
+        //     lenis.raf(time * 1000)
+        // })
 
-        gsap.ticker.lagSmoothing(0);
+        // gsap.ticker.lagSmoothing(0);
 
         //Large screen settings at aspect-ratio 5/4 to get perfect spacing for image preview section
 
@@ -1665,6 +1734,7 @@ gsap.set(splits.logoChars.chars, { visibility: "visible" });
             scale: 5,
             duration:2.5,
             ease: "power3.out",
+            onStart: () => ScrollLock.unlock(),
           },
           "<"
         )
