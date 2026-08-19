@@ -487,6 +487,31 @@ nav {
             letter-spacing: 0;
         }
 }
+/* ═══════════════════════════════════════════════════════
+   MENU OVERLAY — contact links + compact laptop sizing
+   ═══════════════════════════════════════════════════════ */
+
+/* Contact links (email, Instagram) inside the overlay columns */
+.menu-content .menu-col a {
+    font: inherit;              /* inherits the parent <p> sizing */
+    color: #F5F5F5;
+    text-transform: none;
+    text-decoration: none;
+    user-select: text;
+    transition: color 0.25s ease;
+}
+
+.menu-content .menu-col a:hover,
+.menu-content .menu-col a:focus-visible {
+    color: #F25623;
+}
+
+/* Smaller type on compact laptop screens */
+@media (min-width: 901px) and (max-width: 1600px) {
+    .menu-content .menu-col p {
+        font-size: 1.15rem;
+    }
+}
 
 /* .menu-nav p {
     padding: 1rem;
@@ -4091,4 +4116,82 @@ html.is-scroll-locked body {
     overflow: hidden !important;
     overscroll-behavior: none;
     touch-action: none;
+}
+/* ═══════════════════════════════════════════════════════
+   HERO "THE LAB" — COMPACT LAPTOP SIZING
+   ═══════════════════════════════════════════════════════ */
+
+/* 1440–1600px laptops */
+@media (min-width: 901px) and (max-width: 1600px) {
+    .hero-content-work .header-work h1 {
+        font-size: 9rem;
+        line-height: 0.9;
+        letter-spacing: -0.03em;
+    }
+}
+
+/* Smaller 13"/14" laptops — scales down proportionally */
+@media (min-width: 901px) and (max-width: 1280px) {
+    .hero-content-work .header-work h1 {
+        font-size: 7.5rem;
+    }
+}
+
+/* ═══════════════════════════════════════════════════════
+   LAB CARD PANELS — NARROW-PHONE FIX
+   ═══════════════════════════════════════════════════════ */
+
+/* 1. Close the margin-bottom leak from the (min-height: 800px)
+      block — it shifts the absolutely-positioned panel upward. */
+@media (max-width: 900px) {
+    .card-description-work,
+    .card-description-work.adj,
+    .card-description-work.adj2 {
+        margin-bottom: 0;
+    }
+}
+
+/* 2. Narrow phones: 14 Pro (393), 16/17 Pro (402), 13/14 (390),
+      SE (375). Excludes every Pro Max (430 / 440). */
+@media (max-width: 420px) {
+
+    .card-description-work {
+        bottom: 4.5rem;
+        max-height: calc(100% - 5.5rem);
+        justify-content: flex-start;
+        gap: 0;
+    }
+
+    .card-description-work.adj  { bottom: 6rem; }
+    .card-description-work.adj2 { bottom: 5.5rem; }
+
+    /* The 7em spacer is the single biggest contributor to the
+       overflow — remove it and rebuild the gap with auto margin,
+       which collapses instead of overflowing when space is tight. */
+    .card-description-work p,
+    .card-description-work.adj p,
+    .card-description-work.adj2 p {
+        margin-bottom: 0;
+        font-size: 14.5px;
+        line-height: 1.45;
+    }
+
+    .card-badges-work {
+        margin-top: auto;
+        padding-top: 1.5rem;
+    }
+
+    .card-title-work h1 { font-size: clamp(1.4rem, 6.5vw, 1.9rem); }
+    .card-title-work h2 { font-size: clamp(0.8rem, 3.2vw, 1rem); }
+}
+
+/* 3. Very short viewports — belt and braces for landscape or
+      smaller Androids that slip past the width bucket. */
+@media (max-width: 900px) and (max-height: 780px) {
+    .card-description-work,
+    .card-description-work.adj,
+    .card-description-work.adj2 {
+        bottom: 3.5rem;
+        max-height: calc(100% - 4.5rem);
+    }
 }

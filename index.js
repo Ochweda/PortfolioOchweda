@@ -11,6 +11,9 @@
 gsap.registerPlugin(ScrollTrigger);
 gsap.registerPlugin(SplitText);
 gsap.registerPlugin(CustomEase);
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+ScrollTrigger.config({ ignoreMobileResize: true });
 
 /* ── Scroll lock ──────────────────────────────────────
    Module scope so it exists before DOMContentLoaded. */
@@ -208,6 +211,10 @@ function skipPreloader(splits) {
         gsap.set(".bottom-nav-work", { opacity: 1, y: 0 });
     }
 
+    if (typeof window.__revertHeroSplits === "function") {
+        window.__revertHeroSplits();
+    }
+
     ScrollLock.unlock();
 }
 
@@ -224,6 +231,23 @@ function skipPreloader(splits) {
           const heroLabelsSplit = splitText(".hero-labels-row span", "words", "word");
           const heroRoleSplit = splitText(".hero-role-row span", "words", "word");
           // ...gsap.set() calls, and the whole `tl` timeline...
+
+          const heroSplits = [
+              preloaderHeaderSplit, navSplit, navLeftSplit, navButtonsSplit,
+              headerSplit, footerSplit, heroLabelsSplit, heroRoleSplit,
+          ];
+
+          let heroSplitsLive = true;
+
+          function revertHeroSplits() {
+              if (!heroSplitsLive) return;
+              heroSplitsLive = false;
+              heroSplits.forEach((s) => s && s.revert && s.revert());
+              ScrollTrigger.refresh();
+          }
+
+          // Expose so the resize handler can reach it
+          window.__revertHeroSplits = revertHeroSplits;
         
         // NEW — make it visible again now that the chars are split and hidden via transform
         gsap.set(preloaderHeaderSplit.chars, { visibility: "visible" });
@@ -239,7 +263,7 @@ function skipPreloader(splits) {
         prePreloaderControlsBottomNav = true;   
 
         if (playPreloader) { 
-        const tl = gsap.timeline({ delay: 0.5 });
+        const tl = gsap.timeline({ delay: 0.5, onComplete: revertHeroSplits });
 
         tl.to(".pre-preloader-img", {
           scale: 1,
@@ -605,6 +629,8 @@ function skipPreloader(splits) {
   });
 
   const animate = () => {
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    requestAnimationFrame(animate);
     if (window.innerWidth < 900) return;
     if (!imageContainer) return;
 
@@ -637,7 +663,7 @@ function skipPreloader(splits) {
       element.style.fontSize = `${fontSize}px`;
     });
 
-    requestAnimationFrame(animate);
+    
   };
 
   animate();
@@ -645,7 +671,11 @@ function skipPreloader(splits) {
   // ── About text animations ──────────────────────────────
   const paragraph = document.querySelector(".about-text p");
 
-  if (paragraph && isDesktop) {
+  if (paragraph) {
+    const aboutMM = gsap.matchMedia();
+    aboutMM.add("(min-width: 900px)", () => {
+
+  // if (paragraph && isDesktop) {
 
     const rawHTML = paragraph.innerHTML.trim();
     const lineSegments = rawHTML.split(/<br[^>]*>/i);
@@ -687,7 +717,10 @@ function skipPreloader(splits) {
             : wordsHTML;
     }).join("");
 
+    if (!paragraph.dataset.split) {
     paragraph.innerHTML = processedHTML;
+    paragraph.dataset.split = "1";
+}
 
     // CHANGE TO (Jason's actual values):
       gsap.set(".about-text .word1", { x: "2.8em" });
@@ -951,9 +984,10 @@ function skipPreloader(splits) {
     //     },
     //   }
     // );
+  // }
+
+    });
   }
-
-
   // ═══════════════════════════════════════════════════════
 // WORK SECTION JS
 // Paste inside DOMContentLoaded, after about text block
@@ -1070,6 +1104,8 @@ document.querySelectorAll('.card-tech-wrap').forEach(wrap => {
                     endTrigger: ".tech-stack",
                     end: "top 65%",
                     scrub: true,
+                    invalidateOnRefresh: true,
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////
                 },
             });
             if (cardTween.scrollTrigger) serviceTriggers.push(cardTween.scrollTrigger);
@@ -1187,9 +1223,29 @@ Promise.all(
         bodies = [],
         topWall = null;
 
+    // ── NEW: resize-accessible physics state ──
+    let physicsContainer = null;
+    let containerRect = null;
+    const physicsWalls = {};   
+
+
     function clamp(val, min, max) {
         return Math.max(min, Math.min(max, val));
     }
+
+    function buildWalls(w, h, t) {
+    return {
+        ground: Matter.Bodies.rectangle(
+            w / 2, h + t / 2, w + t * 2, t, { isStatic: true }
+        ),
+        left: Matter.Bodies.rectangle(
+            -t / 2, h / 2, t, h + t * 2, { isStatic: true }
+        ),
+        right: Matter.Bodies.rectangle(
+            w + t / 2, h / 2, t, h + t * 2, { isStatic: true }
+        ),
+    };
+}
 
     function initPhysics(container) {
         engine = Matter.Engine.create();
@@ -1199,33 +1255,69 @@ Promise.all(
         engine.velocityIterations = 16;
         engine.timing.timeScale = 1;
 
-        const containerRect = container.getBoundingClientRect();
+        physicsContainer = container;
+        containerRect = container.getBoundingClientRect();
         const wallThickness = config.wallThickness;
 
-        const walls = [
-            Matter.Bodies.rectangle(
-                containerRect.width / 2,
-                containerRect.height + wallThickness / 2,
-                containerRect.width + wallThickness * 2,
-                wallThickness,
-                { isStatic: true }
-            ),
-            Matter.Bodies.rectangle(
-                -wallThickness / 2,
-                containerRect.height / 2,
-                wallThickness,
-                containerRect.height + wallThickness * 2,
-                { isStatic: true }
-            ),
-            Matter.Bodies.rectangle(
-                containerRect.width + wallThickness / 2,
-                containerRect.height / 2,
-                wallThickness,
-                containerRect.height + wallThickness * 2,
-                { isStatic: true }
-            ),
-        ];
-        Matter.World.add(engine.world, walls);
+        // const walls = [
+        //     Matter.Bodies.rectangle(
+        //         containerRect.width / 2,
+        //         containerRect.height + wallThickness / 2,
+        //         containerRect.width + wallThickness * 2,
+        //         wallThickness,
+        //         { isStatic: true }
+        //     ),
+        //     Matter.Bodies.rectangle(
+        //         -wallThickness / 2,
+        //         containerRect.height / 2,
+        //         wallThickness,
+        //         containerRect.height + wallThickness * 2,
+        //         { isStatic: true }
+        //     ),
+        //     Matter.Bodies.rectangle(
+        //         containerRect.width + wallThickness / 2,
+        //         containerRect.height / 2,
+        //         wallThickness,
+        //         containerRect.height + wallThickness * 2,
+        //         { isStatic: true }
+        //     ),
+        // ];
+        // Matter.World.add(engine.world, walls);
+
+        // physicsWalls.ground = Matter.Bodies.rectangle(
+        //     containerRect.width / 2,
+        //     containerRect.height + wallThickness / 2,
+        //     containerRect.width + wallThickness * 2,
+        //     wallThickness,
+        //     { isStatic: true }
+        // );
+        // physicsWalls.left = Matter.Bodies.rectangle(
+        //     -wallThickness / 2,
+        //     containerRect.height / 2,
+        //     wallThickness,
+        //     containerRect.height + wallThickness * 2,
+        //     { isStatic: true }
+        // );
+        // physicsWalls.right = Matter.Bodies.rectangle(
+        //     containerRect.width + wallThickness / 2,
+        //     containerRect.height / 2,
+        //     wallThickness,
+        //     containerRect.height + wallThickness * 2,
+        //     { isStatic: true }
+        // );
+
+        // Matter.World.add(engine.world, [
+        //     physicsWalls.ground,
+        //     physicsWalls.left,
+        //     physicsWalls.right,
+        // ]);
+
+        Object.assign(physicsWalls, buildWalls(containerRect.width, containerRect.height, wallThickness));
+          Matter.World.add(engine.world, [
+              physicsWalls.ground,
+              physicsWalls.left,
+              physicsWalls.right,
+          ]);
 
         const objects = container.querySelectorAll(".object");
         objects.forEach((obj, index) => {
@@ -1368,6 +1460,66 @@ Promise.all(
         updatePositions();
       }
 
+      function resizePhysics() {
+    if (!engine || !physicsContainer) return;
+
+    // clientWidth/Height instead of getBoundingClientRect — immune to any
+    // CSS transform an ancestor might still be carrying mid-refresh
+    const w = physicsContainer.clientWidth;
+    const h = physicsContainer.clientHeight;
+    const t = config.wallThickness;
+    if (!w || !h) return;
+
+    containerRect = { width: w, height: h };
+
+    // Walls must be REBUILT, not repositioned — their dimensions were
+    // baked in at creation and a moved-but-undersized floor lets bodies
+    // fall through the uncovered edges.
+    Matter.World.remove(engine.world, [
+        physicsWalls.ground,
+        physicsWalls.left,
+        physicsWalls.right,
+    ]);
+    Object.assign(physicsWalls, buildWalls(w, h, t));
+    Matter.World.add(engine.world, [
+        physicsWalls.ground,
+        physicsWalls.left,
+        physicsWalls.right,
+    ]);
+
+    if (topWall) {
+        Matter.World.remove(engine.world, topWall);
+        topWall = Matter.Bodies.rectangle(w / 2, -t / 2, w + t * 2, t, { isStatic: true });
+        Matter.World.add(engine.world, topWall);
+    }
+
+    // Re-measure each capsule — CSS sizes them responsively, so the body
+    // geometry drifts from the DOM element after a resize.
+    bodies.forEach((entry) => {
+        const r = entry.element.getBoundingClientRect();
+        if (r.width && r.height) {
+            const sx = r.width / entry.width;
+            const sy = r.height / entry.height;
+            if (Math.abs(sx - 1) > 0.01 || Math.abs(sy - 1) > 0.01) {
+                Matter.Body.scale(entry.body, sx, sy);
+                entry.width = r.width;
+                entry.height = r.height;
+            }
+        }
+
+        // Anything now outside the new bounds gets pulled back in
+        const b = entry.body;
+        const x = clamp(b.position.x, entry.width / 2, Math.max(entry.width / 2, w - entry.width / 2));
+        const y = Math.min(b.position.y, h - entry.height / 2);
+
+        if (x !== b.position.x || y !== b.position.y) {
+            Matter.Body.setPosition(b, { x, y });
+            Matter.Body.setVelocity(b, { x: 0, y: 0 });
+            Matter.Body.setAngularVelocity(b, 0);
+        }
+    });
+}
+
       if (animateOnScroll) {
         document.querySelectorAll("section").forEach((section) => {
         if (section.querySelector(".object-container")) {
@@ -1394,34 +1546,77 @@ Promise.all(
       
       // ── Bottom nav ticker ─────────────────────────────────
 // REPLACE your existing initBnavTicker with this:
-(function initBnavTicker() {
-    const wraps = document.querySelectorAll('.bnav-ticker-wrap'); // ← querySelectorAll not querySelector
-    if (!wraps.length) return;
+// (function initBnavTicker() {
+//     const wraps = document.querySelectorAll('.bnav-ticker-wrap'); // ← querySelectorAll not querySelector
+//     if (!wraps.length) return;
 
-    wraps.forEach(wrap => {
-        const rows = wrap.querySelectorAll('.bnav-ticker-row');
-        if (rows.length < 2) return;
+//     wraps.forEach(wrap => {
+//         const rows = wrap.querySelectorAll('.bnav-ticker-row');
+//         if (rows.length < 2) return;
 
-        requestAnimationFrame(() => {
-            const rowW = rows[0].scrollWidth;
+//         requestAnimationFrame(() => {
+//             const rowW = rows[0].scrollWidth;
 
-            gsap.set(rows[0], { x: 0, yPercent: -50 });
-            gsap.set(rows[1], { x: rowW, yPercent: -50 });
+//             gsap.set(rows[0], { x: 0, yPercent: -50 });
+//             gsap.set(rows[1], { x: rowW, yPercent: -50 });
 
-            let x0 = 0, x1 = rowW;
-            const speed = 0.35;
+//             let x0 = 0, x1 = rowW;
+//             const speed = 0.35;
 
-            gsap.ticker.add(() => {
-                x0 -= speed;
-                x1 -= speed;
-                if (x0 <= -rowW) x0 = x1 + rowW;
-                if (x1 <= -rowW) x1 = x0 + rowW;
-                gsap.set(rows[0], { x: x0 });
-                gsap.set(rows[1], { x: x1 });
-            });
-        });
-    });
-})();
+//             gsap.ticker.add(() => {
+//                 x0 -= speed;
+//                 x1 -= speed;
+//                 if (x0 <= -rowW) x0 = x1 + rowW;
+//                 if (x1 <= -rowW) x1 = x0 + rowW;
+//                 gsap.set(rows[0], { x: x0 });
+//                 gsap.set(rows[1], { x: x1 });
+//             });
+//         });
+//     });
+// })();
+
+// ── Tickers — shared, re-measurable ──────────────────
+const tickerRemeasurers = [];
+
+function initTicker(wrap, rowSelector, speed) {
+    const rows = wrap.querySelectorAll(rowSelector);
+    if (rows.length < 2) return;
+
+    let rowW = 0, x0 = 0, x1 = 0;
+
+    const measure = () => {
+        const w = rows[0].scrollWidth;
+        if (!w) return;                    // element hidden — skip, retry next resize
+        rowW = w;
+        x0 = 0;
+        x1 = rowW;
+        gsap.set(rows[0], { x: x0, yPercent: -50 });
+        gsap.set(rows[1], { x: x1, yPercent: -50 });
+    };
+
+    const tick = () => {
+        if (!rowW) return;                 // no-ops safely until measured
+        x0 -= speed;
+        x1 -= speed;
+        if (x0 <= -rowW) x0 = x1 + rowW;
+        if (x1 <= -rowW) x1 = x0 + rowW;
+        gsap.set(rows[0], { x: x0 });
+        gsap.set(rows[1], { x: x1 });
+    };
+
+    document.fonts.ready.then(() => requestAnimationFrame(() => {
+        measure();
+        gsap.ticker.add(tick);
+    }));
+
+    tickerRemeasurers.push(measure);
+}
+
+document.querySelectorAll('.card-tech-wrap')
+    .forEach(w => initTicker(w, '.card-tech-row', 0.6));
+
+document.querySelectorAll('.bnav-ticker-wrap')
+    .forEach(w => initTicker(w, '.bnav-ticker-row', 0.35));
 
 // ── Menu open / close ─────────────────────────────────
 // ── Menu open / close ─────────────────────────────────
@@ -2598,7 +2793,17 @@ initTechStackLetters();
 
         
 
-          
+          let resizeTimer;
+              window.addEventListener("resize", () => {
+                  clearTimeout(resizeTimer);
+                  resizeTimer = setTimeout(() => {
+                     window.__revertHeroSplits?.(); 
+                    lenis?.resize();
+                    tickerRemeasurers.forEach(fn => fn());
+                    ScrollTrigger.refresh();      // ← pins settle first
+                    resizePhysics();              // ← then measure the container
+                }, 200);
+              });
   
   
 });

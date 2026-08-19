@@ -23,37 +23,37 @@ gsap.from(".work-year", {
 });
 
 
-// ── Tech carousel — Jason's ticker technique ──────────
-document.querySelectorAll('.card-tech-wrap').forEach(wrap => {
-    const rows = wrap.querySelectorAll('.card-tech-row');
-    if (rows.length < 2) return;
+// // ── Tech carousel — Jason's ticker technique ──────────
+// document.querySelectorAll('.card-tech-wrap').forEach(wrap => {
+//     const rows = wrap.querySelectorAll('.card-tech-row');
+//     if (rows.length < 2) return;
 
-    // Wait for fonts to load BEFORE measuring scrollWidth
-    // Inter loads async — measuring before it's ready gives wrong widths
-    document.fonts.ready.then(() => {
-        requestAnimationFrame(() => {
-            const rowW = rows[0].scrollWidth;
+//     // Wait for fonts to load BEFORE measuring scrollWidth
+//     // Inter loads async — measuring before it's ready gives wrong widths
+//     document.fonts.ready.then(() => {
+//         requestAnimationFrame(() => {
+//             const rowW = rows[0].scrollWidth;
 
-            gsap.set(rows[0], { x: 0,    yPercent: -50 });
-            gsap.set(rows[1], { x: rowW, yPercent: -50 });
+//             gsap.set(rows[0], { x: 0,    yPercent: -50 });
+//             gsap.set(rows[1], { x: rowW, yPercent: -50 });
 
-            let x0 = 0;
-            let x1 = rowW;
-            const speed = 0.6;
+//             let x0 = 0;
+//             let x1 = rowW;
+//             const speed = 0.6;
 
-            gsap.ticker.add(() => {
-                x0 -= speed;
-                x1 -= speed;
+//             gsap.ticker.add(() => {
+//                 x0 -= speed;
+//                 x1 -= speed;
 
-                if (x0 <= -rowW) x0 = x1 + rowW;
-                if (x1 <= -rowW) x1 = x0 + rowW;
+//                 if (x0 <= -rowW) x0 = x1 + rowW;
+//                 if (x1 <= -rowW) x1 = x0 + rowW;
 
-                gsap.set(rows[0], { x: x0 });
-                gsap.set(rows[1], { x: x1 });
-            });
-        });
-    });
-});
+//                 gsap.set(rows[0], { x: x0 });
+//                 gsap.set(rows[1], { x: x1 });
+//             });
+//         });
+//     });
+// });
 
 /////////////////////////////////////////
 (function initFooterNavHide() {

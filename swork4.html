@@ -1522,13 +1522,38 @@ nav {
         display: none;
     }
 }
+/* ═══════════════════════════════════════════════════════
+   MENU OVERLAY — contact links + compact laptop sizing
+   ═══════════════════════════════════════════════════════ */
+
+/* Contact links (email, Instagram) inside the overlay columns */
+.menu-content .menu-col a {
+    font: inherit;              /* inherits the parent <p> sizing */
+    color: #F5F5F5;
+    text-transform: none;
+    text-decoration: none;
+    user-select: text;
+    transition: color 0.25s ease;
+}
+
+.menu-content .menu-col a:hover,
+.menu-content .menu-col a:focus-visible {
+    color: #F25623;
+}
+
+/* Smaller type on compact laptop screens */
+@media (min-width: 901px) and (max-width: 1600px) {
+    .menu-content .menu-col p {
+        font-size: 1.15rem;
+    }
+}
     </style>
 </head>
 <body onload="window.scrollTo(0, 0)" >
-    <div class="menu-overlay" style="background-color: #171717;">
+   <div class="menu-overlay" style="background-color: #171717;">
             <div class="menu-overlay-top-nav">
                 <div class="menu-col">
-                    <p>Menu</p>
+                    <p></p>
                 </div>
                 <div class="menu-col">
                     <p id="menu-close-overlay" style="cursor: pointer;">Close</p>
@@ -1541,7 +1566,7 @@ nav {
                         <br>
                         <br>
                         <p>REACH OUT</p>
-                        <p>curtis.oluoch@gmail.com</p>
+                        <p><a href="mailto:curtis.oluoch@gmail.com">curtis.oluoch@gmail.com</a></p>
                         <br>
                         <br>
                         <p>DIRECT</p>
@@ -1549,7 +1574,7 @@ nav {
                     </div>
                     <div class="menu-col">
                         <p>INSTAGRAM</p>
-                        <p>Ochweda_</p>
+                        <p><a href=" https://www.instagram.com/ochweda_/" target="_blank" rel="noopener noreferrer">Ochweda_</a></p>
                         <br>
                         <br>
                         <p>LANGUAGE</p>
