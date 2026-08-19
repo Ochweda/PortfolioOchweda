@@ -4171,7 +4171,7 @@ html.is-scroll-locked body {
     .card-description-work p,
     .card-description-work.adj p,
     .card-description-work.adj2 p {
-        margin-bottom: 0;
+        margin-bottom: 2em;
         font-size: 14.5px;
         line-height: 1.45;
     }
@@ -4193,5 +4193,43 @@ html.is-scroll-locked body {
     .card-description-work.adj2 {
         bottom: 3.5rem;
         max-height: calc(100% - 4.5rem);
+    }
+}
+/* ═══════════════════════════════════════════════════════
+   OUTRO CAPSULES — MOBILE: smaller + non-interactive
+   ═══════════════════════════════════════════════════════ */
+
+@media (max-width: 900px) {
+    .object {
+        padding: 0.85rem 1.55rem;
+        cursor: default;
+        /* The physics layer no longer swallows touch —
+           the page scrolls straight through it */
+        pointer-events: none;
+        touch-action: pan-y;
+    }
+
+    .object p {
+        font-size: 1.45rem;
+    }
+
+    .object-container {
+        pointer-events: none;
+        touch-action: pan-y;
+    }
+
+    .outro-work {
+        touch-action: pan-y;
+    }
+}
+
+/* Narrow phones — 375–402px */
+@media (max-width: 420px) {
+    .object {
+        padding: 0.75rem 1.4rem;
+    }
+
+    .object p {
+        font-size: 1.3rem;
     }
 }

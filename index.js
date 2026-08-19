@@ -1364,6 +1364,17 @@ Promise.all(
         Matter.World.add(engine.world, topWall);
       }, 3000);
 
+
+       // ── Drag interaction — desktop only ───────────────────
+    // Matter.Mouse binds touchstart/touchmove with preventDefault(),
+    // which is what was eating page scroll inside this section.
+    // Skipping it leaves gravity + collisions fully intact.
+    const canDrag = window.matchMedia(
+        "(min-width: 901px) and (hover: hover) and (pointer: fine)"
+    ).matches;
+
+    if (canDrag) {
+
       const mouse = Matter.Mouse.create(container);
       mouse.element.removeEventListener("mousewheel", mouse.mousewheel);
       mouse.element.removeEventListener("DOMMouseScroll", mouse.mousewheel);
@@ -1432,6 +1443,7 @@ Promise.all(
       });
 
       Matter.World.add(engine.world, mouseConstraint);
+    }
 
       runner = Matter.Runner.create();
       Matter.Runner.run(runner, engine);
