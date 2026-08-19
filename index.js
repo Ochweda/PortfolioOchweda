@@ -1448,28 +1448,47 @@ Promise.all(
       runner = Matter.Runner.create();
       Matter.Runner.run(runner, engine);
 
-      function updatePositions() {
-        bodies.forEach(({ body, element, width, height }) => {
-          const x = clamp(
-            body.position.x - width / 2,
-            0,
-            containerRect.width - width
-          );
-          const y = clamp(
-            body.position.y - height / 2,
-          -height * 3,
-            containerRect.height - height
-          );
+      let physicsActive = true;
 
-          element.style.transformOrigin = 'center center';
-          element.style.left = x + "px";
-          element.style.top = y + "px";
-          element.style.transform = `rotate(${body.angle}rad)`;
-        });
+      function updatePositions() {
+        if (physicsActive) {
+          bodies.forEach(({ body, element, width, height }) => {
+            const x = clamp(
+              body.position.x - width / 2,
+              0,
+              containerRect.width - width
+            );
+            const y = clamp(
+              body.position.y - height / 2,
+            -height * 3,
+              containerRect.height - height
+            );
+
+            element.style.transformOrigin = 'center center';
+            element.style.left = x + "px";
+            element.style.top = y + "px";
+            element.style.transform = `rotate(${body.angle}rad)`;
+          });
+        }
 
           requestAnimationFrame(updatePositions);
       }
         updatePositions();
+
+         // Pause the sim + DOM writes whenever the section is off-screen.
+      ScrollTrigger.create({
+          trigger: container.closest("section") || container,
+          start: "top bottom",
+          end: "bottom top",
+          onToggle: (self) => {
+              physicsActive = self.isActive;
+              if (self.isActive) {
+                  Matter.Runner.run(runner, engine);
+              } else {
+                  Matter.Runner.stop(runner);
+              }
+          },
+      });
       }
 
       function resizePhysics() {
@@ -2805,17 +2824,47 @@ initTechStackLetters();
 
         
 
-          let resizeTimer;
-              window.addEventListener("resize", () => {
-                  clearTimeout(resizeTimer);
-                  resizeTimer = setTimeout(() => {
-                     window.__revertHeroSplits?.(); 
-                    lenis?.resize();
-                    tickerRemeasurers.forEach(fn => fn());
-                    ScrollTrigger.refresh();      // ← pins settle first
-                    resizePhysics();              // ← then measure the container
-                }, 200);
-              });
+              // ── Resize handling ───────────────────────────────────
+    // On touch devices a height-only resize is the address bar
+    // collapsing during a fast flick — NOT a real layout change.
+    // Refreshing ScrollTrigger there re-applies every pin mid-scroll,
+    // which hard-stops momentum scrolling. So we only act on width.
+    let resizeTimer;
+    let lastWidth = window.innerWidth;
+
+    const isTouchDevice = !window.matchMedia(
+        "(hover: hover) and (pointer: fine)"
+    ).matches;
+
+    function doResizeWork() {
+        window.__revertHeroSplits?.();
+        lenis?.resize();
+        tickerRemeasurers.forEach(fn => fn());
+        ScrollTrigger.refresh();   // pins settle first
+        resizePhysics();           // then measure the container
+    }
+
+    window.addEventListener("resize", () => {
+        const w = window.innerWidth;
+        const widthChanged = w !== lastWidth;
+
+        // Height-only change on a touch device → address bar. Bail.
+        if (isTouchDevice && !widthChanged) return;
+
+        lastWidth = w;
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(doResizeWork, 200);
+    });
+
+    // Orientation changes are real and DO need a refresh — but only
+    // once the browser has finished settling the new viewport.
+    window.addEventListener("orientationchange", () => {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(() => {
+            lastWidth = window.innerWidth;
+            doResizeWork();
+        }, 500);
+    });
   
   
 });
