@@ -4233,3 +4233,32 @@ html.is-scroll-locked body {
         font-size: 1.3rem;
     }
 }
+
+/* ═══════════════════════════════════════════════════════
+   WORK CARD TECH CAROUSEL — MOBILE CLIPPING FIX
+   ═══════════════════════════════════════════════════════ */
+
+@media (max-width: 900px) {
+    .card-tech-wrap {
+        /* Taller box so the row has clearance above and below */
+        height: 35px;
+
+        /* Vertical padding did nothing useful here — with
+           box-sizing: border-box it only shrank the content
+           area while `top: %` still resolved against the
+           full 26px, which made the overflow worse. */
+        padding: 0 0.4em;
+
+        margin-top: 0.1em;
+    }
+
+    .card-tech-row {
+        /* Pairs with GSAP's yPercent: -50 to centre exactly.
+           14% + (-50%) was pushing the row above the clip edge. */
+        top: 30%;
+
+        /* Room for Inter's ascender above the cap height —
+           line-height: 1 crops it even when perfectly centred. */
+        line-height: 1.6;
+    }
+}

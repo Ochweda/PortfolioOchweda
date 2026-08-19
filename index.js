@@ -207,8 +207,8 @@ function skipPreloader(splits) {
     gsap.set(splits.heroLabelsSplit.words, { y: "0%" });
     gsap.set(splits.heroRoleSplit.words, { y: "0%" });
 
-    if (document.querySelector(".bottom-nav-work")) {
-        gsap.set(".bottom-nav-work", { opacity: 1, y: 0 });
+        if (document.querySelector(".bottom-nav-work")) {
+        gsap.set(".bottom-nav-work", { xPercent: -50, x: 0, opacity: 1, y: 0 });
     }
 
     if (typeof window.__revertHeroSplits === "function") {
@@ -258,7 +258,7 @@ function skipPreloader(splits) {
         });
         gsap.set(".image-container-desktop .image-preview", { scale: 1.15, opacity: 0 });
         gsap.set(".hero-bg-mobile img", { scale: 1.35 }); 
-        gsap.set(".bottom-nav-work", { opacity: 0, y: 20 });   // ← add this line
+        gsap.set(".bottom-nav-work", { xPercent: -50, x: 0, opacity: 0, y: 20 });
         
         prePreloaderControlsBottomNav = true;   
 
@@ -1825,7 +1825,7 @@ document.fonts.ready.then(() => {
 
     if (!hasLabPreloader) {
         if (!prePreloaderControlsBottomNav && document.querySelector(".bottom-nav-work")) {
-            gsap.set(".bottom-nav-work", { opacity: 0, y: 20 });
+            gsap.set(".bottom-nav-work", { xPercent: -50, x: 0, opacity: 0, y: 20 });
             gsap.to(".bottom-nav-work", {
                 opacity: 1,
                 y: 0,
@@ -1882,7 +1882,7 @@ gsap.set(splits.logoChars.chars, { visibility: "visible" });
     );
     // gsap.set(".btn-icon", { clipPath: "circle(0% at 50% 50%)" });
     // gsap.set(".btn", { scale: 0 });
-    gsap.set(".bottom-nav-work", { opacity: 0, y: 20 });
+        gsap.set(".bottom-nav-work", { xPercent: -50, x: 0, opacity: 0, y: 20 });
 
     function animateProgress(duration = 4) {
         const tl = gsap.timeline();
